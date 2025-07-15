@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class TransporteDeAgua {
-    GrafoEtiquetado map = new GrafoEtiquetado();
+    GrafoEtiquetado mapa = new GrafoEtiquetado();
 
     public static void main(String[] args) {
 
