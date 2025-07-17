@@ -14,6 +14,9 @@ public class NodoVertice {
     private NodoAdy primerAdy;
 
     // ----------------------------------------- CONSTRUCTOR ----------------------------------------- //
+    public NodoVertice(Object elemento){
+        this.elemento = elemento;
+    }
     public NodoVertice(Object elemento, NodoVertice sigVertice, NodoAdy primerAdy) {
         this.elemento = elemento;
         this.sigVertice = sigVertice;
