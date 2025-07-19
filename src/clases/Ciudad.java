@@ -57,4 +57,9 @@ public class Ciudad {
     public double getConsumoProm() {
         return consumoProm;
     }
+
+    public static Ciudad parseCiudad(String nextToken) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'parseCiudad'");
+    }
 }
