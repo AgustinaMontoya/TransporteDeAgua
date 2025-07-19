@@ -1,3 +1,10 @@
+/*
+ *-------------------Autores-----------------
+ * - Denis Agustin Albornoz, Legajo FAI-3383
+ *   Agustina Magali Montoya, Legajo FAI-4525
+ *   Facundo Diego Tosetto, Legajo FAI-4354
+ --------------------------------------------
+ */
 package clases;
 
 public class Tuberia {
@@ -10,15 +17,6 @@ public class Tuberia {
     private char estado; // A: Activo, R: En Reparación, D: En Diseño, I: inactivo.
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
-    public Tuberia() {
-        desdeCiudad = null;
-        hastaCiudad = null;
-        caudalMinimo = 0;
-        caudalMaximo = 0;
-        diametro = 0;
-        estado = 'I';
-    }
-
     public Tuberia(Ciudad desde, Ciudad hasta, double min, double max, double diam, char est) {
         desdeCiudad = desde;
         hastaCiudad = hasta;

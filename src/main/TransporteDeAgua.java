@@ -1,3 +1,11 @@
+/*
+ *-------------------Autores-----------------
+ * - Denis Agustin Albornoz, Legajo FAI-3383
+ *   Agustina Magali Montoya, Legajo FAI-4525
+ *   Facundo Diego Tosetto, Legajo FAI-4354
+ --------------------------------------------
+ */
+
 package main;
 
 import clases.*;
@@ -9,67 +17,62 @@ import java.io.FileReader;
 import java.util.StringTokenizer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class TransporteDeAgua {
-    GrafoEtiquetado mapa = new GrafoEtiquetado();
+
+    static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
 
     }
 
 
-    public void cargarCiudades() {
-        try {
-            FileReader archivo = new FileReader("");
-            BufferedReader bf = new BufferedReader(archivo);
-            String linea;
-            while ((linea = bf.readLine()) != null) {
-                StringTokenizer st = new StringTokenizer(linea, ",");
-                Object  nomenclatura;;
-                String nombre;
-                double superficie,consumo;
-                Ciudad ciudad;
-                nombre = st.nextToken();
-                nomenclatura = st.nextToken();
-                superficie =  Double.parseDouble(st.nextToken());
-                consumo = Double.parseDouble(st.nextToken());
-                ciudad = new Ciudad(nombre,superficie,nomenclatura, consumo);
-                mapa.insertarVertice(ciudad);
-            }
-        } catch (FileNotFoundException ex) {
-            System.err.println("Significa que el archivo que queriamos leer no existe.");
-        } catch (IOException ex) {
-            System.err.println("Error leyendo o escribiendo en algun archivo.");
-        }
-    }
-
-    public void cargarTuberias() {
-        try {
-            FileReader archivo = new FileReader("");
-            BufferedReader bf = new BufferedReader(archivo);
-            String linea;
-            while ((linea = bf.readLine()) != null) {
-                StringTokenizer st = new StringTokenizer(linea, ",");
-                Ciudad ciudadD, ciudadH;
-                double caudalMin,caudalMax,diametro;
-                char estado;
-                Tuberia tuberia;
-                ciudadD = Ciudad.parseCiudad(st.nextToken());
-                ciudadH = Ciudad.parseCiudad(st.nextToken());
-                caudalMin = Double.parseDouble(st.nextToken());
-                caudalMax = Double.parseDouble(st.nextToken());
-                diametro = Double.parseDouble(st.nextToken());
-                estado = st.nextToken().charAt(0);
-                tuberia = new Tuberia(ciudadD, ciudadH, caudalMin, caudalMax, diametro,estado);
-                mapa.insertarArco(ciudadD, ciudadH, caudalMax);// ver
-            }
-        } catch (FileNotFoundException ex) {
-            System.err.println("Significa que el archivo que queríamos leer no existe.");
-        } catch (IOException ex) {
-            System.err.println("Error leyendo o escribiendo en algún archivo.");
-        }
-    }
+//    public void cargarCiudades() {
+//        try {
+//            FileReader archivo = new FileReader("");
+//            BufferedReader bf = new BufferedReader(archivo);
+//            String linea;
+//            while ((linea = bf.readLine()) != null) {
+//                StringTokenizer st = new StringTokenizer(linea, ",");
+//                Object  nombre, nomenclatura, superficie, consumo;
+//                Ciudad ciudad;
+//                nombre = (String) st.nextToken();
+//                nomenclatura = st.nextToken();
+//                superficie =  st.nextToken();
+//                consumo = st.nextToken();
+//                ciudad = new Ciudad((nombre, nomenclatura, superficie, consumo);
+//                mapa.insertarVertice(ciudad);
+//            }
+//        } catch (FileNotFoundException ex) {
+//            System.err.println("Significa que el archivo que queriamos leer no existe.");
+//        } catch (IOException ex) {
+//            System.err.println("Error leyendo o escribiendo en algun archivo.");
+//        }
+//    }
+//
+//    public void cargarTuberias() {
+//        try {
+//            FileReader archivo = new FileReader("");
+//            BufferedReader bf = new BufferedReader(archivo);
+//            String linea;
+//            while ((linea = bf.readLine()) != null) {
+//                StringTokenizer st = new StringTokenizer(linea, ",");
+//                Object ciudad, habitantes, consumo, aprovisionado, cobertura;
+//                Tuberia tuberia;
+//                ciudad = st.nextToken();
+//                habitantes = st.nextToken();
+//                consumo = st.nextToken();
+//                aprovisionado = st.nextToken();
+//                cobertura = st.nextToken();
+//                tuberia = new Tuberia(ciudad, habitantes, consumo, aprovisionado, cobertura);
+//                mapa.insertarArco(tuberia);
+//            }
+//        } catch (FileNotFoundException ex) {
+//            System.err.println("Significa que el archivo que queríamos leer no existe.");
+//        } catch (IOException ex) {
+//            System.err.println("Error leyendo o escribiendo en algún archivo.");
+//        }
+//    }
 
     public static void mostrarMenu() {
         Scanner sc = new Scanner(System.in);

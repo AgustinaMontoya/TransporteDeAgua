@@ -1,3 +1,11 @@
+/*
+ *-------------------Autores-----------------
+ * - Denis Agustin Albornoz, Legajo FAI-3383
+ *   Agustina Magali Montoya, Legajo FAI-4525
+ *   Facundo Diego Tosetto, Legajo FAI-4354
+ --------------------------------------------
+ */
+
 package estructuras.grafos;
 
 public class NodoVertice {
@@ -14,6 +22,10 @@ public class NodoVertice {
     private NodoAdy primerAdy;
 
     // ----------------------------------------- CONSTRUCTOR ----------------------------------------- //
+    public NodoVertice(Object elemento) {
+        this.elemento = elemento;
+    }
+
     public NodoVertice(Object elemento, NodoVertice sigVertice, NodoAdy primerAdy) {
         this.elemento = elemento;
         this.sigVertice = sigVertice;

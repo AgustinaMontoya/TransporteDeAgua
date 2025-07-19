@@ -1,3 +1,11 @@
+/*
+ *-------------------Autores-----------------
+ * - Denis Agustin Albornoz, Legajo FAI-3383
+ *   Agustina Magali Montoya, Legajo FAI-4525
+ *   Facundo Diego Tosetto, Legajo FAI-4354
+ --------------------------------------------
+ */
+
 package estructuras.grafos;
 
 import estructuras.lineales.*;
@@ -45,8 +53,56 @@ public class GrafoEtiquetado {
      */
     public boolean eliminarVertice(Object vertice) {
         boolean eliminar = false;
-
+        NodoVertice actual = this.inicio;
+        NodoVertice anterior = null;
+        if (actual.getElemento().equals(vertice)) {
+            // El vertice es inicio
+            eliminar = true;
+        } else {
+            // Busco el vertice a eliminar
+            while (actual.getSigVertice() != null && !eliminar) {
+                if (actual.getSigVertice().getElemento().equals(vertice)) {
+                    eliminar = true;
+                } else {
+                    actual = actual.getSigVertice();
+                }
+            }
+            anterior = actual;
+            actual = actual.getSigVertice();
+        }
+        if (eliminar) {
+            eliminarAdy(this.inicio, vertice);
+            if (anterior == null) {
+                this.inicio = actual.getSigVertice();
+            } else {
+                anterior.setSigVertice(actual.getSigVertice());
+            }
+        }
         return eliminar;
+    }
+
+    private void eliminarAdy(NodoVertice nodo, Object elemento) {
+        boolean eliminar = false;
+        while (nodo != null) {
+            NodoAdy actual = nodo.getPrimerAdy();
+            if (actual != null) {
+                if (actual.getVertice().getElemento().equals(elemento)) {
+                    nodo.setPrimerAdy(actual.getSigAdy());
+                    eliminar = true;
+                } else {
+                    while (actual != null && !eliminar) {
+                        NodoAdy sig = actual.getSigAdy();
+                        if (sig != null && sig.getVertice().getElemento().equals(elemento)) {
+                            actual.setSigAdy(sig.getSigAdy());
+                            eliminar = true;
+                        } else {
+                            actual = sig;
+                        }
+                    }
+                }
+            }
+            nodo = nodo.getSigVertice();
+        }
     }
 
     /*
@@ -67,8 +123,6 @@ public class GrafoEtiquetado {
                 if (arco == null) {
                     // No existe arco, lo agrego
                     origen.setPrimerAdy(new NodoAdy(destino, origen.getPrimerAdy(), etiqueta));
-//                    origen.setPrimerAdy(new NodoAdy(destino, origen.getPrimerAdy(), etiqueta));
-//                    destino.setPrimerAdy(new NodoAdy(origen, destino.getPrimerAdy(), etiqueta));
                     insertar = true;
                 }
             }
@@ -113,8 +167,32 @@ public class GrafoEtiquetado {
         ambos vértices. Si el arco existe y se puede realizar la eliminación con éxito devuelve verdadero,
         en caso contrario devuelve falso
      */
-    public boolean eliminarArco(Object ori, Object dest, Object etiqueta) {
+    public boolean eliminarArco(Object ori, Object dest) {
         boolean eliminar = false;
+        if (!ori.equals(dest)) {
+            NodoVertice origen = ubicarVertice(ori);
+            if (origen != null) {
+                NodoAdy ady = origen.getPrimerAdy();
+                if (ady != null) {
+                    if (ady.getVertice().getElemento().equals(dest)) {
+                        // El arco a eliminar es el primer adyacente de vertice origen
+                        origen.setPrimerAdy(ady.getSigAdy());
+                        eliminar = true;
+                    } else {
+                        // Busco el arco en la lista de adyacentes
+                        NodoAdy sig = ady.getSigAdy();
+                        while (sig != null && !eliminar) {
+                            if (sig.getVertice().getElemento().equals(dest)) {
+                                ady.setSigAdy(sig.getSigAdy());
+                                eliminar = true;
+                            } else {
+                                ady = sig;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return eliminar;
     }
 
@@ -213,6 +291,25 @@ public class GrafoEtiquetado {
     }
 
     private Lista caminoMasCortoAux(NodoVertice ori, Object destino, Lista camino, Lista visitados) {
+        if (ori.getElemento().equals(destino)) {
+            //encontro el destino, no sigue llamando
+            if (camino.esVacia() || camino.longitud() > visitados.longitud()) {
+                camino = visitados.clone();
+                camino.insertar(destino, camino.longitud() + 1);
+            }
+        } else {
+            visitados.insertar(ori.getElemento(), visitados.longitud() + 1);
+            if (camino.esVacia() || camino.longitud() > visitados.longitud()) {
+                NodoAdy aux = ori.getPrimerAdy();
+                while (aux != null) {
+                    if (visitados.localizar(aux.getVertice().getElemento()) < 0) {
+                        camino = caminoMasCortoAux(aux.getVertice(), destino, camino, visitados);
+                    }
+                    aux = aux.getSigAdy();
+                }
+            }
+            visitados.eliminar(visitados.longitud());
+        }
         return camino;
     }
 
@@ -222,7 +319,39 @@ public class GrafoEtiquetado {
         al vértice destino. Si hay más de un camino con igual cantidad de vértices, devuelve cualquiera de
         ellos. Si alguno de los vértices no existe o no hay camino posible entre ellos devuelve la lista vacía.
      */
-    //public Lista caminoMasLargo(Object origen, Object destino){}
+    public Lista caminoMasLargo(Object ori, Object dest) {
+        Lista camino = new Lista();
+        NodoVertice[] vertices = ubicarVertices(ori, dest);
+        // Busco los vertices origen y destino dentro del grafo.
+        NodoVertice origen = vertices[0];
+        NodoVertice destino = vertices[1];
+        if (origen != null && destino != null) {
+            Lista visitados = new Lista();
+            camino = caminoMasLargoAux(origen, dest, camino, visitados);
+        }
+        return camino;
+
+    }
+
+    private Lista caminoMasLargoAux(NodoVertice nodo, Object destino, Lista camino, Lista visitados) {
+        if (nodo.getElemento().equals(destino)) {
+            if (camino.esVacia() || camino.longitud() - 1 < visitados.longitud()) {
+                camino = visitados.clone();
+                camino.insertar(destino, camino.longitud() + 1);
+            }
+        } else {
+            visitados.insertar(nodo.getElemento(), visitados.longitud() + 1);
+            NodoAdy aux = nodo.getPrimerAdy();
+            while (aux != null) {
+                if (visitados.localizar(aux.getVertice().getElemento()) < 0) {
+                    camino = caminoMasLargoAux(aux.getVertice(), destino, camino, visitados);
+                }
+                aux = aux.getSigAdy();
+            }
+            visitados.eliminar(visitados.longitud());
+        }
+        return camino;
+    }
 
     /*
         Devuelve falso si hay al menos un vértice cargado en el grafo y verdadero en caso contrario.
@@ -268,31 +397,30 @@ public class GrafoEtiquetado {
      */
     public Lista listarEnAnchura() {
         Lista visitados = new Lista(); // Lista que almacena los nodos visitados.
-        NodoVertice aux = this.inicio;  // Vertice para comenzar el recorrido.
-        while (aux != null) {
-            if (visitados.localizar(aux.getElemento()) < 0) {
+        NodoVertice actual = this.inicio;  // Recorre todos los vértices del grafo.
+        while (actual != null) {
+            if (visitados.localizar(actual.getElemento()) < 0) {
                 // Si el vertice no fue visitado aún, avanza en anchura
-                listarEnAnchuraAux(aux, visitados);
+                listarEnAnchuraAux(actual, visitados);
             }
-            aux = aux.getSigVertice();
+            actual = actual.getSigVertice();
         }
         return visitados;
     }
 
     private void listarEnAnchuraAux(NodoVertice nodo, Lista visitados) {
         Cola cola = new Cola();
-        visitados.insertar(nodo.getElemento(), visitados.longitud() + 1);
         cola.poner(nodo);
-        NodoVertice aux;
+        visitados.insertar(nodo.getElemento(), visitados.longitud() + 1);
         NodoAdy ady;
         while (!cola.esVacia()) {
-            aux = (NodoVertice) cola.obtenerFrente();
+            nodo = (NodoVertice) cola.obtenerFrente();
             cola.sacar();
-            ady = aux.getPrimerAdy();
+            ady = nodo.getPrimerAdy();
             while (ady != null) {
                 if (visitados.localizar(ady.getVertice().getElemento()) < 0) {
-                    cola.poner(ady.getVertice());
                     visitados.insertar(ady.getVertice().getElemento(), visitados.longitud() + 1);
+                    cola.poner(ady.getVertice());
                 }
                 ady = ady.getSigAdy();
             }
@@ -305,7 +433,46 @@ public class GrafoEtiquetado {
         Genera y devuelve un grafo que es equivalente (igual estructura y contenido de los nodos) al
         original.
      */
-    //public Grafo clone(){}
+    public GrafoEtiquetado clone() {
+        GrafoEtiquetado clon = new GrafoEtiquetado();
+        if (!this.esVacio()) {
+            // Clono todos los vértices del grafo original
+            clon.inicio = new NodoVertice(this.inicio.getElemento(), null, null);
+            NodoVertice auxGrafo = this.inicio.getSigVertice();
+            NodoVertice auxClon = clon.inicio;
+            while (auxGrafo != null) {
+                auxClon.setSigVertice(new NodoVertice(auxGrafo.getElemento(), null, null));
+                auxClon = auxClon.getSigVertice();
+                auxGrafo = auxGrafo.getSigVertice();
+            }
+            // Clono las adyacencias de cada vertice
+            NodoVertice ori = this.inicio;
+            NodoVertice clonAux;
+            while (ori != null) {
+                clonAux = clon.ubicarVertice(ori.getElemento());
+                clonarAdyacentes(ori, clonAux, clon);
+                ori = ori.getSigVertice();
+            }
+        }
+        return clon;
+    }
+
+    private void clonarAdyacentes(NodoVertice original, NodoVertice clon, GrafoEtiquetado grafoClon) {
+        NodoAdy adyOrig = original.getPrimerAdy();
+        NodoAdy anteriorClon = null;
+        while (adyOrig != null) {
+            // Buscar en el grafo clonado el vértice destino de la adyacencia
+            NodoVertice destinoClon = grafoClon.ubicarVertice(adyOrig.getVertice().getElemento());
+            NodoAdy nuevoAdy = new NodoAdy(destinoClon, null, adyOrig.getEtiqueta());
+            if (anteriorClon == null) {
+                clon.setPrimerAdy(nuevoAdy);
+            } else {
+                anteriorClon.setSigAdy(nuevoAdy);
+            }
+            anteriorClon = nuevoAdy;
+            adyOrig = adyOrig.getSigAdy();
+        }
+    }
 
     /*
         Con fines de debugging, este método genera y devuelve una cadena String que muestra los
