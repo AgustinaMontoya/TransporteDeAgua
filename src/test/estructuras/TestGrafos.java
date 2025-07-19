@@ -1,7 +1,6 @@
 package test.estructuras;
 
 import estructuras.grafos.*;
-import estructuras.lineales.*;
 
 public class TestGrafos {
 
@@ -10,9 +9,6 @@ public class TestGrafos {
         GrafoEtiquetado grafoUno = new GrafoEtiquetado();
         GrafoEtiquetado grafoDos = new GrafoEtiquetado();
         GrafoEtiquetado clonador;
-
-        Lista lisProfundidad;
-        Lista lisAnchura;
 
         // ------------------------------------------ TEST ------------------------------------------ //
         System.out.println("-----------------------------------------------------------------------"
@@ -48,13 +44,14 @@ public class TestGrafos {
                 "\n[C] ----CD---> [D] " + grafoUno.insertarArco("C", "D", "CD") +
                 "\n[D] ----DA---> [A] " + grafoUno.insertarArco("D", "A", "DA") +
                 "\n[D] ----DB---> [B] " + grafoUno.insertarArco("D", "B", "DB") +
-                "\n[B] ----BA---> [A] " + grafoUno.insertarArco("B", "A", "BA") +
+               // "\n[B] ----BA---> [A] " + grafoUno.insertarArco("B", "A", "BA") +
                 // Deberían dar falso
                 "\n[A] ----AB---> [B] " + grafoUno.insertarArco("A", "B", "AB") +
                 "\n[A] ----AA---> [A] " + grafoUno.insertarArco("A", "A", "AA") +
 
                 "\n\ngrafoDos" +
                 "\n[A] ----AB---> [B] " + grafoDos.insertarArco("A", "B", "AB") +
+                "\n[A] ----AB---> [B] " + grafoDos.insertarArco("A", "F", "AF") +
                 "\n[B] ----BD---> [D] " + grafoDos.insertarArco("B", "D", "BD") +
                 "\n[B] ----BF---> [F] " + grafoDos.insertarArco("B", "F", "BF") +
                 "\n[C] ----CF---> [F] " + grafoDos.insertarArco("C", "F", "CF") +
@@ -97,23 +94,25 @@ public class TestGrafos {
                 "\n¿Existe camino entre B y B? --> " + grafoUno.existeCamino("B", "B") +
                 "\n¿Existe camino entre X y A? --> " + grafoUno.existeCamino("X", "A")
         );
-        lisProfundidad = grafoDos.listarEnProfundidad();
-        System.out.println("-----------------------------------------------------------------------" +
-                "\n\tMÉTODO LISTAR EN PROFUNDIDAD" +
-                "\n" + lisProfundidad
+        System.out.println("-----------------------------------------------------------------------"
+                + "\n\tMÉTODO LISTAR EN PROFUNDIDAD"
+                + "\n" + grafoDos.listarEnProfundidad()
+                + "\n" + grafoUno.listarEnProfundidad()
         );
-        lisAnchura = grafoDos.listarEnAnchura();
-        System.out.println("-----------------------------------------------------------------------" +
-                "\n\tMÉTODO LISTAR EN ANCHURA" +
-                "\n" + lisAnchura
+        System.out.println("-----------------------------------------------------------------------"
+                + "\n\tMÉTODO LISTAR EN ANCHURA"
+                + "\n" + grafoDos.listarEnAnchura()
+                + "\n" + grafoUno.listarEnAnchura()
         );
-        System.out.println("-----------------------------------------------------------------------" +
-                "\n\tMÉTODO CAMINO MÁS CORTO" +
-                "\n" + grafoDos.caminoMasCorto("A","B")
+        System.out.println("-----------------------------------------------------------------------"
+                + "\n\tMÉTODO CAMINO MÁS CORTO"
+                + "\n" + grafoDos.caminoMasCorto("A", "F")
+                + "\n" + grafoUno.caminoMasCorto("A", "D")
         );
-        System.out.println("-----------------------------------------------------------------------" +
-                "\n\tMÉTODO CAMINO MÁS LARGO" +
-                "\n" + grafoDos.caminoMasLargo("A","F")
+        System.out.println("-----------------------------------------------------------------------"
+                + "\n\tMÉTODO CAMINO MÁS LARGO"
+                + "\n" + grafoDos.caminoMasLargo("A", "F")
+                + "\n" + grafoUno.caminoMasLargo("A", "D")
         );
         clonador = grafoDos.clone();
         System.out.println("-----------------------------------------------------------------------"

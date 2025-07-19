@@ -115,8 +115,6 @@ public class GrafoEtiquetado {
                 if (arco == null) {
                     // No existe arco, lo agrego
                     origen.setPrimerAdy(new NodoAdy(destino, origen.getPrimerAdy(), etiqueta));
-                    //origen.setPrimerAdy(new NodoAdy(destino, origen.getPrimerAdy(), etiqueta));
-                    //destino.setPrimerAdy(new NodoAdy(origen, destino.getPrimerAdy(), etiqueta));
                     insertar = true;
                 }
             }
@@ -321,7 +319,7 @@ public class GrafoEtiquetado {
         NodoVertice destino = vertices[1];
         if (origen != null && destino != null) {
             Lista visitados = new Lista();
-            camino = caminoMasCortoAux(origen, dest, camino, visitados);
+            camino = caminoMasLargoAux(origen, dest, camino, visitados);
         }
         return camino;
 
@@ -329,7 +327,6 @@ public class GrafoEtiquetado {
 
     private Lista caminoMasLargoAux(NodoVertice nodo, Object destino, Lista camino, Lista visitados) {
         if (nodo.getElemento().equals(destino)) {
-            //encontro el destino, no sigue llamando
             if (camino.esVacia() || camino.longitud() - 1 < visitados.longitud()) {
                 camino = visitados.clone();
                 camino.insertar(destino, camino.longitud() + 1);

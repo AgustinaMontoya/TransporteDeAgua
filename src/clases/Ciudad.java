@@ -4,8 +4,8 @@ public class Ciudad {
     // ---------------------------------------- ATRIBUTOS ---------------------------------------- //
     private String nombre;  // Nombre de la ciudad
     private double superficie;
-    private int[] cantHabitantes = new int[12];
-    private Object nomenclatura;
+    private int[] cantHabitantes = new int[12]; // Cantidad de habitantes por mes en un año
+    private Object nomenclatura;    // Formato CI1234
     private double consumoProm; // Consumo promedio de metros cubicos por persona
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
