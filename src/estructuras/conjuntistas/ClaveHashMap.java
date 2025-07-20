@@ -27,4 +27,7 @@ public class ClaveHashMap {
     public int hashCode() {
         return nom1.hashCode() * 31 + nom2.hashCode();
     }
+    public String toString() {
+        return nom1 + " -> " + nom2;
+    }
 }

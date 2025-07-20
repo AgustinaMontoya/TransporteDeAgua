@@ -9,11 +9,12 @@
 package main;
 
 import clases.*;
-
+import estructuras.conjuntistas.ClaveHashMap;
 import estructuras.grafos.GrafoEtiquetado;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.io.FileNotFoundException;
@@ -23,8 +24,8 @@ public class TransporteDeAgua {
 
     static Scanner sc = new Scanner(System.in);
 // ------------------------------------------ ESTRUCTURAS ----------------------------------------- //
-        GrafoEtiquetado mapa = new GrafoEtiquetado();
-
+    GrafoEtiquetado mapa = new GrafoEtiquetado();
+    private HashMap<ClaveHashMap, Tuberia> tuberiasMap = new HashMap<>();
     public static void main(String[] args) {
         int numeroIngresado = 0;
         String archivoCiudades = "Acá va el directorio del archivo."; // Se pasan por parametro a los metodos
@@ -145,7 +146,9 @@ public class TransporteDeAgua {
                 diametro = Double.parseDouble(st.nextToken());
                 estado = st.nextToken().charAt(0);
                 tuberia = new Tuberia(ciudadD, ciudadH, caudalMin, caudalMax, diametro,estado);
-                mapa.insertarArco(ciudadD, ciudadH, caudalMax);// ver
+                mapa.insertarArco(ciudadD, ciudadH, caudalMax);
+                ClaveHashMap clave = new ClaveHashMap(ciudadD, ciudadH);
+                tuberiasMap.put(clave, tuberia);
             }
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queríamos leer no existe.");
