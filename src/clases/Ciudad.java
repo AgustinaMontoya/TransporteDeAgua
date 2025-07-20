@@ -1,11 +1,18 @@
+/*
+ *-------------------Autores-----------------
+ * - Denis Agustin Albornoz, Legajo FAI-3383
+ *   Agustina Magali Montoya, Legajo FAI-4525
+ *   Facundo Diego Tosetto, Legajo FAI-4354
+ --------------------------------------------
+ */
 package clases;
 
 public class Ciudad {
     // ---------------------------------------- ATRIBUTOS ---------------------------------------- //
     private String nombre;  // Nombre de la ciudad
     private double superficie;
-    private int[] cantHabitantes = new int[12];
-    private Object nomenclatura;
+    private int[] cantHabitantes = new int[12]; // Cantidad de habitantes por mes en un año
+    private Object nomenclatura;    // Formato CI1234
     private double consumoProm; // Consumo promedio de metros cubicos por persona
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
@@ -56,5 +63,10 @@ public class Ciudad {
 
     public double getConsumoProm() {
         return consumoProm;
+    }
+
+    public static Ciudad parseCiudad(String nextToken) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'parseCiudad'");
     }
 }
