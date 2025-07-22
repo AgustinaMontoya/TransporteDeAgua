@@ -498,28 +498,6 @@ public class GrafoEtiquetado {
 
     //METODOS AGREGADOS POR  AGUS.ALBORNOZ
 
-
-
-    public Object obtenerVertice(Object elem) { // ESTE METODO TAL VEZ NO DEBA EXISTIR
-
-        NodoVertice n=null;
-
-        if (this.inicio != null) {
-            n = this.inicio;
-            boolean encontrado = false;
-
-            while (n != null && !encontrado) {
-                if (n.getElemento().equals(elem)) {
-                    encontrado = true;
-                } else {
-                    n = n.getSigVertice();
-                }
-            }
-        }
-        return n;
-    }
-
-
     public Lista caminoMasCortoDirecto(Object elem){
 
         Lista camino = new Lista();
