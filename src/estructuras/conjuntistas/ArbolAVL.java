@@ -7,6 +7,7 @@
  */
 package estructuras.conjuntistas;
 
+import estructuras.lineales.Lista;
 import estructuras.lineales.Nodo;
 
 public class ArbolAVL {
@@ -341,6 +342,41 @@ public class ArbolAVL {
     public boolean esVacio() {
         return this.raiz == null;
     }
+
+
+    public Lista listarRango(Comparable elem1,Comparable elem2){
+
+        Lista rango=new Lista();
+
+        if(this.raiz!=null){
+            listarRangoAux(this.raiz,elem1,elem2,rango);
+        }
+
+        return rango;
+    }
+
+    private void listarRangoAux(NodoAVL n,Comparable elem1,Comparable elem2,Lista rango){
+
+        if(n!=null) {
+            if (elem1.compareTo(n.getElem()) == 0) {
+                rango.insertar(n, rango.longitud() + 1);
+            } else if (elem1.compareTo(n.getElem()) < 0) {
+                listarRangoAux(n.getIzquierdo(), elem1, elem2, rango);
+            }
+
+            if (elem1.compareTo(n.getElem()) < 0 && elem2.compareTo(n.getElem()) > 0) {
+                rango.insertar(n, rango.longitud() + 1);
+            }
+
+            if(elem2.compareTo(n.getElem())==0){
+                rango.insertar(n, rango.longitud() + 1);
+            }else if (elem2.compareTo(n.getElem()) > 0) {
+                listarRangoAux(n.getDerecho(), elem1, elem2, rango);
+            }
+        }
+    }
+
+
 
 
     public String toString() {

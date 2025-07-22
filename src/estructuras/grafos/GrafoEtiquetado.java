@@ -495,4 +495,46 @@ public class GrafoEtiquetado {
         }
         return cadena;
     }
+
+    //METODOS AGREGADOS POR  AGUS.ALBORNOZ
+
+
+
+    public Object obtenerVertice(Object elem) { // ESTE METODO TAL VEZ NO DEBA EXISTIR
+
+        NodoVertice n=null;
+
+        if (this.inicio != null) {
+            n = this.inicio;
+            boolean encontrado = false;
+
+            while (n != null && !encontrado) {
+                if (n.getElemento().equals(elem)) {
+                    encontrado = true;
+                } else {
+                    n = n.getSigVertice();
+                }
+            }
+        }
+        return n;
+    }
+
+
+    public Lista caminoMasCortoDirecto(Object elem){
+
+        Lista camino = new Lista();
+
+        if(this.inicio!=null){
+            NodoVertice[]vertices=ubicarVertices(this.inicio,elem);
+            Lista visitados= new Lista();
+            camino=caminoMasCortoAux(this.inicio,vertices[2],camino,visitados);
+        }
+        return camino;
+    }
+
+
+
+    //METODOS AGREGADOS POR AGUS.ALBORNOZ
+
+
 }
