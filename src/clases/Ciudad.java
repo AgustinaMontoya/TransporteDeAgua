@@ -11,15 +11,10 @@ public class Ciudad {
     // ---------------------------------------- ATRIBUTOS ---------------------------------------- //
     private final String nombre;  // Nombre de la ciudad
     private double superficie;
-<<<<<<< HEAD
 
     private int [][] cantHabitantes = new int[10][13]; // Cantidad de habitantes por mes en un año
     private Comparable nomenclatura;    // Formato CI1234
 
-=======
-    private final int[][] cantHabitantes = new int[10][13]; // Cantidad de habitantes por mes en un año
-    private Comparable nomenclatura;    // Formato CI1234
->>>>>>> 720a1ca8da07900d1d6f11c8e0e76ef6a943e245
     private double consumoProm; // Consumo promedio de metros cubicos por persona
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
