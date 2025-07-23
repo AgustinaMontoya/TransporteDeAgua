@@ -9,15 +9,10 @@ package clases;
 
 public class Ciudad {
     // ---------------------------------------- ATRIBUTOS ---------------------------------------- //
-    private String nombre;  // Nombre de la ciudad
+    private final String nombre;  // Nombre de la ciudad
     private double superficie;
-<<<<<<< HEAD
-    private int[] cantHabitantes = new int[12]; // Cantidad de habitantes por mes en un año
+    private final int[][] cantHabitantes = new int[10][13]; // Cantidad de habitantes por mes en un año
     private Comparable nomenclatura;    // Formato CI1234
-=======
-    private int [][] cantHabitantes = new int[10][13]; // Cantidad de habitantes por mes en un año
-    private Object nomenclatura;    // Formato CI1234
->>>>>>> 91a0a3aa6eafdcb8a6d54513a4e8249a28c0f719
     private double consumoProm; // Consumo promedio de metros cubicos por persona
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
@@ -29,13 +24,28 @@ public class Ciudad {
     }
 
     // ---------------------------------------- MODIFICADORES -------------------------------------- //
+    /*
+        Agrega la cantidad de habitantes para un año dado, en la columna 0 se guardan los años, en
+        las siguientes columnas se guardan los meses
+        [ año | mes | mes | ... | mes ]
+        Anterior a este metodo se verifica que el año no haya sido ingresado en la matriz.
+    */
+    public void setCantHabitantes(int[] hab) {
+        boolean exito = false;
+        int fil = 0;
+        while (fil < cantHabitantes.length && !exito) {
+            if (cantHabitantes[fil][0] == 0) {
+                for (int col = 0; col < 13; col++) {
+                    cantHabitantes[fil][col] = hab[col];
+                }
+                exito = true;
+            }
+            fil++;
+        }
+    }
 
     public void setSuperficie(double superficie) {
         this.superficie = superficie;
-    }
-
-    public void setCantHabitantes(int[][] cantHabitantes) {
-        this.cantHabitantes = cantHabitantes;
     }
 
     public void setNomenclatura(Comparable nomenclatura) {
@@ -59,13 +69,16 @@ public class Ciudad {
         return nomenclatura;
     }
 
-    public int getCantHabitantes(int anio ,int mes) {
-
-        int i=0, habitantes = 0;
-
-        while (i < cantHabitantes.length && habitantes != 0) {
-            if (cantHabitantes[i][12] == anio) {
-                habitantes = cantHabitantes[i][mes - 1];
+    /*
+        Devuelve la cantidad de habitantes para un año y mes dado
+    */
+    public int getCantHabitantes(int anio, int mes) {
+        boolean exito = false;
+        int i = 0, habitantes = 0;
+        while (i < cantHabitantes.length && !exito) {
+            if (cantHabitantes[i][0] == anio) {
+                habitantes = cantHabitantes[i][mes];
+                exito = true;
             }
             i++;
         }
@@ -76,12 +89,33 @@ public class Ciudad {
         return consumoProm;
     }
 
-    public String toString() {
-    return "Ciudad: " + nombre + ", Nomenclatura: " + nomenclatura +
-           ", Superficie: " + superficie + ", Consumo: " + consumoProm;
+    public boolean equals(Ciudad otraCiudad) {
+        return this.nombre.equals(otraCiudad.nombre);
     }
+
+    // -------------------------------------- PROPIAS DEL TIPO ------------------------------------- //
+    public String toString() {
+        return "Ciudad: " + nombre + ", Nomenclatura: " + nomenclatura +
+                ", Superficie: " + superficie + ", Consumo: " + consumoProm;
+    }
+
     public static Ciudad parseCiudad(String nextToken) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'parseCiudad'");
+    }
+
+    /*
+       Verifica que un año dado no haya sido ingresado en la matriz.
+     */
+    public boolean verificarAnio(int anio) {
+        boolean verificar = false;
+        // El año se almacena en la primera posición del arreglo
+        for (int fil = 0; fil < cantHabitantes.length; fil++) {
+            if (cantHabitantes[fil][0] == anio) {
+                // El año ya está dentro de la matriz
+                verificar = true;
+            }
+        }
+        return verificar;
     }
 }
