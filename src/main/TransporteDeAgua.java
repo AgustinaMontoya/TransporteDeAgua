@@ -12,6 +12,8 @@ import clases.*;
 import estructuras.conjuntistas.ClaveHashMap;
 import estructuras.grafos.GrafoEtiquetado;
 import estructuras.conjuntistas.ArbolAVL;
+import estructuras.conjuntistas.TablaAVL;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
@@ -24,19 +26,19 @@ import estructuras.conjuntistas.TablaAVL;
 public class TransporteDeAgua {
 
     static Scanner sc = new Scanner(System.in);
-// ------------------------------------------ ESTRUCTURAS ----------------------------------------- //
-    private static GrafoEtiquetado mapa = new GrafoEtiquetado();
-    private static HashMap<ClaveHashMap, Tuberia> tuberiasMap = new HashMap<>();
-    private static TablaAVL tablaCiudades = new TablaAVL();
-    public static void main(String[] args) {
-        cargarCiudades();
-        cargarTuberias();
-        System.out.println(mapa);
-        /*int numeroIngresado = 0;
-        String archivoCiudades = "Acá va el directorio del archivo."; // Se pasan por parametro a los metodos
-        String archivoTuberias = "Acá va el directorio del archivo."; // de carga
 
-        
+    // ------------------------------------------ ESTRUCTURAS ----------------------------------------- //
+    private static final GrafoEtiquetado mapa = new GrafoEtiquetado();
+    private static final HashMap<ClaveHashMap, Tuberia> tuberiasMap = new HashMap<>();
+    private static final TablaAVL tablaCiudades = new TablaAVL();
+
+    // --------------------------------------------- MAIN --------------------------------------------- //
+    public static void main(String[] args) {
+        // ------------------------------------------- VARIABLES ------------------------------------------ //
+        int numeroIngresado = 0;
+        int anio = 0;
+        Ciudad ciudad = null;
+
         // --------------------------------------- MENU DE OPCIONES --------------------------------------- //
         while (numeroIngresado != 8) {
             mostrarMenuOpciones();
@@ -53,7 +55,11 @@ public class TransporteDeAgua {
 
                 break;
                 case 3: {
-                    cargarInfoCiudades();
+                    System.out.println("----------------------------------------------------------------------------");
+                    System.out.println("Altas de información de la cantidad de habitantes para año y ciudad dada.");
+                    ciudad = verificarCiudad();
+                    anio = verificarAnio(ciudad);
+                    cargarHabitantes(ciudad, anio);
                 }
 
                 break;
@@ -85,7 +91,7 @@ public class TransporteDeAgua {
                     System.out.println("Número ingresado incorrecto. Volver a ingresar un número.");
                     break;
             }
-        }*/
+        }
     }
 
     // ! MODIFICAR a medida que vayamos avanzando
@@ -105,9 +111,6 @@ public class TransporteDeAgua {
                 + "\n----------------------------------------------------------------------------");
     }
 
-    
-
-
     public static void cargarCiudades() {
         try {
             FileReader archivo = new FileReader("src/textos/ciudades.txt");
@@ -115,13 +118,14 @@ public class TransporteDeAgua {
             String linea;
             while ((linea = bf.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(linea, ",");
-                Comparable  nomenclatura;
+                Comparable nomenclatura;
                 String nombre;
-                double superficie,consumo;
+                double superficie, consumo;
                 Ciudad ciudad;
-                nombre = st.nextToken();
-                nomenclatura = st.nextToken();
-                superficie =  Double.parseDouble(st.nextToken());
+                nombre = st.nextToken().toUpperCase();
+                // Le agrego el upperCase para cuando se ingrese un nombre por teclado coincida
+                nomenclatura = st.nextToken().toUpperCase();
+                superficie = Double.parseDouble(st.nextToken());
                 consumo = Double.parseDouble(st.nextToken());
                 ciudad = new Ciudad(nombre,superficie,nomenclatura, consumo);
                 mapa.insertarVertice(ciudad.getNomenclatura());
@@ -144,6 +148,7 @@ public class TransporteDeAgua {
         return ciudad;
 
     }
+
     public static void cargarTuberias() {
         try {
             FileReader archivo = new FileReader("src/textos/tuberias.txt");
@@ -173,6 +178,58 @@ public class TransporteDeAgua {
             System.err.println("Error leyendo o escribiendo en algún archivo.");
         }
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+    public static Ciudad verificarCiudad() {
+        String nombre = null;
+        Ciudad pertenece = null;
+        while (pertenece == null) {
+            System.out.println("Ingresar ciudad: ");
+            nombre = sc.nextLine().toUpperCase();
+            System.out.print(nombre);
+            pertenece = buscarCiudad(nombre);
+            if (pertenece == null) {
+                System.out.println("La ciudad ingresada no es correcta.\nVuelva a ingresar una ciudad.");
+            }
+        }
+        return pertenece;
+    }
+
+    public static int verificarAnio(Ciudad ciudad) {
+        /* Está pensado para que el rango de años sea de 10 */
+        int anio = 0;
+        boolean existe = false;
+        while (anio < 2016 || anio > 2025 && !existe) {
+            System.out.println("Ingresar año: ");
+            anio = sc.nextInt();
+            System.out.print(anio);
+            existe = ciudad.verificarAnio(anio);
+            if (anio < 2016 || anio > 2025) {
+                System.out.println("El año ingresado no es correcto.\nVuelva a ingresar el año.");
+            } else if (existe) {
+                System.out.println("El año ya fue registrado.");
+            }
+        }
+        sc.next(); // Limpia el scanner
+        return anio;
+    }
+
+    public static void cargarHabitantes(Ciudad ciudad, int anio) {
+        int col;
+        int cant = 0;
+        int[] cantHabitantes = new int[13];
+        cantHabitantes[0] = anio;
+        System.out.println("Ingrese la cantidad de habitantes por mes: ");
+        for (col = 1; col < cantHabitantes.length + 1; col++) {
+            System.out.println("Mes " + col + ": ");
+            cant = sc.nextInt();
+            cantHabitantes[col] = cant;
+            System.out.print(cant);
+            sc.next();
+        }
+        ciudad.setCantHabitantes(cantHabitantes);
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }
-    
+
 
