@@ -505,7 +505,7 @@ public class GrafoEtiquetado {
         if(this.inicio!=null){
             NodoVertice[]vertices=ubicarVertices(this.inicio,elem);
             Lista visitados= new Lista();
-            camino=caminoMasCortoAux(this.inicio,vertices[2],camino,visitados);
+            camino=caminoMasCortoAux(this.inicio,vertices[1],camino,visitados);
         }
         return camino;
     }

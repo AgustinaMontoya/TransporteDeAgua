@@ -16,12 +16,14 @@ import estructuras.conjuntistas.TablaAVL;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import estructuras.conjuntistas.TablaAVL;
+import estructuras.lineales.Lista;
 
 public class TransporteDeAgua {
 
@@ -39,18 +41,27 @@ public class TransporteDeAgua {
         int anio = 0;
         Ciudad ciudad = null;
 
+        cargarCiudades();
+        cargarTuberias();
+        //System.out.println(mapa.toString());
+        //System.out.println(tablaCiudades.toString());
+        //System.out.println(tuberiasMap.toString());
+        Lista datos= obtenerHabitantesYCaudal("rionegra",02,06);
+        System.out.println(datos.toString());
+
+
         // --------------------------------------- MENU DE OPCIONES --------------------------------------- //
-        while (numeroIngresado != 8) {
+       /* while (numeroIngresado != 8) {
             mostrarMenuOpciones();
             numeroIngresado = sc.nextInt();
             switch (numeroIngresado) {
                 case 1: {
-                    trabajarCiudades();
+                    //trabajarCiudades();
                 }
                 break;
 
                 case 2: {
-                    trabajarTuberias();
+                   // trabajarTuberias();
                 }
 
                 break;
@@ -64,22 +75,22 @@ public class TransporteDeAgua {
 
                 break;
                 case 4: {
-                    consultaCiudades();
+                    //consultaCiudades();
                 }
 
                 break;
                 case 5: {
-                    consultaTransporteAgua();
+                    //consultaTransporteAgua();
                 }
 
                 break;
                 case 6: {
-                    listadoConsumo();
+                    //listadoConsumo();
                 }
 
                 break;
                 case 7: {
-                    sistema();
+                    //sistema();
                 }
 
                 break;
@@ -92,6 +103,8 @@ public class TransporteDeAgua {
                     break;
             }
         }
+
+        */
     }
 
     // ! MODIFICAR a medida que vayamos avanzando
@@ -229,6 +242,58 @@ public class TransporteDeAgua {
         }
         ciudad.setCantHabitantes(cantHabitantes);
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+    public static Lista obtenerHabitantesYCaudal(String nomCiu, int anio, int mes) {
+
+        Lista datos = new Lista();
+
+        if (!mapa.esVacio()) {
+            Ciudad ciu1 = (Ciudad) tablaCiudades.obtenerDato(nomCiu);
+            int habitantes = ciu1.getCantHabitantes(anio, mes);
+            double consumoProm =ciu1.getConsumoProm();
+
+            //calculamos cantHabitantes * consumoProm
+            YearMonth fecha = YearMonth.of(anio, mes);
+            int diasMes = fecha.lengthOfMonth();
+            double caudalFinal = (habitantes * consumoProm)*diasMes;
+
+            datos.insertar(habitantes, 1);
+            datos.insertar(caudalFinal, 2);
+        }
+        return datos;
+    }
+
+
+    public Lista ciudadesConVolumenDet( Comparable nom1, Comparable nom2, double vol1, double vol2, int anio, int mes) {
+
+        //este metodo recibe nombres de ciudades, se verifica si dichas ciudades
+        //estan cargadas y devuelve las ciudades
+
+        Lista ciudades = new Lista();
+
+        if (tablaCiudades.existeClave(nom1) && tablaCiudades.existeClave(nom2) && mapa.existeCamino(nom1, nom2)) {
+            Lista rango = tablaCiudades.listarRango(nom1, nom2);
+            Object elem = rango.recuperar(1);
+            double caudal = 0;
+            int i = 0;
+            while (elem != null) {
+                Ciudad ciu = (Ciudad) elem;
+                Lista datos = obtenerHabitantesYCaudal(ciu.getNombre(), anio, mes);
+                if (!datos.esVacia()) {
+                    caudal = (double) datos.recuperar(2);
+                    if (caudal > vol1 && caudal < vol2) {
+                        i++;
+                        ciudades.insertar(ciu, i);
+                    }
+                }
+                rango.eliminar(1);
+                elem=rango.recuperar(1);
+            }
+        }
+        return ciudades;
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 }
 

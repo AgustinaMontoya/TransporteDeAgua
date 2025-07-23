@@ -15,7 +15,7 @@ public class Ciudad {
     private int [][] cantHabitantes = new int[10][13]; // Cantidad de habitantes por mes en un año
     private Comparable nomenclatura;    // Formato CI1234
 
-    private double consumoProm; // Consumo promedio de metros cubicos por persona
+    private double consumoProm; // Consumo promedio de metros cubicos por persona por dia
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
     public Ciudad(String nn, double sp, Comparable nc, double m3) {

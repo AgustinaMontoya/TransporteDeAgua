@@ -1,5 +1,5 @@
 package test.negroElimDsp;
-
+import main.TransporteDeAgua;
 import clases.*;
 import estructuras.conjuntistas.ClaveHashMap;
 import estructuras.conjuntistas.TablaAVL;
@@ -18,36 +18,35 @@ public class metodos {
 
         if (!g.esVacio()) {
             Ciudad ciu1 = (Ciudad) t.obtenerDato(nomCiu);
-            Ciudad ciu2;
             int habitantes = ciu1.getCantHabitantes(anio, mes);
             double consumoProm = ciu1.getConsumoProm();
             //se podria modularizar desde aca
             Lista camino = g.caminoMasCortoDirecto(nomCiu);
-            Object elem = camino.recuperar(1);
+            Object nom1 = camino.recuperar(1);
+            Object nom2;
             Tuberia tuberia;
             double caudalMin = 0;
 
-            while (elem != null) {
-                ciu1 = (Ciudad) elem;
+            while (nom1 != null) {
                 if (camino.recuperar(2) != null) {
-                    ciu2 = (Ciudad) camino.recuperar(2);
-                    ClaveHashMap clave = new ClaveHashMap(ciu1.getNombre(), ciu2.getNombre());
+                    nom2=camino.recuperar(1);
+                    ClaveHashMap clave = new ClaveHashMap((String)nom1, (String) nom2);
                     tuberia = (Tuberia) m.get(clave);
                     if (tuberia.getCaudalMinimo() > caudalMin) {
                         caudalMin = tuberia.getCaudalMinimo();
                     }
                 }
                 camino.eliminar(1);
-                elem = camino.recuperar(1);
+                nom1 = camino.recuperar(1);
             }
             //HACER AMBOS CALCULOS Y DEVOLVERLOS
 
             //calculamos cantHabitantes * consumoProm
-            double caudal1 = habitantes * consumoProm;
-
-            //calculamos caudalMinimo por horas de cada dia, para cada dia del mes
             YearMonth fecha = YearMonth.of(anio, mes);
             int diasMes = fecha.lengthOfMonth();
+            double caudal1 = (habitantes * consumoProm)*diasMes;
+
+            //calculamos caudalMinimo por horas de cada dia, para cada dia del mes
             double caudal2 = diasMes * (24 * caudalMin);
 
             double caudalFinal = Math.min(caudal1, caudal2);
