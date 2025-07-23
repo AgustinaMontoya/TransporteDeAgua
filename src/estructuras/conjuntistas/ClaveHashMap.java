@@ -1,10 +1,10 @@
 package estructuras.conjuntistas;
 
 public class ClaveHashMap {
-    private String nom1;
-    private String nom2;
+    private Comparable nom1;
+    private Comparable nom2;
 
-    public ClaveHashMap(String nom1, String nom2) {
+    public ClaveHashMap(Comparable nom1, Comparable nom2) {
         this.nom1 = nom1;
         this.nom2 = nom2;
     }

@@ -9,15 +9,15 @@ package clases;
 
 public class Tuberia {
     // ---------------------------------------- ATRIBUTOS ---------------------------------------- //
-    private Ciudad desdeCiudad; // [ NE3001-CC3002]
-    private Ciudad hastaCiudad; // [ NE3001-CC3002]
+    private String desdeCiudad; // [ NE3001-CC3002]
+    private String hastaCiudad; // [ NE3001-CC3002]
     private double caudalMinimo; // Caudal mínimo en metros cúbicos por hora.
     private double caudalMaximo; // Caudal máximo en metros cúbicos por hora.
     private double diametro; // Diámetro de la tubería en milímetros.
     private char estado; // A: Activo, R: En Reparación, D: En Diseño, I: inactivo.
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
-    public Tuberia(Ciudad desde, Ciudad hasta, double min, double max, double diam, char est) {
+    public Tuberia(String desde, String hasta, double min, double max, double diam, char est) {
         desdeCiudad = desde;
         hastaCiudad = hasta;
         caudalMinimo = min;
@@ -27,11 +27,11 @@ public class Tuberia {
     }
 
     // ---------------------------------------- MODIFICADORES -------------------------------------- //
-    public void setDesdeCiudad(Ciudad desdeCiudad) {
+    public void setDesdeCiudad(String desdeCiudad) {
         this.desdeCiudad = desdeCiudad;
     }
 
-    public void setHastaCiudad(Ciudad hastaCiudad) {
+    public void setHastaCiudad(String hastaCiudad) {
         this.hastaCiudad = hastaCiudad;
     }
 
@@ -52,11 +52,11 @@ public class Tuberia {
     }
 
     // ---------------------------------------- OBSERVADORES --------------------------------------- //
-    public Ciudad getDesdeCiudad() {
+    public String getDesdeCiudad() {
         return desdeCiudad;
     }
 
-    public Ciudad getHastaCiudad() {
+    public String getHastaCiudad() {
         return hastaCiudad;
     }
 
