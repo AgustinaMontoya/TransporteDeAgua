@@ -11,8 +11,13 @@ public class Ciudad {
     // ---------------------------------------- ATRIBUTOS ---------------------------------------- //
     private String nombre;  // Nombre de la ciudad
     private double superficie;
+<<<<<<< HEAD
     private int[] cantHabitantes = new int[12]; // Cantidad de habitantes por mes en un año
     private Comparable nomenclatura;    // Formato CI1234
+=======
+    private int [][] cantHabitantes = new int[10][13]; // Cantidad de habitantes por mes en un año
+    private Object nomenclatura;    // Formato CI1234
+>>>>>>> 91a0a3aa6eafdcb8a6d54513a4e8249a28c0f719
     private double consumoProm; // Consumo promedio de metros cubicos por persona
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
@@ -29,7 +34,7 @@ public class Ciudad {
         this.superficie = superficie;
     }
 
-    public void setCantHabitantes(int[] cantHabitantes) {
+    public void setCantHabitantes(int[][] cantHabitantes) {
         this.cantHabitantes = cantHabitantes;
     }
 
@@ -54,8 +59,17 @@ public class Ciudad {
         return nomenclatura;
     }
 
-    public int[] getCantHabitantes() {
-        return cantHabitantes;
+    public int getCantHabitantes(int anio ,int mes) {
+
+        int i=0, habitantes = 0;
+
+        while (i < cantHabitantes.length && habitantes != 0) {
+            if (cantHabitantes[i][12] == anio) {
+                habitantes = cantHabitantes[i][mes - 1];
+            }
+            i++;
+        }
+        return habitantes;
     }
 
     public double getConsumoProm() {

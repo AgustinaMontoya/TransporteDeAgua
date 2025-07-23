@@ -495,4 +495,24 @@ public class GrafoEtiquetado {
         }
         return cadena;
     }
+
+    //METODOS AGREGADOS POR  AGUS.ALBORNOZ
+
+    public Lista caminoMasCortoDirecto(Object elem){
+
+        Lista camino = new Lista();
+
+        if(this.inicio!=null){
+            NodoVertice[]vertices=ubicarVertices(this.inicio,elem);
+            Lista visitados= new Lista();
+            camino=caminoMasCortoAux(this.inicio,vertices[2],camino,visitados);
+        }
+        return camino;
+    }
+
+
+
+    //METODOS AGREGADOS POR AGUS.ALBORNOZ
+
+
 }
