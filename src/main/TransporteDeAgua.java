@@ -11,7 +11,7 @@ package main;
 import clases.*;
 import estructuras.conjuntistas.ClaveHashMap;
 import estructuras.grafos.GrafoEtiquetado;
-
+import estructuras.conjuntistas.ArbolAVL;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
@@ -19,15 +19,19 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import estructuras.conjuntistas.TablaAVL;
 public class TransporteDeAgua {
 
     static Scanner sc = new Scanner(System.in);
 // ------------------------------------------ ESTRUCTURAS ----------------------------------------- //
-    GrafoEtiquetado mapa = new GrafoEtiquetado();
-    private HashMap<ClaveHashMap, Tuberia> tuberiasMap = new HashMap<>();
+    private static GrafoEtiquetado mapa = new GrafoEtiquetado();
+    private static HashMap<ClaveHashMap, Tuberia> tuberiasMap = new HashMap<>();
+    private static TablaAVL tablaCiudades = new TablaAVL();
     public static void main(String[] args) {
-        int numeroIngresado = 0;
+        cargarCiudades();
+        cargarTuberias();
+        System.out.println(mapa);
+        /*int numeroIngresado = 0;
         String archivoCiudades = "Acá va el directorio del archivo."; // Se pasan por parametro a los metodos
         String archivoTuberias = "Acá va el directorio del archivo."; // de carga
 
@@ -80,7 +84,7 @@ public class TransporteDeAgua {
                     System.out.println("Número ingresado incorrecto. Volver a ingresar un número.");
                     break;
             }
-        }
+        }*/
     }
 
     // ! MODIFICAR a medida que vayamos avanzando
@@ -103,14 +107,14 @@ public class TransporteDeAgua {
     
 
 
-    public void cargarCiudades() {
+    public static void cargarCiudades() {
         try {
-            FileReader archivo = new FileReader("");
+            FileReader archivo = new FileReader("Listado Ciudades - Hoja 1.csv");
             BufferedReader bf = new BufferedReader(archivo);
             String linea;
             while ((linea = bf.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(linea, ",");
-                Object  nomenclatura;;
+                Comparable  nomenclatura;
                 String nombre;
                 double superficie,consumo;
                 Ciudad ciudad;
@@ -120,6 +124,7 @@ public class TransporteDeAgua {
                 consumo = Double.parseDouble(st.nextToken());
                 ciudad = new Ciudad(nombre,superficie,nomenclatura, consumo);
                 mapa.insertarVertice(ciudad);
+                tablaCiudades.insertar(ciudad.getNomenclatura(), ciudad);
             }
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queriamos leer no existe.");
@@ -127,27 +132,39 @@ public class TransporteDeAgua {
             System.err.println("Error leyendo o escribiendo en algun archivo.");
         }
     }
+    public static Ciudad buscarCiudad(String nombreCiudad) {
+        Ciudad ciudad = null;
+        Comparable clave = Ciudad.parseCiudad(nombreCiudad).getNomenclatura();
+        if (tablaCiudades.obtenerDato(clave) != null) {
+            ciudad = (Ciudad) tablaCiudades.obtenerDato(clave);
+        } else {
+            System.out.println("La ciudad no se encuentra en el sistema.");
+        }
+        return ciudad;
 
-    public void cargarTuberias() {
+    }
+    public static void cargarTuberias() {
         try {
-            FileReader archivo = new FileReader("");
+            FileReader archivo = new FileReader("Lista Ciudad-Ciudad (GRAFO) - Hoja 1.csv");
             BufferedReader bf = new BufferedReader(archivo);
             String linea;
             while ((linea = bf.readLine()) != null) {
+                
                 StringTokenizer st = new StringTokenizer(linea, ",");
                 Ciudad ciudadD, ciudadH;
-                double caudalMin,caudalMax,diametro;
+                String nombreCiudadD, nombreCiudadH;
+                double caudalMax;
                 char estado;
                 Tuberia tuberia;
-                ciudadD = Ciudad.parseCiudad(st.nextToken());
-                ciudadH = Ciudad.parseCiudad(st.nextToken());
-                caudalMin = Double.parseDouble(st.nextToken());
+                nombreCiudadD = st.nextToken();
+                nombreCiudadH = st.nextToken();
+                ciudadD = buscarCiudad(nombreCiudadD);
+                ciudadH = buscarCiudad(nombreCiudadH);
                 caudalMax = Double.parseDouble(st.nextToken());
-                diametro = Double.parseDouble(st.nextToken());
                 estado = st.nextToken().charAt(0);
                 tuberia = new Tuberia(ciudadD, ciudadH, caudalMin, caudalMax, diametro,estado);
                 mapa.insertarArco(ciudadD, ciudadH, caudalMax);
-                ClaveHashMap clave = new ClaveHashMap(ciudadD, ciudadH);
+                ClaveHashMap clave = new ClaveHashMap(nombreCiudadD, nombreCiudadH);
                 tuberiasMap.put(clave, tuberia);
             }
         } catch (FileNotFoundException ex) {

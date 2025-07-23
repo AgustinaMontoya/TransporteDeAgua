@@ -12,11 +12,11 @@ public class Ciudad {
     private String nombre;  // Nombre de la ciudad
     private double superficie;
     private int[] cantHabitantes = new int[12]; // Cantidad de habitantes por mes en un año
-    private Object nomenclatura;    // Formato CI1234
+    private Comparable nomenclatura;    // Formato CI1234
     private double consumoProm; // Consumo promedio de metros cubicos por persona
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
-    public Ciudad(String nn, double sp, Object nc, double m3) {
+    public Ciudad(String nn, double sp, Comparable nc, double m3) {
         nombre = nn;
         superficie = sp;
         nomenclatura = nc;
@@ -24,9 +24,6 @@ public class Ciudad {
     }
 
     // ---------------------------------------- MODIFICADORES -------------------------------------- //
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public void setSuperficie(double superficie) {
         this.superficie = superficie;
@@ -36,7 +33,7 @@ public class Ciudad {
         this.cantHabitantes = cantHabitantes;
     }
 
-    public void setNomenclatura(Object nomenclatura) {
+    public void setNomenclatura(Comparable nomenclatura) {
         this.nomenclatura = nomenclatura;
     }
 
@@ -53,7 +50,7 @@ public class Ciudad {
         return superficie;
     }
 
-    public Object getNomenclatura() {
+    public Comparable getNomenclatura() {
         return nomenclatura;
     }
 
@@ -65,6 +62,10 @@ public class Ciudad {
         return consumoProm;
     }
 
+    public String toString() {
+    return "Ciudad: " + nombre + ", Nomenclatura: " + nomenclatura +
+           ", Superficie: " + superficie + ", Consumo: " + consumoProm;
+    }
     public static Ciudad parseCiudad(String nextToken) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'parseCiudad'");
