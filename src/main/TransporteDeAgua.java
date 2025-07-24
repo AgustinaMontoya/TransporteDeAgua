@@ -38,19 +38,24 @@ public class TransporteDeAgua {
         int numeroIngresado = 0;
         int anio = 0;
         Ciudad ciudad = null;
-
+        
         // --------------------------------------- MENU DE OPCIONES --------------------------------------- //
         while (numeroIngresado != 8) {
             mostrarMenuOpciones();
             numeroIngresado = sc.nextInt();
             switch (numeroIngresado) {
+                case 0: {
+                    cargarCiudades();
+                    cargarTuberias();
+                }
+                break;
                 case 1: {
                     trabajarCiudades();
                 }
                 break;
 
                 case 2: {
-                    trabajarTuberias();
+                   // trabajarTuberias();
                 }
 
                 break;
@@ -64,26 +69,26 @@ public class TransporteDeAgua {
 
                 break;
                 case 4: {
-                    consultaCiudades();
+                    //consultaCiudades();
                 }
 
                 break;
                 case 5: {
-                    consultaTransporteAgua();
+                    //consultaTransporteAgua();
                 }
 
                 break;
                 case 6: {
-                    listadoConsumo();
+                    //listadoConsumo();
                 }
 
                 break;
                 case 7: {
-                    sistema();
+                    //sistema();
                 }
 
                 break;
-                case 0: {
+                case 8: {
                     System.out.println("Saliendo del sistema...");
                 }
                 break;
@@ -110,6 +115,7 @@ public class TransporteDeAgua {
                 + "\n[8] Finalizar programa."
                 + "\n----------------------------------------------------------------------------");
     }
+
 
     public static void cargarCiudades() {
         try {
@@ -149,6 +155,7 @@ public class TransporteDeAgua {
 
     }
 
+    
     public static void cargarTuberias() {
         try {
             FileReader archivo = new FileReader("src/textos/tuberias.txt");
@@ -229,7 +236,48 @@ public class TransporteDeAgua {
         }
         ciudad.setCantHabitantes(cantHabitantes);
     }
-    //------------------------------------------------------------------------------------------------------------------
+    
+//--------------------------------------   MODIFICACION DE CIUDADES   -------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    public static void trabajarCiudades() {
+
+        Scanner sc = new Scanner(System.in);
+        Ciudad cdad;
+        int eleccion;
+        String nombre;
+        
+        System.out.println("Ingrese 1 si desea dar de alta una ciudad");
+        System.out.println("Ingrese 2 si desea eliminar una ciudad");
+        System.out.println("Ingrese 3 si desea modificar una ciudad"); 
+        eleccion = sc.nextInt();
+
+        switch (eleccion) {
+            case 1: {   //AÑADIR UNA NUEVA CIUDAD
+                System.out.println("Ingrese el nombre de la ciudad que desea añadir");
+                sc.nextLine();
+                nombre = sc.nextLine().toUpperCase();
+                if (mapa.existeVertice(nombre)) {
+                    System.out.println("La ciudad ya se encuentra cargada");
+                } else {
+                    Comparable nomenclatura;
+                    double superficie, consumo;
+                    System.out.println("Ingrese la nomenclatura, superficie y consumo de la ciudad");
+                    // Le agrego el upperCase para cuando se ingrese un nombre por teclado coincida
+                    nomenclatura = sc.nextLine().toUpperCase();
+                    superficie = Double.parseDouble(sc.nextLine());
+                    consumo = Double.parseDouble(sc.nextLine());
+                    cdad = new Ciudad(nombre,superficie,nomenclatura, consumo);
+                    mapa.insertarVertice(cdad.getNomenclatura());
+                    System.out.println("La ciudad fue dada de alta con exito");
+                    log = "Se cargó la ciudad " + cdad.getNombre() + " en el sistema";
+                    System.out.println(mapa);
+                }
+            }
+            break;
+            
+        }
+
+    }
 }
 
 
