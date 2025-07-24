@@ -273,45 +273,7 @@ public class TransporteDeAgua {
                 }
             }
             break;
-            /*case 2: {  //ELLMINAR UNA CIUDAD
-                System.out.println("Ingrese el nombre de la ciudad que desea eliminar");
-                
-                if (mapa.existeVertice(cdad)) {
-                    mapa.eliminarVertice(cdad);
-                    System.out.println("La ciudad fue eliminada con exito");
-                    log = "Se eliminó la ciudad " + nombre + " del sistema";
-                    actualizarLog(log);
-                } else {
-                    System.out.println("La ciudad no se ecuentra en el mapa");
-                }
-            }
-            break;
-            case 3: {   //MODIFICAR UNA CIUDAD
-                System.out.println("Ingrese el nombre de la ciudad que desea modificar");
-                nombre = sc.nextLine().toUpperCase();
-                Ciudad buscada = (Ciudad) mapa.recuperar(nombre);
-                if (buscada != null) {
-                    System.out.println("Ingrese S/A si desea cambiar la sede o el alojamiento respectivamente");
-                    sede = sc.next().equalsIgnoreCase("s");
-                    if (sede) {
-                        buscada.camibarSede();
-                    } else {
-                        buscada.cambiarAlojamiento();
-                    }
-                    System.out.println("El cambio fue realizado correctamente");
-                    log = "Se actualizaron los datos de la ciudad " + nombre + " en el sistema";
-                    actualizarLog(log);
-                } else {
-                    System.out.println("La ciudad ingresada no se encuentra en el mapa");
-                }
-            }
-            break;
-            default: {
-                System.out.println("Ingresó una opcion invalida");
-
-            }
-            ;
-            break;*/
+            
         }
 
     }
