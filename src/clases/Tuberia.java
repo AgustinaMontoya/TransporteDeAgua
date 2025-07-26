@@ -75,4 +75,7 @@ public class Tuberia {
     public char getEstado() {
         return estado;
     }
+    public String toString() {
+    return String.format(desdeCiudad + " - " + hastaCiudad +" - " + caudalMaximo);
+}
 }

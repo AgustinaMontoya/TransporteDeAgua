@@ -13,9 +13,10 @@ import estructuras.conjuntistas.ClaveHashMap;
 import estructuras.grafos.GrafoEtiquetado;
 import estructuras.conjuntistas.ArbolAVL;
 import estructuras.conjuntistas.TablaAVL;
-
+import estructuras.lineales.Lista;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -55,7 +56,7 @@ public class TransporteDeAgua {
                 break;
 
                 case 2: {
-                   // trabajarTuberias();
+                     trabajarTuberias();
                 }
 
                 break;
@@ -135,7 +136,7 @@ public class TransporteDeAgua {
                 consumo = Double.parseDouble(st.nextToken());
                 ciudad = new Ciudad(nombre,superficie,nomenclatura, consumo);
                 mapa.insertarVertice(ciudad.getNomenclatura());
-                tablaCiudades.insertar(ciudad.getNomenclatura(), ciudad);
+                tablaCiudades.insertar(ciudad.getNombre(), ciudad);
             }
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queriamos leer no existe.");
@@ -143,9 +144,9 @@ public class TransporteDeAgua {
             System.err.println("Error leyendo o escribiendo en algun archivo.");
         }
     }
-    public static Ciudad buscarCiudad(Comparable nomCiudad) {
+    public static Ciudad buscarCiudad(Comparable nombreCiudad) {
         Ciudad ciudad = null;
-        Comparable clave = nomCiudad;
+        Comparable clave = nombreCiudad;
         if (tablaCiudades.obtenerDato(clave) != null) {
             ciudad = (Ciudad) tablaCiudades.obtenerDato(clave);
         } else {
@@ -178,7 +179,9 @@ public class TransporteDeAgua {
                 mapa.insertarArco(nomCiudadD,nomCiudadH,caudalMax);
                 ClaveHashMap clave = new ClaveHashMap(nomCiudadD, nomCiudadH);
                 tuberiasMap.put(clave, tuberia);
+                
             }
+            System.out.println(tuberiasMap.toString());
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queríamos leer no existe.");
         } catch (IOException ex) {
@@ -245,7 +248,7 @@ public class TransporteDeAgua {
         Ciudad cdad;
         int eleccion;
         String nombre;
-        
+        char opcion;
         System.out.println("Ingrese 1 si desea dar de alta una ciudad");
         System.out.println("Ingrese 2 si desea eliminar una ciudad");
         System.out.println("Ingrese 3 si desea modificar una ciudad"); 
@@ -256,7 +259,8 @@ public class TransporteDeAgua {
                 System.out.println("Ingrese el nombre de la ciudad que desea añadir");
                 sc.nextLine();
                 nombre = sc.nextLine().toUpperCase();
-                if (mapa.existeVertice(nombre)) {
+                cdad = buscarCiudad(nombre);
+                if (mapa.existeVertice(cdad.getNomenclatura())) {
                     System.out.println("La ciudad ya se encuentra cargada");
                 } else {
                     Comparable nomenclatura;
@@ -273,9 +277,131 @@ public class TransporteDeAgua {
                 }
             }
             break;
-            
-        }
+            case 2: {   //ELIMINAR UNA CIUDAD
+                System.out.println("Ingrese el nombre de la ciudad que desea eliminar");
+                sc.nextLine();
+                nombre = sc.nextLine().toUpperCase();
+                cdad = buscarCiudad(nombre);
+                if (mapa.existeVertice(cdad.getNomenclatura())) {
+                    mapa.eliminarVertice(cdad.getNomenclatura());
+                    tablaCiudades.eliminar(nombre);
+                    System.out.println("La ciudad fue eliminada con exito");
+                    Lista l = new Lista();
+                    Object[] claves = tuberiasMap.keySet().toArray();
+                    int i = 0;
 
+                    while (i < claves.length) {
+                        ClaveHashMap clave = (ClaveHashMap) claves[i];
+
+                        if (clave.getOrigen().equals(nombre) || clave.getDestino().equals(nombre)) {
+                            l.insertar(clave,1);  // Guardamos la clave que debe eliminarse
+                        }
+
+                        i++;
+                    }
+                    while (!l.esVacia()) {
+                        ClaveHashMap claveAEliminar = (ClaveHashMap) l.recuperar(1);
+                        tuberiasMap.remove(claveAEliminar);  // Quitamos del HashMap
+                        l.eliminar(1);  // Quitamos de la lista
+                    }
+                    System.out.println(tuberiasMap.toString());
+                } else {
+                        System.out.println("La ciudad no se encuentra en el sistema");
+                }
+            }break;
+            case 3: { //MODIFICAR UNA CIUDAD
+                System.out.println("Ingrese el nombre de la ciudad que desea modificar");
+                sc.nextLine();
+                nombre = sc.nextLine().toUpperCase();
+                cdad = buscarCiudad(nombre);
+                if (mapa.existeVertice(cdad.getNomenclatura())) {
+                    System.out.println("Ingrese C si desea cambiar el consumo o N si quiere modificar la nomenclatura");
+                    opcion = sc.next().charAt(0);
+                    if (opcion == 'C') {
+                        System.out.println("Ingrese la nueva nomenclatura de la ciudad");
+                        sc.nextLine();
+                        cdad.setNomenclatura(sc.nextLine().toUpperCase());
+                    } else if (opcion == 'N') {
+                        System.out.println("Ingrese la nueva nomenclatura de la ciudad");
+                        sc.nextLine();
+                        cdad.setNomenclatura(sc.nextLine().toUpperCase());
+                    }
+                    System.out.println(cdad.toString());
+                } else {
+                    System.out.println("La ciudad no se encuentra en el sistema");
+                }
+
+            }break;
+        }
+    }
+
+    public static void trabajarTuberias() {
+
+        Scanner sc = new Scanner(System.in);
+        int eleccion;
+        
+        System.out.println("Ingrese 1 si desea dar de alta una tuberias");
+        System.out.println("Ingrese 2 si desea eliminar una tuberias");
+        System.out.println("Ingrese 3 si desea modificar una tuberias"); 
+        eleccion = sc.nextInt();
+        switch (eleccion) {
+            case 1: {   //AÑADIR UNA NUEVA TUBERIA
+                System.out.println("Ingrese el nombre de la ciudad de origen y destino de la tuberia");
+                sc.nextLine();
+                String origen = sc.nextLine().toUpperCase();
+                String destino = sc.nextLine().toUpperCase();
+                if (mapa.existeArco(origen, destino)) {
+                    System.out.println("La tuberia ya se encuentra cargada");
+                } else {
+                    double caudalMax, caudalMin, diametro;
+                    char estado;
+                    System.out.println("Ingrese el caudal minimo, caudal maximo, diametro y estado de la tuberia");
+                    caudalMin = Double.parseDouble(sc.nextLine());
+                    caudalMax = Double.parseDouble(sc.nextLine());
+                    diametro = Double.parseDouble(sc.nextLine());
+                    estado = sc.nextLine().charAt(0);
+                    Tuberia tuberia = new Tuberia(origen, destino, caudalMin, caudalMax, diametro, estado);
+                    mapa.insertarArco(origen, destino, caudalMax);
+                    ClaveHashMap clave = new ClaveHashMap(origen, destino);
+                    tuberiasMap.put(clave, tuberia);
+                    System.out.println("La tuberia fue dada de alta con exito");
+                }
+            }
+            break;
+            case 2: {   //ELIMINAR UNA TUBERIA
+                System.out.println("Ingrese el nombre de la ciudad de origen y destino de la tuberia que desea eliminar");
+                sc.nextLine();
+                String origen = sc.nextLine().toUpperCase();
+                String destino = sc.nextLine().toUpperCase();
+                if (mapa.existeArco(origen, destino)) {
+                    mapa.eliminarArco(origen, destino);
+                    ClaveHashMap clave = new ClaveHashMap(origen, destino);
+                    tuberiasMap.remove(clave);
+                    System.out.println("La tuberia fue eliminada con exito");
+                } else {
+                    System.out.println("La tuberia no se encuentra en el sistema");
+                }
+            }
+            break;
+            case 3: { //MODIFICAR UNA TUBERIA
+                System.out.println("Ingrese el nombre de la ciudad de origen y destino de la tuberia que desea modificar");
+                sc.nextLine();
+                String origen = sc.nextLine().toUpperCase();
+                String destino = sc.nextLine().toUpperCase();
+                if (mapa.existeArco(origen, destino)) {
+                    ClaveHashMap clave = new ClaveHashMap(origen, destino);
+                    Tuberia tuberia = tuberiasMap.get(clave);
+                    System.out.println("Ingrese el nuevo caudal minimo, caudal maximo, diametro y estado de la tuberia");
+                    tuberia.setCaudalMinimo(Double.parseDouble(sc.nextLine()));
+                    tuberia.setCaudalMaximo(Double.parseDouble(sc.nextLine()));
+                    tuberia.setDiametro(Double.parseDouble(sc.nextLine()));
+                    tuberia.setEstado(sc.nextLine().charAt(0));
+                    System.out.println("La tuberia fue modificada con exito");
+                } else {
+                    System.out.println("La tuberia no se encuentra en el sistema");
+                }
+            }
+        }
     }
 }
 
