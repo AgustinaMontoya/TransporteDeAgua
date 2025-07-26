@@ -187,6 +187,7 @@ public class GrafoEtiquetado {
                                 eliminar = true;
                             } else {
                                 ady = sig;
+                                sig = sig.getSigAdy();//esta linea
                             }
                         }
                     }
@@ -201,7 +202,7 @@ public class GrafoEtiquetado {
     /*
         Dado un elemento, devuelve verdadero si está en la estructura y falso en caso contrario.
      */
-    public boolean existeVertice(Object vertice) {
+    public boolean existeVertice(Comparable vertice) {
         boolean existe = false;
         NodoVertice aux = this.inicio;
         while (aux != null && !existe) {

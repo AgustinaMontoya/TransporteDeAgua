@@ -9,6 +9,12 @@ public class ClaveHashMap {
         this.nom2 = nom2;
     }
 
+    public Comparable getOrigen() {
+        return nom1;
+    }
+    public Comparable getDestino() {
+        return nom2;
+    }
     
     public boolean equals(Object obj) {
         boolean resultado = false;
