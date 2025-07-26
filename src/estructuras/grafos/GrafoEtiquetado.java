@@ -187,6 +187,7 @@ public class GrafoEtiquetado {
                                 eliminar = true;
                             } else {
                                 ady = sig;
+                                sig = sig.getSigAdy();//esta linea
                             }
                         }
                     }

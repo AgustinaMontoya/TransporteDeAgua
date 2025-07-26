@@ -31,9 +31,13 @@ public class TablaAVL {
         if (n.getClave().compareTo(elemento) == 0) {
             encontrado = true;
         } else if (n.getClave().compareTo(elemento) > 0) {
-            encontrado = encontrarNodo(n.getIzquierdo(), elemento);
+            if (n.getIzquierdo() != null) {
+                encontrado = encontrarNodo(n.getIzquierdo(), elemento);
+            }
         } else {
-            encontrado = encontrarNodo(n.getDerecho(), elemento);
+            if (n.getDerecho() != null) {
+                encontrado = encontrarNodo(n.getDerecho(), elemento);
+            }
         }
 
         return encontrado;
