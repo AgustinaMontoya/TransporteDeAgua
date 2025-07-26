@@ -19,7 +19,7 @@ public class NodoAdy {
     // ------------------------------------------ ATRIBUTOS ------------------------------------------ //
     private NodoVertice vertice;     // Vertice destino
     private NodoAdy sigAdy;
-    private Object etiqueta;
+    private Comparable etiqueta;
 
     // ----------------------------------------- CONSTRUCTOR ----------------------------------------- //
     /*
@@ -33,7 +33,7 @@ public class NodoAdy {
     /*
         Constructor vacío para grafos etiquetados
      */
-    public NodoAdy(NodoVertice vertice, NodoAdy sigAdyacente, Object etiqueta) {
+    public NodoAdy(NodoVertice vertice, NodoAdy sigAdyacente, Comparable etiqueta) {
         this.vertice = vertice;
         this.sigAdy = sigAdyacente;
         this.etiqueta = etiqueta;
@@ -48,7 +48,7 @@ public class NodoAdy {
         this.sigAdy = sigAdy;
     }
 
-    public void setEtiqueta(Object etiqueta) {
+    public void setEtiqueta(Comparable etiqueta) {
         this.etiqueta = etiqueta;
     }
 
@@ -61,7 +61,7 @@ public class NodoAdy {
         return this.sigAdy;
     }
 
-    public Object getEtiqueta() {
+    public Comparable getEtiqueta() {
         return this.etiqueta;
     }
 }

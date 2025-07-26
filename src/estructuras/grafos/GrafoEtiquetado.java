@@ -110,7 +110,7 @@ public class GrafoEtiquetado {
         ambos vértices ya existen en el grafo. Si puede realizar la inserción devuelve verdadero, en caso
         contrario devuelve falso.
      */
-    public boolean insertarArco(Object ori, Object dest, Object etiqueta) {
+    public boolean insertarArco(Object ori, Object dest, Comparable etiqueta) {
         boolean insertar = false;
         if (!ori.equals(dest)) {
             // Busco los vertices origen y destino dentro del grafo.
@@ -498,21 +498,90 @@ public class GrafoEtiquetado {
 
     //METODOS AGREGADOS POR  AGUS.ALBORNOZ
 
-    public Lista caminoMasCortoDirecto(Object elem){
+    public Lista caminoMasCortoDirecto(Object elem) {
 
         Lista camino = new Lista();
 
-        if(this.inicio!=null){
-            NodoVertice[]vertices=ubicarVertices(this.inicio,elem);
-            Lista visitados= new Lista();
-            camino=caminoMasCortoAux(this.inicio,vertices[1],camino,visitados);
+        if (this.inicio != null) {
+            NodoVertice[] vertices = ubicarVertices(this.inicio, elem);
+            Lista visitados = new Lista();
+            camino = caminoMasCortoAux(this.inicio, vertices[1], camino, visitados);
         }
         return camino;
     }
 
+    public Lista obtenerCaminoMenorEtiqueta(Object elem1, Object elem2) {
+
+        Lista masChico = new Lista();
+
+            NodoVertice[] vertices = ubicarVertices(elem1, elem2);
+            Comparable[] etiqueta = {999999};
+            masChico.insertar(etiqueta[0], 1);
+            Lista visitados = new Lista();
+
+            recorrerCamino(vertices[0], vertices[1], visitados, etiqueta, masChico);
+            if(masChico.longitud()<2){
+                masChico.vaciar();
+            }
+
+        return masChico;
+    }
+
+    private void recorrerCamino(NodoVertice n, NodoVertice dest, Lista visitados, Comparable[] etiqueta, Lista masChico) {
+
+        NodoVertice vertice;
+        NodoAdy arista;
+        int c = masChico.longitud();
+        Comparable etiquetaChica = (Comparable) masChico.recuperar(c);
+
+        if (n != dest) {
+            visitados.insertar(n, visitados.longitud() + 1);
+            if (n.getPrimerAdy() != null) {
+                arista = n.getPrimerAdy();
+                vertice = arista.getVertice();
+                if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
+                    etiqueta[0] = arista.getEtiqueta();
+
+                }
+                if (vertice.equals(dest)) {
+                    if (etiqueta[0].compareTo(etiquetaChica) < 0) {
+
+                        visitados.insertar(vertice, visitados.longitud() + 1);
+                        rellenar(visitados, masChico);
+                        masChico.insertar(etiqueta[0], masChico.longitud() + 1);
+
+                    }
+                }
+                recorrerCamino(vertice, dest, visitados, etiqueta, masChico);
+                visitados.eliminar(visitados.longitud());
+
+                while (arista != null) {
+                    arista = arista.getSigAdy();
+                    if (arista != null) {
+                        if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
+                            etiqueta[0] = arista.getEtiqueta();
+                        }
+                        recorrerCamino(arista.getVertice(), dest, visitados, etiqueta, masChico);
+                        visitados.eliminar(visitados.longitud());
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void rellenar(Lista vis, Lista masChi) {
+
+        masChi.vaciar();
+        int l = vis.longitud();
+
+        for (int i = 1; i < l; i++) {
+            masChi.insertar(vis.recuperar(i), i);
+        }
+    }
+
+
 
 
     //METODOS AGREGADOS POR AGUS.ALBORNOZ
-
-
 }
