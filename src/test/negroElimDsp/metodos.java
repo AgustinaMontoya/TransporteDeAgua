@@ -56,9 +56,7 @@ public class metodos {
         g.insertarArco('H','K',10);
         g.insertarArco('I','L',7);
 
-        TransporteDeAgua t=new TransporteDeAgua();
 
-        t.obtenerCaminoMenorCaudal(g,'A','L');
 
 
 
