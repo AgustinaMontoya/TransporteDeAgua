@@ -285,6 +285,47 @@ public class TransporteDeAgua {
         return ciudades;
     }
 
+
+    public Lista obtenerCaminoMenorCaudal(GrafoEtiquetado g,Object nom1, Object nom2) {
+
+        Lista camino = new Lista();
+
+        if (!g.esVacio()) {
+            camino = g.obtenerCaminoMenorEtiqueta(nom1, nom2);
+            camino.eliminar(camino.longitud());
+            Lista aux = camino.clone();
+
+            Ciudad ciu1 = (Ciudad) camino.recuperar(1);
+            Ciudad ciu2 = (Ciudad) camino.recuperar(2);
+            ClaveHashMap clave;
+            Tuberia tub;
+            char estado = 'A';
+
+            if (ciu2 != null) {
+                while (ciu2 != null) {
+                    clave = new ClaveHashMap(ciu1.getNomenclatura(), ciu2.getNomenclatura());
+                    tub = tuberiasMap.get(clave);
+                    if (tub.getEstado() != 'A') {
+                        if (tub.getEstado() == 'R') {
+                            estado = 'R';
+                        } else if (tub.getEstado() == 'D') {
+                            estado = 'D';
+                        }
+                    }
+                    aux.eliminar(1);
+                    ciu1 = (Ciudad) aux.recuperar(1);
+                    ciu2 = (Ciudad) aux.recuperar(2);
+                }
+                System.out.println("El estado del camino es: " + estado);
+            } else if (camino.longitud() == 1) {
+                clave = new ClaveHashMap(ciu1.getNomenclatura(), (Comparable) nom2);
+                tub = tuberiasMap.get(clave);
+                System.out.println("El estado del camino es: " + tub.getEstado());
+            }
+        }
+        return camino;
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 }
 
