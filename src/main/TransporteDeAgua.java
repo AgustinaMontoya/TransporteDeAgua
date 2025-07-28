@@ -46,6 +46,11 @@ public class TransporteDeAgua {
             mostrarMenuOpciones();
             numeroIngresado = sc.nextInt();
             switch (numeroIngresado) {
+                case 0: {
+                    cargarCiudades();
+                    cargarTuberias();
+                }
+                break;
                 case 1: {
                     trabajarCiudades();
                 }
@@ -66,17 +71,17 @@ public class TransporteDeAgua {
 
                 break;
                 case 4: {
-                    consultaCiudades();
+                    //consultaCiudades();
                 }
 
                 break;
                 case 5: {
-                    consultaTransporteAgua();
+                    //consultaTransporteAgua();
                 }
 
                 break;
                 case 6: {
-                    listadoConsumo();
+                    //listadoConsumo();
                 }
 
                 break;
@@ -85,7 +90,7 @@ public class TransporteDeAgua {
                 }
 
                 break;
-                case 0: {
+                case 8: {
                     System.out.println("Saliendo del sistema...");
                 }
                 break;
@@ -491,7 +496,16 @@ public class TransporteDeAgua {
         return camino;
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------SISTEMA--------------------------------------------------------------------
+    public static void sistema(){
+        System.out.println("Grafo de ciudades y tuberias: ");
+        System.out.println(mapa.toString());
+        System.out.println("Tabla de ciudades: ");
+        System.out.println(tablaCiudades.toString());
+        System.out.println("Mapa de tuberias: ");
+        System.out.println(tuberiasMap.toString());
+    }
+
 }
 
 
