@@ -14,18 +14,26 @@ import java.util.Date;
 public class Log {
 
     private FileWriter escritor;
-    private final String archivo = "archivoLog.txt";
+    private final String archivo = "src/log/archivoLog.txt";
 
-    public Log() throws IOException {
-        escritor = new FileWriter(archivo);
-        escritor.write("");
-        escritor.close();
+    public Log() {
+        try {
+            escritor = new FileWriter(archivo);
+            escritor.write("");
+            escritor.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void escribir(String texto) throws IOException {
-        Date fecha = new Date();
-        escritor = new FileWriter(archivo, true);
-        escritor.write("[" + fecha + "]" + texto + "\n");
-        escritor.close();
+    public void escribir(String texto) {
+        try {
+            Date fecha = new Date();
+            escritor = new FileWriter(archivo, true);
+            escritor.write("[" + fecha + "]" + texto + "\n");
+            escritor.close();
+        } catch (IOException e) {
+            throw new RuntimeException("[LOG] Error de escritura.");
+        }
     }
 }

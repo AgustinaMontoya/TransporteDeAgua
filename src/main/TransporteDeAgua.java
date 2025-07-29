@@ -29,26 +29,20 @@ public class TransporteDeAgua {
 
     static Scanner sc = new Scanner(System.in);
 
-    // ------------------------------------------ ESTRUCTURAS ----------------------------------------- //
+    // ------------------------------------------------- ESTRUCTURAS ------------------------------------------------ //
     private static final GrafoEtiquetado mapa = new GrafoEtiquetado();
     private static final HashMap<ClaveHashMap, Tuberia> tuberiasMap = new HashMap<>();
     private static final TablaAVL tablaCiudades = new TablaAVL();
     public static Log archivoLog;
 
-    static {
-        try {
-            archivoLog = new Log();
-        } catch (IOException e) {
-            System.out.println("ERROR");
-        }
-    }
-
     // --------------------------------------------- MAIN --------------------------------------------- //
     public static void main(String[] args) {
+        archivoLog.escribir(">   PROGRAMA INICIALIZADO  <");
+
         // ------------------------------------------- VARIABLES ------------------------------------------ //
         int numeroIngresado = 0;
-        int anio = 0;
-        Ciudad ciudad = null;
+        int anio;
+        Ciudad ciudad;
 
         // --------------------------------------- MENU DE OPCIONES --------------------------------------- //
         while (numeroIngresado != 8) {
@@ -59,6 +53,7 @@ public class TransporteDeAgua {
                     cargarCiudades();
                     cargarTuberias();
                     cargarHabitantes();
+                    archivoLog.escribir("FINALIZÓ CARGA DE DATOS");
                 }
                 break;
                 case 1: {
@@ -106,6 +101,7 @@ public class TransporteDeAgua {
                 break;
                 case 8: {
                     System.out.println("Saliendo del sistema...");
+                    archivoLog.escribir("PROGRAMA FINALIZADO.");
                 }
                 break;
                 default:
@@ -117,7 +113,7 @@ public class TransporteDeAgua {
 
     // ! MODIFICAR a medida que vayamos avanzando
     public static void mostrarMenuOpciones() {
-        System.out.println("----------------------------------------------------------------------------"
+        System.out.println("-------------------------------------------------------------------------------------------"
                 + "\n\t MENÚ DE OPCIONES"
                 + "\nIngrese el número correspondiente a la operación que desee realizar: "
                 + "\n[0] Cargar datos en la estructura. "
@@ -129,7 +125,7 @@ public class TransporteDeAgua {
                 + "\n[6] Mostrar un listado de las ciudades ordenadas por consumo de agua anual de mayor a menor."
                 + "\n[7] Debugging."
                 + "\n[8] Finalizar programa."
-                + "\n----------------------------------------------------------------------------");
+                + "\n-------------------------------------------------------------------------------------------------");
     }
 
     // ----------------------------------------------- CARGA DE DATOS -----------------------------------------------//
@@ -293,9 +289,7 @@ public class TransporteDeAgua {
         System.out.println("Ingrese 2 si desea eliminar una ciudad");
         System.out.println("Ingrese 3 si desea modificar una ciudad");
         eleccion = sc.nextInt();
-        try{
         switch (eleccion) {
-            
             case 1: {   //AÑADIR UNA NUEVA CIUDAD
                 System.out.println("Ingrese el nombre de la ciudad que desea añadir");
                 sc.nextLine();
@@ -377,12 +371,6 @@ public class TransporteDeAgua {
             }
             break;
         }
-        } catch (FileNotFoundException ex) {
-            System.err.println("El archivo no existe.");
-        } catch (IOException ex) {
-            System.err.println("Error de lectura/escritura.");
-        }
-    
     }
 
     public static void trabajarTuberias() {
@@ -394,7 +382,7 @@ public class TransporteDeAgua {
         System.out.println("Ingrese 2 si desea eliminar una tuberias");
         System.out.println("Ingrese 3 si desea modificar una tuberias");
         eleccion = sc.nextInt();
-        try{
+
         switch (eleccion) {
             case 1: {   //AÑADIR UNA NUEVA TUBERIA
                 System.out.println("Ingrese el nombre de la ciudad de origen y destino de la tuberia");
@@ -468,12 +456,8 @@ public class TransporteDeAgua {
                 } else {
                     System.out.println("La tuberia no se encuentra en el sistema");
                 }
-            }break;
-        }
-        } catch (FileNotFoundException ex) {
-            System.err.println("El archivo no existe.");
-        } catch (IOException ex) {
-            System.err.println("Error de lectura/escritura.");
+            }
+            break;
         }
     }
 
