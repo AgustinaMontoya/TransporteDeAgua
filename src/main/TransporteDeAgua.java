@@ -152,6 +152,7 @@ public class TransporteDeAgua {
                 ciudad = new Ciudad(nombre, superficie, nomenclatura, consumo);
                 mapa.insertarVertice(ciudad.getNomenclatura());
                 tablaCiudades.insertar(ciudad.getNombre(), ciudad);
+                archivoLog.escribir("Se ha cargado la ciudad: " + ciudad.getNombre() + " con nomenclatura: " + ciudad.getNomenclatura());
             }
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queriamos leer no existe.");
@@ -193,6 +194,7 @@ public class TransporteDeAgua {
                 mapa.insertarArco(nomCiudadD, nomCiudadH, caudalMax);
                 ClaveHashMap clave = new ClaveHashMap(nomCiudadD, nomCiudadH);
                 tuberiasMap.put(clave, tuberia);
+                archivoLog.escribir("Se ha cargado la tubería de " + nomCiudadD + " a " + nomCiudadH + " con caudal máximo: " + caudalMax);
             }
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queríamos leer no existe.");
@@ -291,8 +293,9 @@ public class TransporteDeAgua {
         System.out.println("Ingrese 2 si desea eliminar una ciudad");
         System.out.println("Ingrese 3 si desea modificar una ciudad");
         eleccion = sc.nextInt();
-
+        try{
         switch (eleccion) {
+            
             case 1: {   //AÑADIR UNA NUEVA CIUDAD
                 System.out.println("Ingrese el nombre de la ciudad que desea añadir");
                 sc.nextLine();
@@ -312,6 +315,7 @@ public class TransporteDeAgua {
                     tablaCiudades.insertar(cdad.getNombre(), cdad);
                     System.out.println("La ciudad fue dada de alta con exito");
                     System.out.println(mapa);
+                    archivoLog.escribir("Se ha cargado la ciudad: " + cdad.getNombre());
                 }
             }
             break;
@@ -342,7 +346,7 @@ public class TransporteDeAgua {
                         tuberiasMap.remove(claveAEliminar);  // Quitamos del HashMap
                         l.eliminar(1);  // Quitamos de la lista
                     }
-                    System.out.println(tuberiasMap.toString());
+                    archivoLog.escribir("Se ha eliminado la ciudad: " + cdad.getNombre());
                 } else {
                     System.out.println("La ciudad no se encuentra en el sistema");
                 }
@@ -365,7 +369,7 @@ public class TransporteDeAgua {
                         sc.nextLine();
                         cdad.setNomenclatura(sc.nextLine().toUpperCase());
                     }
-                    System.out.println(cdad.toString());
+                    archivoLog.escribir("Se ha modificado la ciudad: " + cdad.getNombre());
                 } else {
                     System.out.println("La ciudad no se encuentra en el sistema");
                 }
@@ -373,6 +377,12 @@ public class TransporteDeAgua {
             }
             break;
         }
+        } catch (FileNotFoundException ex) {
+            System.err.println("El archivo no existe.");
+        } catch (IOException ex) {
+            System.err.println("Error de lectura/escritura.");
+        }
+    
     }
 
     public static void trabajarTuberias() {
@@ -384,6 +394,7 @@ public class TransporteDeAgua {
         System.out.println("Ingrese 2 si desea eliminar una tuberias");
         System.out.println("Ingrese 3 si desea modificar una tuberias");
         eleccion = sc.nextInt();
+        try{
         switch (eleccion) {
             case 1: {   //AÑADIR UNA NUEVA TUBERIA
                 System.out.println("Ingrese el nombre de la ciudad de origen y destino de la tuberia");
@@ -407,6 +418,7 @@ public class TransporteDeAgua {
                     ClaveHashMap clave = new ClaveHashMap(origen, destino);
                     tuberiasMap.put(clave, tuberia);
                     System.out.println("La tuberia fue dada de alta con exito");
+                    archivoLog.escribir("Se ha cargado la tubería de " + origen + " a " + destino + " con caudal máximo: " + caudalMax);
                 }
             }
             break;
@@ -422,6 +434,7 @@ public class TransporteDeAgua {
                     ClaveHashMap clave = new ClaveHashMap(origen, destino);
                     tuberiasMap.remove(clave);
                     System.out.println("La tuberia fue eliminada con exito");
+                    archivoLog.escribir("Se ha eliminado la tubería de " + origen + " a " + destino);
                 } else {
                     System.out.println("La tuberia no se encuentra en el sistema");
                 }
@@ -451,10 +464,16 @@ public class TransporteDeAgua {
                         tuberia.setEstado(sc.nextLine().charAt(0));
                         System.out.println("La tuberia fue modificada con exito");
                     }
+                    archivoLog.escribir("Se ha modificado la tubería de " + origen + " a " + destino + " con caudal máximo: " + tuberia.getCaudalMaximo());
                 } else {
                     System.out.println("La tuberia no se encuentra en el sistema");
                 }
-            }
+            }break;
+        }
+        } catch (FileNotFoundException ex) {
+            System.err.println("El archivo no existe.");
+        } catch (IOException ex) {
+            System.err.println("Error de lectura/escritura.");
         }
     }
 
