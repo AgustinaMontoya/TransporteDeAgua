@@ -293,7 +293,6 @@ public class TransporteDeAgua {
         System.out.println("Ingrese 2 si desea eliminar una ciudad");
         System.out.println("Ingrese 3 si desea modificar una ciudad");
         eleccion = sc.nextInt();
-        try{
         switch (eleccion) {
             
             case 1: {   //AÑADIR UNA NUEVA CIUDAD
@@ -377,12 +376,6 @@ public class TransporteDeAgua {
             }
             break;
         }
-        } catch (FileNotFoundException ex) {
-            System.err.println("El archivo no existe.");
-        } catch (IOException ex) {
-            System.err.println("Error de lectura/escritura.");
-        }
-    
     }
 
     public static void trabajarTuberias() {
@@ -394,7 +387,7 @@ public class TransporteDeAgua {
         System.out.println("Ingrese 2 si desea eliminar una tuberias");
         System.out.println("Ingrese 3 si desea modificar una tuberias");
         eleccion = sc.nextInt();
-        try{
+        
         switch (eleccion) {
             case 1: {   //AÑADIR UNA NUEVA TUBERIA
                 System.out.println("Ingrese el nombre de la ciudad de origen y destino de la tuberia");
@@ -470,11 +463,7 @@ public class TransporteDeAgua {
                 }
             }break;
         }
-        } catch (FileNotFoundException ex) {
-            System.err.println("El archivo no existe.");
-        } catch (IOException ex) {
-            System.err.println("Error de lectura/escritura.");
-        }
+        
     }
 
     //----------------------------------------------------------------------------------------------------------------//
