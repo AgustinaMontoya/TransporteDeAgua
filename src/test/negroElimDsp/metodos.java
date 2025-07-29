@@ -1,14 +1,7 @@
 package test.negroElimDsp;
-import main.TransporteDeAgua;
-import main.TransporteDeAgua.*;
-import clases.*;
-import estructuras.conjuntistas.ClaveHashMap;
-import estructuras.conjuntistas.TablaAVL;
 import estructuras.grafos.*;
 import estructuras.lineales.Lista;
 
-import java.time.YearMonth;
-import java.util.HashMap;
 
 
 
@@ -33,7 +26,8 @@ public class metodos {
         g.insertarVertice('J');
         g.insertarVertice('K');
         g.insertarVertice('L');
-
+        g.insertarVertice('W');
+        g.insertarVertice('P');
 
 
 
@@ -53,8 +47,10 @@ public class metodos {
         g.insertarArco('A','D',10);
         g.insertarArco('D','H',13);
         g.insertarArco('D','I',13);
-        g.insertarArco('H','K',10);
         g.insertarArco('I','L',7);
+
+
+        Lista masCorto= g.caminosPosibles('A','L');
 
 
 

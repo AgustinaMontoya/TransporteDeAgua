@@ -435,17 +435,17 @@ public class TablaAVL {
 
         if(n!=null) {
             if (elem1.compareTo(n.getClave()) == 0) {
-                rango.insertar(n, l + 1);
+                rango.insertar(n.getClave(), l + 1);
             } else if (elem1.compareTo(n.getClave()) < 0) {
                 listarRangoAux(n.getIzquierdo(), elem1, elem2, rango, l);
             }
 
             if (elem1.compareTo(n.getClave()) < 0 && elem2.compareTo(n.getClave()) > 0) {
-                rango.insertar(n, l + 1);
+                rango.insertar(n.getClave(), l + 1);
             }
 
             if(elem2.compareTo(n.getClave())==0){
-                rango.insertar(n, l + 1);
+                rango.insertar(n.getClave(), l + 1);
             }else if (elem2.compareTo(n.getClave()) > 0) {
                 listarRangoAux(n.getDerecho(), elem1, elem2, rango, l);
             }
