@@ -382,11 +382,6 @@ public class TransporteDeAgua {
         System.out.println("Ingrese 2 si desea eliminar una tuberias");
         System.out.println("Ingrese 3 si desea modificar una tuberias");
         eleccion = sc.nextInt();
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> 340106fff991fe5fc861f53ac1b39563104c9493
         switch (eleccion) {
             case 1: {   //AÑADIR UNA NUEVA TUBERIA
                 System.out.println("Ingrese el nombre de la ciudad de origen y destino de la tuberia");
@@ -460,15 +455,10 @@ public class TransporteDeAgua {
                 } else {
                     System.out.println("La tuberia no se encuentra en el sistema");
                 }
-<<<<<<< HEAD
-            }break;
-        }
-        
-=======
             }
             break;
         }
->>>>>>> 340106fff991fe5fc861f53ac1b39563104c9493
+        
     }
 
     //----------------------------------------------------------------------------------------------------------------//
