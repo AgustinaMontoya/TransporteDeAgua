@@ -14,6 +14,7 @@ import estructuras.conjuntistas.HeapMaximo;
 import estructuras.grafos.GrafoEtiquetado;
 import estructuras.conjuntistas.TablaAVL;
 import estructuras.lineales.Lista;
+import log.Log;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -32,6 +33,15 @@ public class TransporteDeAgua {
     private static final GrafoEtiquetado mapa = new GrafoEtiquetado();
     private static final HashMap<ClaveHashMap, Tuberia> tuberiasMap = new HashMap<>();
     private static final TablaAVL tablaCiudades = new TablaAVL();
+    public static Log archivoLog;
+
+    static {
+        try {
+            archivoLog = new Log();
+        } catch (IOException e) {
+            System.out.println("ERROR");
+        }
+    }
 
     // --------------------------------------------- MAIN --------------------------------------------- //
     public static void main(String[] args) {
@@ -515,7 +525,7 @@ public class TransporteDeAgua {
 
     private char obtenerEstado(Lista camino) {
 
-        Ciudad ciu1 =(Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(1));
+        Ciudad ciu1 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(1));
         Ciudad ciu2 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(2));
         ClaveHashMap clave;
         Tuberia tub;
@@ -540,32 +550,32 @@ public class TransporteDeAgua {
         } else if (camino.longitud() == 1) {
             clave = new ClaveHashMap(ciu1.getNomenclatura(), ciu2.getNomenclatura());
             tub = tuberiasMap.get(clave);
-            estado=tub.getEstado();
+            estado = tub.getEstado();
             System.out.println("El estado del camino es: " + estado);
         }
         return estado;
     }
 
-    public Lista caminoMasCortoConEstado(Object origen,Object destino) {
+    public Lista caminoMasCortoConEstado(Object origen, Object destino) {
 
-        Lista camino=new Lista();
+        Lista camino = new Lista();
 
-        if(!mapa.esVacio()){
-            Lista visitados=new Lista();
+        if (!mapa.esVacio()) {
+            Lista visitados = new Lista();
 
-            camino=mapa.recorridoCorto(origen,destino);
-            char estado=obtenerEstado(camino);
+            camino = mapa.recorridoCorto(origen, destino);
+            char estado = obtenerEstado(camino);
 
         }
         return camino;
     }
 
-    public Lista caminoDeMaximoCaudal(Object origen, Object destino,Object maximoCaudal) {
+    public Lista caminoDeMaximoCaudal(Object origen, Object destino, Object maximoCaudal) {
 
-        Lista posibles= new Lista();
+        Lista posibles = new Lista();
 
-        if(!mapa.esVacio()){
-            mapa.caminosPosibles(origen,destino,(Comparable)maximoCaudal);
+        if (!mapa.esVacio()) {
+            mapa.caminosPosibles(origen, destino, (Comparable) maximoCaudal);
         }
 
 
@@ -614,8 +624,8 @@ public class TransporteDeAgua {
         return consumoCiudades;
     }
 
-//-------------------------------------------SISTEMA--------------------------------------------------------------------
-    public static void sistema(){
+    //-------------------------------------------SISTEMA--------------------------------------------------------------------
+    public static void sistema() {
         System.out.println("Grafo de ciudades y tuberias: ");
         System.out.println(mapa.toString());
         System.out.println("Tabla de ciudades: ");
