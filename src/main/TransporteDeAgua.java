@@ -33,18 +33,10 @@ public class TransporteDeAgua {
     private static final GrafoEtiquetado mapa = new GrafoEtiquetado();
     private static final HashMap<ClaveHashMap, Tuberia> tuberiasMap = new HashMap<>();
     private static final TablaAVL tablaCiudades = new TablaAVL();
-    public static Log archivoLog;
-
-    static {
-        try {
-            archivoLog = new Log();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public static Log archivoLog = new Log();
 
     // --------------------------------------------- MAIN --------------------------------------------- //
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         archivoLog.escribir(">   PROGRAMA INICIALIZADO  <");
 
         // ------------------------------------------- VARIABLES ------------------------------------------ //
@@ -104,12 +96,19 @@ public class TransporteDeAgua {
                 break;
                 case 7: {
                     sistema();
+                    archivoLog.escribir("DEBUGGING"
+                            + "\nGrafo de ciudades y tuberias: \n"
+                            + mapa.toString()
+                            + "\nTabla de ciudades: \n"
+                            + tablaCiudades.toString()
+                            + "\nMapa de tuberias: \n"
+                            + tuberiasMap.toString());
                 }
 
                 break;
                 case 8: {
                     System.out.println("Saliendo del sistema...");
-                    archivoLog.escribir("PROGRAMA FINALIZADO.");
+                    archivoLog.escribir(">    PROGRAMA FINALIZADO <");
                 }
                 break;
                 default:
@@ -286,7 +285,7 @@ public class TransporteDeAgua {
 
     // --------------------------------------   MODIFICACION DE CIUDADES   -------------------------------------------//
 
-    public static void trabajarCiudades() throws IOException {
+    public static void trabajarCiudades() {
 
         Scanner sc = new Scanner(System.in);
         Ciudad cdad;
@@ -381,7 +380,7 @@ public class TransporteDeAgua {
         }
     }
 
-    public static void trabajarTuberias() throws IOException {
+    public static void trabajarTuberias() {
 
         Scanner sc = new Scanner(System.in);
         int eleccion;
@@ -471,7 +470,7 @@ public class TransporteDeAgua {
 
     //----------------------------------------------------------------------------------------------------------------//
 
-    public static void consultaCiudades(){
+    public static void consultaCiudades() {
 
         char linea;
         String ciudad;
@@ -480,10 +479,10 @@ public class TransporteDeAgua {
 
 
         System.out.println("Elija la opcion: " +
-                "\n A :Obtener la cantidad de habitantes y el volumen de agua distribuido de una ciudad, para un año y un mes determinado"+
+                "\n A :Obtener la cantidad de habitantes y el volumen de agua distribuido de una ciudad, para un año y un mes determinado" +
                 "\n B :Obtener todas las ciudades en un rango de dos ciudades, que su caudal consumido este entre dos volumenes, para un año y un mes determinado ");
         linea = sc.next().charAt(0);
-        switch (linea){
+        switch (linea) {
             case 'A': {
                 System.out.println("Ingrese el nombre de la ciudad a consultar");
                 ciudad = sc.nextLine();
@@ -496,23 +495,23 @@ public class TransporteDeAgua {
                 System.out.println("La el volumen de agua distribuido en la ciudad es: " + datos.recuperar(2).toString());
                 sc.next();
             }
-            case 'B':{
+            case 'B': {
                 String ciudad2;
-                double vol1,vol2;
+                double vol1, vol2;
                 System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
-                ciudad=sc.nextLine();
+                ciudad = sc.nextLine();
                 System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
-                ciudad2=sc.nextLine();
+                ciudad2 = sc.nextLine();
                 System.out.println("Ingrese el volumen 1");
-                vol1=sc.nextDouble();
+                vol1 = sc.nextDouble();
                 System.out.println("Ingrese el volumen 2");
-                vol2=sc.nextDouble();
+                vol2 = sc.nextDouble();
                 System.out.println("Ingrese el año a consultar");
                 anio = sc.nextInt();
                 System.out.println("Ingrese el mes a consultar");
                 mes = sc.nextInt();
 
-                Lista ciudades=ciudadesConVolumenDet(ciudad,ciudad2,vol1,vol2,anio,mes);
+                Lista ciudades = ciudadesConVolumenDet(ciudad, ciudad2, vol1, vol2, anio, mes);
                 ciudades.toString();
                 sc.next();
             }
@@ -521,58 +520,58 @@ public class TransporteDeAgua {
 
     }
 
-    public static void consultaTransporteAgua(){
+    public static void consultaTransporteAgua() {
 
         char linea;
         System.out.println("Elija la opcion: " +
-                "\n A :Obtener el camino de menor caudal entre 2 ciudades"+
-                "\n B :Obtener el camino entre 2 ciudades mas corto,y su estado"+
-                "\n C :Obtener el camino entre 2 ciudades de menor caudal,y que NO pase por una ciudad"+
+                "\n A :Obtener el camino de menor caudal entre 2 ciudades" +
+                "\n B :Obtener el camino entre 2 ciudades mas corto,y su estado" +
+                "\n C :Obtener el camino entre 2 ciudades de menor caudal,y que NO pase por una ciudad" +
                 "\n D :Obtener todos los caminos posibles entre 2 ciudades,que puedan transportar un caudal indicado");
         linea = sc.next().charAt(0);
-        switch (linea){
-            case'A':{
-                String ciudad,ciudad2;
+        switch (linea) {
+            case 'A': {
+                String ciudad, ciudad2;
                 System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
-                ciudad=sc.nextLine();
+                ciudad = sc.nextLine();
                 System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
-                ciudad2=sc.nextLine();
-                Lista ciudades=obtenerCaminoMenorCaudal(ciudad, ciudad2);
+                ciudad2 = sc.nextLine();
+                Lista ciudades = obtenerCaminoMenorCaudal(ciudad, ciudad2);
                 ciudades.toString();
                 sc.next();
             }
-            case 'B':{
-                String ciudad,ciudad2;
+            case 'B': {
+                String ciudad, ciudad2;
                 System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
-                ciudad=sc.nextLine();
+                ciudad = sc.nextLine();
                 System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
-                ciudad2=sc.nextLine();
-                Lista ciudades= caminoMasCortoConEstado(ciudad, ciudad2);
+                ciudad2 = sc.nextLine();
+                Lista ciudades = caminoMasCortoConEstado(ciudad, ciudad2);
                 ciudades.toString();
                 sc.next();
             }
-            case 'C':{
-                String ciudad,ciudad2,ciudadEvitar;
+            case 'C': {
+                String ciudad, ciudad2, ciudadEvitar;
                 System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
-                ciudad=sc.nextLine();
+                ciudad = sc.nextLine();
                 System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
-                ciudad2=sc.nextLine();
+                ciudad2 = sc.nextLine();
                 System.out.println("Ingrese el nombre de la ciudad por la que no se debe pasar");
-                ciudadEvitar=sc.nextLine();
-                Lista ciudades= mapa.obtenerCaminoSalteandoCiudad(ciudad,ciudad2,ciudadEvitar);
+                ciudadEvitar = sc.nextLine();
+                Lista ciudades = mapa.obtenerCaminoSalteandoCiudad(ciudad, ciudad2, ciudadEvitar);
                 ciudades.toString();
                 sc.next();
             }
-            case 'D':{
-                String ciudad,ciudad2;
+            case 'D': {
+                String ciudad, ciudad2;
                 double caudal;
                 System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
-                ciudad=sc.nextLine();
+                ciudad = sc.nextLine();
                 System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
-                ciudad2=sc.nextLine();
+                ciudad2 = sc.nextLine();
                 System.out.println("Ingrese el caudal maximo");
-                caudal=sc.nextDouble();
-                Lista ciudades= caminoDeMaximoCaudal(ciudad,ciudad2,caudal);
+                caudal = sc.nextDouble();
+                Lista ciudades = caminoDeMaximoCaudal(ciudad, ciudad2, caudal);
                 ciudades.toString();
                 sc.next();
             }
@@ -677,7 +676,7 @@ public class TransporteDeAgua {
         return estado;
     }
 
-    public static Lista caminoMasCortoConEstado(Object origen,Object destino) {
+    public static Lista caminoMasCortoConEstado(Object origen, Object destino) {
 
         Lista camino = new Lista();
 
@@ -691,7 +690,7 @@ public class TransporteDeAgua {
         return camino;
     }
 
-    public static Lista caminoDeMaximoCaudal(Object origen, Object destino,Object maximoCaudal) {
+    public static Lista caminoDeMaximoCaudal(Object origen, Object destino, Object maximoCaudal) {
 
         Lista posibles = new Lista();
 

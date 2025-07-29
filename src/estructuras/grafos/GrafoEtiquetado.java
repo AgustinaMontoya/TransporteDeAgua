@@ -525,11 +525,12 @@ public class GrafoEtiquetado {
             masChico.vaciar();
         }
 
-            if(vertices[0]!=null && vertices[1]!=null) {
+        if (vertices[0] != null && vertices[1] != null) {
             recorrerCamino(vertices[0], vertices[1], visitados, etiqueta, masChico);
-            if(masChico.longitud()<2) {
+            if (masChico.longitud() < 2) {
                 masChico.vaciar();
-            } }
+            }
+        }
         return masChico;
     }
 
@@ -578,7 +579,7 @@ public class GrafoEtiquetado {
         masChi.vaciar();
         int l = vis.longitud();
 
-        for (int i = 1; i < l+1; i++) {
+        for (int i = 1; i < l + 1; i++) {
             masChi.insertar(vis.recuperar(i), i);
         }
     }
@@ -587,28 +588,28 @@ public class GrafoEtiquetado {
 
         int l = vis.longitud();
 
-        for (int i = 1; i < l+1; i++) {
-            NodoVertice elem= (NodoVertice) vis.recuperar(i);
+        for (int i = 1; i < l + 1; i++) {
+            NodoVertice elem = (NodoVertice) vis.recuperar(i);
             System.out.println(elem.getElemento().toString());
         }
     }
 
-    public Lista recorridoCorto(Object origen, Object destino){
+    public Lista recorridoCorto(Object origen, Object destino) {
 
-        Lista camino= new Lista();
+        Lista camino = new Lista();
 
-        if(this.inicio!=null){
-            NodoVertice [] vertices= ubicarVertices(origen,destino);
-            Lista visitados= new Lista();
-            if(vertices[0]!=null && vertices[1]!=null) {
-                recorridoCortoAux(vertices[0],vertices[1],visitados,camino);
+        if (this.inicio != null) {
+            NodoVertice[] vertices = ubicarVertices(origen, destino);
+            Lista visitados = new Lista();
+            if (vertices[0] != null && vertices[1] != null) {
+                recorridoCortoAux(vertices[0], vertices[1], visitados, camino);
             }
         }
-        mostrar(camino);
+
         return camino;
     }
 
-    private void recorridoCortoAux(NodoVertice n, NodoVertice dest, Lista visitados,Lista camino) {
+    private void recorridoCortoAux(NodoVertice n, NodoVertice dest, Lista visitados, Lista camino) {
 
         NodoVertice vertice;
         NodoAdy arista;
@@ -620,11 +621,11 @@ public class GrafoEtiquetado {
                 arista = n.getPrimerAdy();
                 vertice = arista.getVertice();
 
-                if (vertice.equals(dest)  ) {
+                if (vertice.equals(dest)) {
                     visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                        if(visitados.longitud()<c || camino.esVacia()){
-                            rellenar(visitados, camino);
-                        }
+                    if (visitados.longitud() < c || camino.esVacia()) {
+                        rellenar(visitados, camino);
+                    }
                 }
                 recorridoCortoAux(vertice, dest, visitados, camino);
                 visitados.eliminar(visitados.longitud());
@@ -643,7 +644,7 @@ public class GrafoEtiquetado {
 
     }
 
-    public Lista obtenerCaminoSalteandoCiudad(Object elem1, Object elem2,Object nodoEvitar) {
+    public Lista obtenerCaminoSalteandoCiudad(Object elem1, Object elem2, Object nodoEvitar) {
 
         Lista masChico = new Lista();
 
@@ -652,10 +653,10 @@ public class GrafoEtiquetado {
         masChico.insertar(etiqueta[0], 1);
         Lista visitados = new Lista();
 
-        if(vertices[0]!=null && vertices[1]!=null) {
+        if (vertices[0] != null && vertices[1] != null) {
 
-            recorrerCaminoSalteado(vertices[0], vertices[1],nodoEvitar, visitados, etiqueta, masChico);
-            if(masChico.longitud()<2) {
+            recorrerCaminoSalteado(vertices[0], vertices[1], nodoEvitar, visitados, etiqueta, masChico);
+            if (masChico.longitud() < 2) {
                 masChico.vaciar();
             }
             masChico.eliminar(masChico.longitud());
@@ -663,7 +664,7 @@ public class GrafoEtiquetado {
         return masChico;
     }
 
-    private void recorrerCaminoSalteado(NodoVertice n, NodoVertice dest,Object evitar, Lista visitados, Comparable[] etiqueta, Lista masChico) {
+    private void recorrerCaminoSalteado(NodoVertice n, NodoVertice dest, Object evitar, Lista visitados, Comparable[] etiqueta, Lista masChico) {
 
         NodoVertice vertice;
         NodoAdy arista;
@@ -683,13 +684,13 @@ public class GrafoEtiquetado {
                         if (etiqueta[0].compareTo(etiquetaChica) < 0) {
 
                             visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                            mostrar(visitados);
+
                             rellenar(visitados, masChico);
                             masChico.insertar(etiqueta[0], masChico.longitud() + 1);
 
                         }
                     }
-                    recorrerCaminoSalteado(vertice, dest,evitar, visitados, etiqueta, masChico);
+                    recorrerCaminoSalteado(vertice, dest, evitar, visitados, etiqueta, masChico);
                     visitados.eliminar(visitados.longitud());
 
                     while (arista != null) {
@@ -698,7 +699,7 @@ public class GrafoEtiquetado {
                             if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
                                 etiqueta[0] = arista.getEtiqueta();
                             }
-                            recorrerCaminoSalteado(arista.getVertice(), dest,evitar, visitados, etiqueta, masChico);
+                            recorrerCaminoSalteado(arista.getVertice(), dest, evitar, visitados, etiqueta, masChico);
                             visitados.eliminar(visitados.longitud());
                         }
                     }
@@ -708,16 +709,16 @@ public class GrafoEtiquetado {
         }
     }
 
-    public Lista caminosPosibles(Object origen,Object destino,Comparable valor){
+    public Lista caminosPosibles(Object origen, Object destino, Comparable valor) {
 
         Lista posibles = new Lista();
 
-        if(this.inicio!=null){
-            NodoVertice [] vertices= ubicarVertices(origen,destino);
-            Lista visitados= new Lista();
-            Comparable [] etiqueta= {9999};
-            if(vertices[0]!=null && vertices[1]!=null) {
-                caminosPosiblesAux(vertices[0],vertices[1],etiqueta,valor,visitados,posibles);
+        if (this.inicio != null) {
+            NodoVertice[] vertices = ubicarVertices(origen, destino);
+            Lista visitados = new Lista();
+            Comparable[] etiqueta = {9999};
+            if (vertices[0] != null && vertices[1] != null) {
+                caminosPosiblesAux(vertices[0], vertices[1], etiqueta, valor, visitados, posibles);
             }
         }
         mostrarPosibles(posibles);
@@ -725,9 +726,7 @@ public class GrafoEtiquetado {
     }
 
 
-
-
-    private void caminosPosiblesAux(NodoVertice n, NodoVertice dest,Comparable[] etiqueta,Comparable valor,Lista visitados,Lista posibles) {
+    private void caminosPosiblesAux(NodoVertice n, NodoVertice dest, Comparable[] etiqueta, Comparable valor, Lista visitados, Lista posibles) {
 
         NodoVertice vertice;
         NodoAdy arista;
@@ -742,15 +741,15 @@ public class GrafoEtiquetado {
                 if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
                     etiqueta[0] = arista.getEtiqueta();
                 }
-                if (vertice.equals(dest)  ) {
+                if (vertice.equals(dest)) {
                     visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                        Lista aux=new Lista();
-                        rellenar(visitados, aux);
+                    Lista aux = new Lista();
+                    rellenar(visitados, aux);
                     if (etiqueta[0].compareTo(valor) < 0) {
                         posibles.insertar(aux, posibles.longitud() + 1);
                     }
                 }
-                caminosPosiblesAux(vertice, dest ,etiqueta,valor, visitados, posibles);
+                caminosPosiblesAux(vertice, dest, etiqueta, valor, visitados, posibles);
                 visitados.eliminar(visitados.longitud());
 
                 while (arista != null) {
@@ -759,7 +758,7 @@ public class GrafoEtiquetado {
                         if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
                             etiqueta[0] = arista.getEtiqueta();
                         }
-                        caminosPosiblesAux(arista.getVertice(), dest,etiqueta,valor, visitados, posibles);
+                        caminosPosiblesAux(arista.getVertice(), dest, etiqueta, valor, visitados, posibles);
                         visitados.eliminar(visitados.longitud());
                     }
                 }
@@ -768,18 +767,18 @@ public class GrafoEtiquetado {
         }
     }
 
-    public void mostrarPosibles(Lista posibles){
+    public void mostrarPosibles(Lista posibles) {
 
         Lista vis;
 
-        int p=posibles.longitud();
+        int p = posibles.longitud();
 
-        for (int i = 1; i < p+1; i++) {
-            vis= (Lista) posibles.recuperar(i);
-            System.out.print("lista :"+i+" ");
+        for (int i = 1; i < p + 1; i++) {
+            vis = (Lista) posibles.recuperar(i);
+            System.out.print("lista :" + i + " ");
             for (int j = 1; j < vis.longitud() + 1; j++) {
                 NodoVertice elem = (NodoVertice) vis.recuperar(j);
-                System.out.print(elem.getElemento().toString()+" ");
+                System.out.print(elem.getElemento().toString() + " ");
             }
             vis.eliminar(i);
         }

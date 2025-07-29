@@ -30,7 +30,7 @@ public class Log {
         try {
             Date fecha = new Date();
             escritor = new FileWriter(archivo, true);
-            escritor.write("[" + fecha + "]" + texto + "\n");
+            escritor.write("[" + fecha + "]\t" + texto + "\n");
             escritor.close();
         } catch (IOException e) {
             throw new RuntimeException("[LOG] Error de escritura.");

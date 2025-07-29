@@ -107,7 +107,9 @@ public class TestGrafos {
         System.out.println("-----------------------------------------------------------------------"
                 + "\n\tMÉTODO CAMINO MÁS CORTO"
                 + "\n" + grafoDos.caminoMasCorto("A", "F")
+                + "\n" + grafoDos.recorridoCorto("A", "F")
                 + "\n" + grafoUno.caminoMasCorto("A", "D")
+                + "\n" + grafoUno.recorridoCorto("A", "D")
         );
         System.out.println("-----------------------------------------------------------------------"
                 + "\n\tMÉTODO CAMINO MÁS LARGO"
