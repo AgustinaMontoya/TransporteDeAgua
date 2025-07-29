@@ -1,14 +1,13 @@
 /*
- *-------------------Autores-----------------
- * - Denis Agustin Albornoz, Legajo FAI-3383
- *   Agustina Magali Montoya, Legajo FAI-4525
- *   Facundo Diego Tosetto, Legajo FAI-4354
- --------------------------------------------
+    ----------------- AUTORES -----------------
+    Denis Agustin Albornoz, Legajo FAI-3383
+    Agustina Magali Montoya, Legajo FAI-4525
+    Facundo Diego Tosetto, Legajo FAI-4354
+    -------------------------------------------
  */
 package estructuras.conjuntistas;
 
 import estructuras.lineales.Lista;
-import estructuras.lineales.Nodo;
 
 public class ArbolAVL {
 
@@ -57,7 +56,6 @@ public class ArbolAVL {
 
         return exito;
     }
-
 
     private boolean insertarAux(NodoAVL n, Comparable elemento, NodoAVL[] rebalanceo) {
         boolean exito = true;
@@ -138,7 +136,6 @@ public class ArbolAVL {
         return retorno;
     }
 
-
     private NodoAVL rotacionAIzquierda(NodoAVL n) {
         NodoAVL retorno;
 
@@ -187,7 +184,6 @@ public class ArbolAVL {
         n.recalcularAltura();
     }
 
-
     public int obtenerBalance(NodoAVL n) {
         int altIzq = -1, altDer = -1;
 
@@ -200,7 +196,6 @@ public class ArbolAVL {
 
         return (altIzq - altDer);
     }
-
 
     public boolean eliminar(Comparable elemento) {
         boolean exito = false;
@@ -218,7 +213,6 @@ public class ArbolAVL {
         }
         return exito;
     }
-
 
     private NodoAVL eliminarAux(NodoAVL n, Comparable elemento, boolean[] indicador, NodoAVL[] rebalanceo) {
         NodoAVL aux = n;
@@ -343,7 +337,6 @@ public class ArbolAVL {
         return this.raiz == null;
     }
 
-
     public Lista listarRango(Comparable elem1,Comparable elem2){
 
         Lista rango=new Lista();
@@ -375,9 +368,6 @@ public class ArbolAVL {
             }
         }
     }
-
-
-
 
     public String toString() {
         String cad = "Arbol vacio";

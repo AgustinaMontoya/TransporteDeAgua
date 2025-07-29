@@ -1,9 +1,9 @@
 /*
- *-------------------Autores-----------------
- * - Denis Agustin Albornoz, Legajo FAI-3383
- *   Agustina Magali Montoya, Legajo FAI-4525
- *   Facundo Diego Tosetto, Legajo FAI-4354
- --------------------------------------------
+    ----------------- AUTORES -----------------
+    Denis Agustin Albornoz, Legajo FAI-3383
+    Agustina Magali Montoya, Legajo FAI-4525
+    Facundo Diego Tosetto, Legajo FAI-4354
+    -------------------------------------------
  */
 
 package estructuras.grafos;
@@ -295,8 +295,8 @@ public class GrafoEtiquetado {
         if (ori.getElemento().equals(destino)) {
             //encontro el destino, no sigue llamando
             if (camino.esVacia() || camino.longitud() > visitados.longitud()) {
-                camino=visitados.clone();
-                camino.insertar(destino, camino.longitud()+1);
+                camino = visitados.clone();
+                camino.insertar(destino, camino.longitud() + 1);
             }
         } else {
             visitados.insertar(ori.getElemento(), visitados.longitud() + 1);
@@ -508,7 +508,6 @@ public class GrafoEtiquetado {
             Lista visitados = new Lista();
             camino = caminoMasCortoAux(this.inicio, vertices[1], camino, visitados);
         }
-
         return camino;
     }
 
@@ -516,10 +515,15 @@ public class GrafoEtiquetado {
 
         Lista masChico = new Lista();
 
-            NodoVertice[] vertices = ubicarVertices(elem1, elem2);
-            Comparable[] etiqueta = {999999};
-            masChico.insertar(etiqueta[0], 1);
-            Lista visitados = new Lista();
+        NodoVertice[] vertices = ubicarVertices(elem1, elem2);
+        Comparable[] etiqueta = {999999};
+        masChico.insertar(etiqueta[0], 1);
+        Lista visitados = new Lista();
+
+        recorrerCamino(vertices[0], vertices[1], visitados, etiqueta, masChico);
+        if (masChico.longitud() < 2) {
+            masChico.vaciar();
+        }
 
             if(vertices[0]!=null && vertices[1]!=null) {
             recorrerCamino(vertices[0], vertices[1], visitados, etiqueta, masChico);

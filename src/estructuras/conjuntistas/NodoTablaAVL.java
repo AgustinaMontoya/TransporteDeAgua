@@ -1,3 +1,10 @@
+/*
+    ----------------- AUTORES -----------------
+    Denis Agustin Albornoz, Legajo FAI-3383
+    Agustina Magali Montoya, Legajo FAI-4525
+    Facundo Diego Tosetto, Legajo FAI-4354
+    -------------------------------------------
+ */
 package estructuras.conjuntistas;
 
 public class NodoTablaAVL {
@@ -13,68 +20,69 @@ public class NodoTablaAVL {
 
     //CONSTRUCTOR
 
-    public NodoTablaAVL(Comparable cla,Object da, NodoTablaAVL izq, NodoTablaAVL der) {
+    public NodoTablaAVL(Comparable cla, Object da, NodoTablaAVL izq, NodoTablaAVL der) {
         this.clave = cla;
         this.dato = da;
-        this.izquierdo= izq;
-        this.derecho= der;
-        altura=0;
+        this.izquierdo = izq;
+        this.derecho = der;
+        altura = 0;
     }
 
-    public NodoTablaAVL(Comparable cla){
+    public NodoTablaAVL(Comparable cla) {
         this.clave = cla;
         this.dato = null;
         this.izquierdo = null;
         this.derecho = null;
-        altura=0;
+        altura = 0;
     }
 
-    public Comparable getClave(){
+    public Comparable getClave() {
         return this.clave;
     }
 
-    public void setClave(Comparable cla){
-        this.clave=cla;
+    public void setClave(Comparable cla) {
+        this.clave = cla;
     }
 
-    public Object getDato(){return this.dato;}
+    public Object getDato() {
+        return this.dato;
+    }
 
-    public void setDato(Object da){this.dato=da;}
+    public void setDato(Object da) {
+        this.dato = da;
+    }
 
-
-    public int getAltura(){
+    public int getAltura() {
         return this.altura;
     }
 
-    public void recalcularAltura(){
-        int altIzq=-1, altDer=-1;
+    public void recalcularAltura() {
+        int altIzq = -1, altDer = -1;
 
-        if(this.getIzquierdo()!=null){
+        if (this.getIzquierdo() != null) {
             altIzq = this.getIzquierdo().getAltura();
         }
-        if(this.getDerecho()!=null){
+        if (this.getDerecho() != null) {
             altDer = this.getDerecho().getAltura();
         }
 
-        this.altura = Math.max(altIzq, altDer)+1;
+        this.altura = Math.max(altIzq, altDer) + 1;
 
     }
 
-    public NodoTablaAVL getIzquierdo(){
+    public NodoTablaAVL getIzquierdo() {
         return this.izquierdo;
     }
 
-    public void setIzquierdo(NodoTablaAVL izq){
-        this.izquierdo=izq;
+    public void setIzquierdo(NodoTablaAVL izq) {
+        this.izquierdo = izq;
     }
 
-
-    public NodoTablaAVL getDerecho(){
+    public NodoTablaAVL getDerecho() {
         return this.derecho;
     }
 
-    public void setDerecho(NodoTablaAVL der){
-        this.derecho=der;
+    public void setDerecho(NodoTablaAVL der) {
+        this.derecho = der;
     }
-
 }

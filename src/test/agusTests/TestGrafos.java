@@ -1,4 +1,4 @@
-package test.estructuras;
+package test.agusTests;
 
 import estructuras.grafos.*;
 

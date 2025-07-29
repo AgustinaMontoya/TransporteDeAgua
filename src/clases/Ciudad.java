@@ -1,9 +1,9 @@
 /*
- *-------------------Autores-----------------
- * - Denis Agustin Albornoz, Legajo FAI-3383
- *   Agustina Magali Montoya, Legajo FAI-4525
- *   Facundo Diego Tosetto, Legajo FAI-4354
- --------------------------------------------
+    ----------------- AUTORES -----------------
+    Denis Agustin Albornoz, Legajo FAI-3383
+    Agustina Magali Montoya, Legajo FAI-4525
+    Facundo Diego Tosetto, Legajo FAI-4354
+    -------------------------------------------
  */
 package clases;
 
@@ -11,11 +11,9 @@ public class Ciudad {
     // ---------------------------------------- ATRIBUTOS ---------------------------------------- //
     private final String nombre;  // Nombre de la ciudad
     private double superficie;
-
-    private int [][] cantHabitantes = new int[10][13]; // Cantidad de habitantes por mes en un año
+    private int[][] cantHabitantes = new int[11][13]; // Cantidad de habitantes por mes en un año
     private Comparable nomenclatura;    // Formato CI1234
-
-    private double consumoProm; // Consumo promedio de metros cubicos por persona por dia
+    private double consumoProm; // Consumo promedio de metros cubicos por persona
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
     public Ciudad(String nn, double sp, Comparable nc, double m3) {
@@ -91,6 +89,26 @@ public class Ciudad {
         return consumoProm;
     }
 
+    /*
+        Obtiene el consumo en un año dado.
+     */
+    public double getConsumoAnual(int anio) {
+        double consumo = 0;
+        boolean salir = false;
+        int fil = 0, col;
+        while (fil <= 10 && !salir) {
+            if (cantHabitantes[fil][0] == anio) {
+                for (col = 1; col < 13; col++) {
+                    consumo += cantHabitantes[fil][col] * consumoProm;
+                }
+                salir = true;
+            } else {
+                fil++;
+            }
+        }
+        return consumo;
+    }
+
     public boolean equals(Ciudad otraCiudad) {
         return this.nombre.equals(otraCiudad.nombre);
     }
@@ -99,11 +117,6 @@ public class Ciudad {
     public String toString() {
         return "Ciudad: " + nombre + ", Nomenclatura: " + nomenclatura +
                 ", Superficie: " + superficie + ", Consumo: " + consumoProm;
-    }
-
-    public static Ciudad parseCiudad(String nextToken) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'parseCiudad'");
     }
 
     /*

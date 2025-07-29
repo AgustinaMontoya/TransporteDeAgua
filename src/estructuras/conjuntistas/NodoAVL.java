@@ -1,9 +1,9 @@
 /*
- *-------------------Autores-----------------
- * - Denis Agustin Albornoz, Legajo FAI-3383
- *   Agustina Magali Montoya, Legajo FAI-4525
- *   Facundo Diego Tosetto, Legajo FAI-4354
- --------------------------------------------
+    ----------------- AUTORES -----------------
+    Denis Agustin Albornoz, Legajo FAI-3383
+    Agustina Magali Montoya, Legajo FAI-4525
+    Facundo Diego Tosetto, Legajo FAI-4354
+    -------------------------------------------
  */
 
 package estructuras.conjuntistas;
@@ -22,56 +22,55 @@ public class NodoAVL {
 
     public NodoAVL(Comparable elem, NodoAVL izq, NodoAVL der) {
         this.elem = elem;
-        this.izquierdo= izq;
-        this.derecho= der;
-        altura=0;
+        this.izquierdo = izq;
+        this.derecho = der;
+        altura = 0;
     }
 
-    public Comparable getElem(){
+    public Comparable getElem() {
         return this.elem;
     }
 
-    public void setElem(Comparable elem){
-        this.elem=elem;
+    public void setElem(Comparable elem) {
+        this.elem = elem;
     }
 
 
-    public int getAltura(){
+    public int getAltura() {
         return this.altura;
     }
 
-    public void recalcularAltura(){
-        int altIzq=-1, altDer=-1;
+    public void recalcularAltura() {
+        int altIzq = -1, altDer = -1;
 
-        if(this.getIzquierdo()!=null){
+        if (this.getIzquierdo() != null) {
             altIzq = this.getIzquierdo().getAltura();
         }
-        if(this.getDerecho()!=null){
+        if (this.getDerecho() != null) {
             altDer = this.getDerecho().getAltura();
         }
 
-        this.altura = Math.max(altIzq, altDer)+1;
+        this.altura = Math.max(altIzq, altDer) + 1;
 
     }
 
 
-    public NodoAVL getIzquierdo(){
+    public NodoAVL getIzquierdo() {
         return this.izquierdo;
     }
 
-    public void setIzquierdo(NodoAVL izq){
-        this.izquierdo=izq;
+    public void setIzquierdo(NodoAVL izq) {
+        this.izquierdo = izq;
     }
 
 
-    public NodoAVL getDerecho(){
+    public NodoAVL getDerecho() {
         return this.derecho;
     }
 
-    public void setDerecho(NodoAVL der){
-        this.derecho=der;
+    public void setDerecho(NodoAVL der) {
+        this.derecho = der;
     }
-
 
 
 }

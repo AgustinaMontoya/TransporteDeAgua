@@ -1,5 +1,11 @@
+/*
+    ----------------- AUTORES -----------------
+    Denis Agustin Albornoz, Legajo FAI-3383
+    Agustina Magali Montoya, Legajo FAI-4525
+    Facundo Diego Tosetto, Legajo FAI-4354
+    -------------------------------------------
+ */
 package estructuras.conjuntistas;
-
 
 import estructuras.lineales.Lista;
 
@@ -43,21 +49,21 @@ public class TablaAVL {
         return encontrado;
     }
 
-    public boolean insertar(Comparable clave, Object dato ) {
+    public boolean insertar(Comparable clave, Object dato) {
         boolean exito = true;
-        NodoTablaAVL [] rebalanceo = new NodoTablaAVL[1];
+        NodoTablaAVL[] rebalanceo = new NodoTablaAVL[1];
         if (this.raiz == null) {
-            this.raiz = new NodoTablaAVL(clave,dato, null, null);
+            this.raiz = new NodoTablaAVL(clave, dato, null, null);
             this.raiz.recalcularAltura();
         } else {
-            exito = insertarAux(this.raiz, clave,dato, rebalanceo);
+            exito = insertarAux(this.raiz, clave, dato, rebalanceo);
         }
 
         return exito;
     }
 
 
-    private boolean insertarAux(NodoTablaAVL n, Comparable clave,Object dato, NodoTablaAVL [] rebalanceo) {
+    private boolean insertarAux(NodoTablaAVL n, Comparable clave, Object dato, NodoTablaAVL[] rebalanceo) {
         boolean exito = true;
 
 
@@ -67,7 +73,7 @@ public class TablaAVL {
         } else if (clave.compareTo(n.getClave()) < 0) {
             // Elemento menor -> va a la izquierda
             if (n.getIzquierdo() != null) {
-                exito = insertarAux(n.getIzquierdo(),clave,dato, rebalanceo);
+                exito = insertarAux(n.getIzquierdo(), clave, dato, rebalanceo);
                 n.setIzquierdo(rebalanceo[0]);
                 n.recalcularAltura();
                 int balance = obtenerBalance(n);
@@ -82,7 +88,7 @@ public class TablaAVL {
                 }
                 n.recalcularAltura();
             } else {
-                n.setIzquierdo(new NodoTablaAVL(clave,dato, null, null));
+                n.setIzquierdo(new NodoTablaAVL(clave, dato, null, null));
                 n.recalcularAltura();
                 rebalanceo[0] = n;
             }
@@ -102,7 +108,7 @@ public class TablaAVL {
                     rebalanceo[0] = n;
                 }
             } else {
-                n.setDerecho(new NodoTablaAVL(clave, dato , null, null));
+                n.setDerecho(new NodoTablaAVL(clave, dato, null, null));
                 n.recalcularAltura();
                 rebalanceo[0] = n;
             }
@@ -199,7 +205,6 @@ public class TablaAVL {
         return (altIzq - altDer);
     }
 
-
     public boolean eliminar(Comparable elemento) {
         boolean exito = false;
         if (this.raiz != null) {
@@ -209,7 +214,7 @@ public class TablaAVL {
                 exito = true;
             } else {
                 boolean[] eliminado = {false};
-                NodoTablaAVL [] rebalanceo = new NodoTablaAVL[1];
+                NodoTablaAVL[] rebalanceo = new NodoTablaAVL[1];
                 eliminarAux(n, elemento, eliminado, rebalanceo);
                 exito = eliminado[0];
             }
@@ -217,8 +222,7 @@ public class TablaAVL {
         return exito;
     }
 
-
-    private NodoTablaAVL eliminarAux(NodoTablaAVL n, Comparable elemento, boolean[] indicador, NodoTablaAVL [] rebalanceo) {
+    private NodoTablaAVL eliminarAux(NodoTablaAVL n, Comparable elemento, boolean[] indicador, NodoTablaAVL[] rebalanceo) {
         NodoTablaAVL aux = n;
 
         if (n != null) {
@@ -314,7 +318,7 @@ public class TablaAVL {
         return aux;
     }
 
-    private NodoTablaAVL obtenerCandidato(NodoTablaAVL n, NodoTablaAVL [] rebalanceo) {
+    private NodoTablaAVL obtenerCandidato(NodoTablaAVL n, NodoTablaAVL[] rebalanceo) {
         NodoTablaAVL aux = n;
 
         if (n.getDerecho() != null) {
@@ -346,21 +350,21 @@ public class TablaAVL {
         return this.raiz == null;
     }
 
-    public Object obtenerDato(Comparable cla){
+    public Object obtenerDato(Comparable cla) {
 
-        Object dato=null;
-
-        if(this.raiz!=null){
-            dato=obtenerDatoAux(this.raiz,cla);
+        Object dato = null;
+        // agregue  && cla != null
+        if (this.raiz != null && cla != null) {
+            dato = obtenerDatoAux(this.raiz, cla);
         }
         return dato;
     }
 
-    private Object obtenerDatoAux(NodoTablaAVL n, Comparable cla){
+    private Object obtenerDatoAux(NodoTablaAVL n, Comparable cla) {
 
-        Object dato=null;
+        Object dato = null;
 
-        if(n!=null) {
+        if (n != null) {
             if (cla.compareTo(n.getClave()) == 0) {
                 dato = n.getDato();
             } else {
@@ -374,66 +378,66 @@ public class TablaAVL {
         return dato;
     }
 
-    public Lista listarClaves(){
+    public Lista listarClaves() {
 
         Lista lista = new Lista();
 
-        if(this.raiz!=null){
-            listarClavesAux(this.raiz,lista);
+        if (this.raiz != null) {
+            listarClavesAux(this.raiz, lista);
         }
         return lista;
     }
 
     private void listarClavesAux(NodoTablaAVL n, Lista lis) {
 
-        if(n.getIzquierdo()!=null){
-            listarClavesAux(n.getIzquierdo(),lis);
+        if (n.getIzquierdo() != null) {
+            listarClavesAux(n.getIzquierdo(), lis);
         }
 
-        lis.insertar(n.getClave(),lis.longitud()+1);
+        lis.insertar(n.getClave(), lis.longitud() + 1);
 
-        if(n.getDerecho()!=null){
-            listarClavesAux(n.getDerecho(),lis);
+        if (n.getDerecho() != null) {
+            listarClavesAux(n.getDerecho(), lis);
         }
     }
 
-    public Lista listarDatos(){
+    public Lista listarDatos() {
 
         Lista lista = new Lista();
 
-        if(this.raiz!=null){
-            listarDatosAux(this.raiz,lista);
+        if (this.raiz != null) {
+            listarDatosAux(this.raiz, lista);
         }
         return lista;
     }
 
     private void listarDatosAux(NodoTablaAVL n, Lista lis) {
 
-        if(n.getIzquierdo()!=null){
-            listarDatosAux(n.getIzquierdo(),lis);
+        if (n.getIzquierdo() != null) {
+            listarDatosAux(n.getIzquierdo(), lis);
         }
 
-        lis.insertar(n.getDato(),lis.longitud()+1);
+        lis.insertar(n.getDato(), lis.longitud() + 1);
 
-        if(n.getDerecho()!=null){
-            listarDatosAux(n.getDerecho(),lis);
+        if (n.getDerecho() != null) {
+            listarDatosAux(n.getDerecho(), lis);
         }
     }
 
-    public Lista listarRango(Comparable elem1,Comparable elem2){
+    public Lista listarRango(Comparable elem1, Comparable elem2) {
 
-        Lista rango=new Lista();
+        Lista rango = new Lista();
 
-        if(this.raiz!=null){
-            listarRangoAux(this.raiz,elem1,elem2,rango,rango.longitud());
+        if (this.raiz != null) {
+            listarRangoAux(this.raiz, elem1, elem2, rango, rango.longitud());
         }
 
         return rango;
     }
 
-    private void listarRangoAux(NodoTablaAVL n,Comparable elem1,Comparable elem2,Lista rango,int l){
+    private void listarRangoAux(NodoTablaAVL n, Comparable elem1, Comparable elem2, Lista rango, int l) {
 
-        if(n!=null) {
+        if (n != null) {
             if (elem1.compareTo(n.getClave()) == 0) {
                 rango.insertar(n.getClave(), l + 1);
             } else if (elem1.compareTo(n.getClave()) < 0) {
@@ -444,9 +448,9 @@ public class TablaAVL {
                 rango.insertar(n.getClave(), l + 1);
             }
 
-            if(elem2.compareTo(n.getClave())==0){
+            if (elem2.compareTo(n.getClave()) == 0) {
                 rango.insertar(n.getClave(), l + 1);
-            }else if (elem2.compareTo(n.getClave()) > 0) {
+            } else if (elem2.compareTo(n.getClave()) > 0) {
                 listarRangoAux(n.getDerecho(), elem1, elem2, rango, l);
             }
         }
@@ -461,7 +465,7 @@ public class TablaAVL {
         return cad;
     }
 
-    private String toStringAux( NodoTablaAVL n) {
+    private String toStringAux(NodoTablaAVL n) {
         String cad = "";
         if (n != null) {
             cad += "(" + n.getClave() + ") -> ";
@@ -480,6 +484,4 @@ public class TablaAVL {
         }
         return cad;
     }
-
-
 }

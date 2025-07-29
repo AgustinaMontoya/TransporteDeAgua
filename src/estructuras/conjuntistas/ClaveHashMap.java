@@ -1,3 +1,10 @@
+/*
+    ----------------- AUTORES -----------------
+    Denis Agustin Albornoz, Legajo FAI-3383
+    Agustina Magali Montoya, Legajo FAI-4525
+    Facundo Diego Tosetto, Legajo FAI-4354
+    -------------------------------------------
+ */
 package estructuras.conjuntistas;
 
 public class ClaveHashMap {
@@ -12,6 +19,7 @@ public class ClaveHashMap {
     public Comparable getOrigen() {
         return nom1;
     }
+
     public Comparable getDestino() {
         return nom2;
     }
@@ -29,10 +37,10 @@ public class ClaveHashMap {
         return resultado;
     }
 
-   
     public int hashCode() {
         return nom1.hashCode() * 31 + nom2.hashCode();
     }
+
     public String toString() {
         return nom1 + " -> " + nom2;
     }

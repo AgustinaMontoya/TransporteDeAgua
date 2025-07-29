@@ -1,18 +1,19 @@
 /*
- *-------------------Autores-----------------
- * - Denis Agustin Albornoz, Legajo FAI-3383
- *   Agustina Magali Montoya, Legajo FAI-4525
- *   Facundo Diego Tosetto, Legajo FAI-4354
- --------------------------------------------
+    ----------------- AUTORES -----------------
+    Denis Agustin Albornoz, Legajo FAI-3383
+    Agustina Magali Montoya, Legajo FAI-4525
+    Facundo Diego Tosetto, Legajo FAI-4354
+    -------------------------------------------
  */
 
 package main;
 
 import clases.*;
 import estructuras.conjuntistas.ClaveHashMap;
+import estructuras.conjuntistas.HeapMaximo;
 import estructuras.grafos.GrafoEtiquetado;
-import estructuras.conjuntistas.ArbolAVL;
 import estructuras.conjuntistas.TablaAVL;
+import estructuras.lineales.Lista;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,9 +23,6 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import estructuras.conjuntistas.TablaAVL;
-import estructuras.lineales.Lista;
 
 public class TransporteDeAgua {
 
@@ -50,15 +48,16 @@ public class TransporteDeAgua {
                 case 0: {
                     cargarCiudades();
                     cargarTuberias();
+                    cargarHabitantes();
                 }
                 break;
                 case 1: {
-                    //trabajarCiudades();
+                    trabajarCiudades();
                 }
                 break;
 
                 case 2: {
-                    //trabajarTuberias();
+                    trabajarTuberias();
                 }
 
                 break;
@@ -82,12 +81,16 @@ public class TransporteDeAgua {
 
                 break;
                 case 6: {
-                    //listadoConsumo();
+                    System.out.println("----------------------------------------------------------------------------");
+                    System.out.println("Ingrese el año:");
+                    anio = sc.nextInt();
+                    Lista lis = consumoDeAguaAnual(anio);
+                    System.out.println(lis);
                 }
 
                 break;
                 case 7: {
-                    //sistema();
+                    sistema();
                 }
 
                 break;
@@ -119,17 +122,18 @@ public class TransporteDeAgua {
                 + "\n----------------------------------------------------------------------------");
     }
 
+    // ----------------------------------------------- CARGA DE DATOS -----------------------------------------------//
     public static void cargarCiudades() {
         try {
-            FileReader archivo = new FileReader("src/textos/ciudades.txt");
+            FileReader archivo = new FileReader("src/recursos/ciudades.txt");
             BufferedReader bf = new BufferedReader(archivo);
             String linea;
+            Comparable nomenclatura;
+            String nombre;
+            double superficie, consumo;
+            Ciudad ciudad;
             while ((linea = bf.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(linea, ",");
-                Comparable nomenclatura;
-                String nombre;
-                double superficie, consumo;
-                Ciudad ciudad;
                 nombre = st.nextToken().toUpperCase();
                 // Le agrego el upperCase para cuando se ingrese un nombre por teclado coincida
                 nomenclatura = st.nextToken().toUpperCase();
@@ -137,7 +141,7 @@ public class TransporteDeAgua {
                 consumo = Double.parseDouble(st.nextToken());
                 ciudad = new Ciudad(nombre, superficie, nomenclatura, consumo);
                 mapa.insertarVertice(ciudad.getNomenclatura());
-                tablaCiudades.insertar(ciudad.getNomenclatura(), ciudad);
+                tablaCiudades.insertar(ciudad.getNombre(), ciudad);
             }
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queriamos leer no existe.");
@@ -155,12 +159,11 @@ public class TransporteDeAgua {
             System.out.println("La ciudad no se encuentra en el sistema.");
         }
         return ciudad;
-
     }
 
     public static void cargarTuberias() {
         try {
-            FileReader archivo = new FileReader("src/textos/tuberias.txt");
+            FileReader archivo = new FileReader("src/recursos/tuberias.txt");
             BufferedReader bf = new BufferedReader(archivo);
             String linea;
             while ((linea = bf.readLine()) != null) {
@@ -188,7 +191,33 @@ public class TransporteDeAgua {
         }
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    public static void cargarHabitantes() {
+        try {
+            FileReader archivo = new FileReader("src/recursos/CantidadHabitantesPorCiudad.txt");
+            BufferedReader bf = new BufferedReader(archivo);
+            String linea, nombre;
+            int[] habitantes = new int[13];
+            while ((linea = bf.readLine()) != null) {
+                StringTokenizer st = new StringTokenizer(linea, ",");
+                nombre = st.nextToken().toUpperCase();
+                for (int col = 0; col < 13; col++) {
+                    habitantes[col] = Integer.parseInt(st.nextToken());
+                }
+                Ciudad ciudad = buscarCiudad(nombre);
+                if (ciudad != null) {
+                    ciudad.setCantHabitantes(habitantes);
+                } else {
+                    System.err.println("Ciudad no encontrada: " + nombre);
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println("El archivo no existe.");
+        } catch (IOException ex) {
+            System.err.println("Error de lectura/escritura.");
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------------------------//
     public static Ciudad verificarCiudad() {
         String nombre = null;
         Ciudad pertenece = null;
@@ -239,7 +268,7 @@ public class TransporteDeAgua {
         ciudad.setCantHabitantes(cantHabitantes);
     }
 
- //--------------------------------------   MODIFICACION DE CIUDADES   --------------------------------------//
+    // --------------------------------------   MODIFICACION DE CIUDADES   -------------------------------------------//
 
     public static void trabajarCiudades() {
 
@@ -268,7 +297,7 @@ public class TransporteDeAgua {
                     nomenclatura = sc.nextLine().toUpperCase();
                     superficie = Double.parseDouble(sc.nextLine());
                     consumo = Double.parseDouble(sc.nextLine());
-                    cdad = new Ciudad(nombre,superficie,nomenclatura, consumo);
+                    cdad = new Ciudad(nombre, superficie, nomenclatura, consumo);
                     mapa.insertarVertice(cdad.getNomenclatura());
                     tablaCiudades.insertar(cdad.getNombre(), cdad);
                     System.out.println("La ciudad fue dada de alta con exito");
@@ -293,7 +322,7 @@ public class TransporteDeAgua {
                         ClaveHashMap clave = (ClaveHashMap) claves[i];
 
                         if (clave.getOrigen().equals(nombre) || clave.getDestino().equals(nombre)) {
-                            l.insertar(clave,1);  // Guardamos la clave que debe eliminarse
+                            l.insertar(clave, 1);  // Guardamos la clave que debe eliminarse
                         }
 
                         i++;
@@ -305,9 +334,10 @@ public class TransporteDeAgua {
                     }
                     System.out.println(tuberiasMap.toString());
                 } else {
-                        System.out.println("La ciudad no se encuentra en el sistema");
+                    System.out.println("La ciudad no se encuentra en el sistema");
                 }
-            }break;
+            }
+            break;
             case 3: { //MODIFICAR UNA CIUDAD
                 System.out.println("Ingrese el nombre de la ciudad que desea modificar");
                 sc.nextLine();
@@ -330,7 +360,8 @@ public class TransporteDeAgua {
                     System.out.println("La ciudad no se encuentra en el sistema");
                 }
 
-            }break;
+            }
+            break;
         }
     }
 
@@ -408,7 +439,7 @@ public class TransporteDeAgua {
                         tuberia.setCaudalMaximo(Double.parseDouble(sc.nextLine()));
                         tuberia.setDiametro(Double.parseDouble(sc.nextLine()));
                         tuberia.setEstado(sc.nextLine().charAt(0));
-                    System.out.println("La tuberia fue modificada con exito");
+                        System.out.println("La tuberia fue modificada con exito");
                     }
                 } else {
                     System.out.println("La tuberia no se encuentra en el sistema");
@@ -417,7 +448,7 @@ public class TransporteDeAgua {
         }
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------//
 
     public static Lista obtenerHabitantesYCaudal(String nomCiu, int anio, int mes) {
 
@@ -440,7 +471,6 @@ public class TransporteDeAgua {
         }
         return datos;
     }
-
 
     public Lista ciudadesConVolumenDet(Comparable nom1, Comparable nom2, double vol1, double vol2, int anio, int mes) {
 
@@ -471,8 +501,7 @@ public class TransporteDeAgua {
         return ciudades;
     }
 
-
-    public Lista obtenerCaminoMenorCaudal( Object nom1, Object nom2) {
+    public Lista obtenerCaminoMenorCaudal(GrafoEtiquetado g, Object nom1, Object nom2) {
 
         Lista camino = new Lista();
 
@@ -517,10 +546,6 @@ public class TransporteDeAgua {
         return estado;
     }
 
-
-
-
-
     public Lista caminoMasCortoConEstado(Object origen,Object destino) {
 
         Lista camino=new Lista();
@@ -535,7 +560,6 @@ public class TransporteDeAgua {
         return camino;
     }
 
-
     public Lista caminoDeMaximoCaudal(Object origen, Object destino,Object maximoCaudal) {
 
         Lista posibles= new Lista();
@@ -547,7 +571,49 @@ public class TransporteDeAgua {
 
         return posibles;
     }
-//------------------------------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------------------------//
+    /*
+        Dado un año, muestra el listado de ciudades ordenadas por consumo de agua anual de mayor a menor.
+     */
+    public static Lista consumoDeAguaAnual(int anio) {
+        // Creo una lista con todas las ciudades cargadas
+        Lista listadoCiudades = tablaCiudades.listarClaves();
+        // Lista que devuelve todas las ciudades ordenadas
+        Lista consumoCiudades = new Lista();
+        // Estructura auxiliar para ordenar los consumos anuales.
+        HeapMaximo ordenar = new HeapMaximo();
+
+        String nombreCiudad;
+        CiudadAux ciudadConsumo;
+        Ciudad ciudad;
+        double consumo;
+
+        // Recorro la lista de ciudades.
+        while (!listadoCiudades.esVacia()) {
+            nombreCiudad = (String) listadoCiudades.recuperar(1);
+            ciudad = buscarCiudad(nombreCiudad);
+            if (ciudad != null) {
+                // Obtengo el consumo de cada ciudad para el año dado.
+                consumo = ciudad.getConsumoAnual(anio);
+                ciudadConsumo = new CiudadAux(nombreCiudad, consumo);
+                // Ordeno los consumos de mayor a menor.
+                ordenar.insertar(ciudadConsumo);
+            }
+            // Elimino la ciudad y sigo avanzando en el listado
+            listadoCiudades.eliminar(1);
+        }
+        // Recorrí todas las ciudades y las agregué al árbol heap
+
+        while (!ordenar.esVacio()) {
+            CiudadAux elemento = (CiudadAux) ordenar.recuperarCima();
+            ordenar.eliminarCima();
+            System.out.println("Ciudad: " + elemento.getCiudad() + " - Consumo Anual: " + elemento.getConsumo());
+            consumoCiudades.insertar(elemento.getCiudad(), consumoCiudades.longitud() + 1);
+        }
+        return consumoCiudades;
+    }
+
 //-------------------------------------------SISTEMA--------------------------------------------------------------------
     public static void sistema(){
         System.out.println("Grafo de ciudades y tuberias: ");
@@ -557,7 +623,6 @@ public class TransporteDeAgua {
         System.out.println("Mapa de tuberias: ");
         System.out.println(tuberiasMap.toString());
     }
-
 
 }
 
