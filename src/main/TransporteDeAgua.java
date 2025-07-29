@@ -35,8 +35,16 @@ public class TransporteDeAgua {
     private static final TablaAVL tablaCiudades = new TablaAVL();
     public static Log archivoLog;
 
+    static {
+        try {
+            archivoLog = new Log();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // --------------------------------------------- MAIN --------------------------------------------- //
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         archivoLog.escribir(">   PROGRAMA INICIALIZADO  <");
 
         // ------------------------------------------- VARIABLES ------------------------------------------ //
@@ -76,12 +84,12 @@ public class TransporteDeAgua {
 
                 break;
                 case 4: {
-                    //consultaCiudades();
+                    consultaCiudades();
                 }
 
                 break;
                 case 5: {
-                    //consultaTransporteAgua();
+                    consultaTransporteAgua();
                 }
 
                 break;
@@ -278,7 +286,7 @@ public class TransporteDeAgua {
 
     // --------------------------------------   MODIFICACION DE CIUDADES   -------------------------------------------//
 
-    public static void trabajarCiudades() {
+    public static void trabajarCiudades() throws IOException {
 
         Scanner sc = new Scanner(System.in);
         Ciudad cdad;
@@ -373,7 +381,7 @@ public class TransporteDeAgua {
         }
     }
 
-    public static void trabajarTuberias() {
+    public static void trabajarTuberias() throws IOException {
 
         Scanner sc = new Scanner(System.in);
         int eleccion;
@@ -458,12 +466,122 @@ public class TransporteDeAgua {
             }
             break;
         }
-        
+
     }
 
     //----------------------------------------------------------------------------------------------------------------//
 
-    public static Lista obtenerHabitantesYCaudal(String nomCiu, int anio, int mes) {
+    public static void consultaCiudades(){
+
+        char linea;
+        String ciudad;
+        int anio;
+        int mes;
+
+
+        System.out.println("Elija la opcion: " +
+                "\n A :Obtener la cantidad de habitantes y el volumen de agua distribuido de una ciudad, para un año y un mes determinado"+
+                "\n B :Obtener todas las ciudades en un rango de dos ciudades, que su caudal consumido este entre dos volumenes, para un año y un mes determinado ");
+        linea = sc.next().charAt(0);
+        switch (linea){
+            case 'A': {
+                System.out.println("Ingrese el nombre de la ciudad a consultar");
+                ciudad = sc.nextLine();
+                System.out.println("Ingrese el año a consultar");
+                anio = sc.nextInt();
+                System.out.println("Ingrese el mes a consultar");
+                mes = sc.nextInt();
+                Lista datos = obtenerHabitantesYCaudal(ciudad, anio, mes);
+                System.out.println("La cantidad de habitantes es: " + datos.recuperar(1).toString());
+                System.out.println("La el volumen de agua distribuido en la ciudad es: " + datos.recuperar(2).toString());
+                sc.next();
+            }
+            case 'B':{
+                String ciudad2;
+                double vol1,vol2;
+                System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
+                ciudad=sc.nextLine();
+                System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
+                ciudad2=sc.nextLine();
+                System.out.println("Ingrese el volumen 1");
+                vol1=sc.nextDouble();
+                System.out.println("Ingrese el volumen 2");
+                vol2=sc.nextDouble();
+                System.out.println("Ingrese el año a consultar");
+                anio = sc.nextInt();
+                System.out.println("Ingrese el mes a consultar");
+                mes = sc.nextInt();
+
+                Lista ciudades=ciudadesConVolumenDet(ciudad,ciudad2,vol1,vol2,anio,mes);
+                ciudades.toString();
+                sc.next();
+            }
+        }
+
+
+    }
+
+    public static void consultaTransporteAgua(){
+
+        char linea;
+        System.out.println("Elija la opcion: " +
+                "\n A :Obtener el camino de menor caudal entre 2 ciudades"+
+                "\n B :Obtener el camino entre 2 ciudades mas corto,y su estado"+
+                "\n C :Obtener el camino entre 2 ciudades de menor caudal,y que NO pase por una ciudad"+
+                "\n D :Obtener todos los caminos posibles entre 2 ciudades,que puedan transportar un caudal indicado");
+        linea = sc.next().charAt(0);
+        switch (linea){
+            case'A':{
+                String ciudad,ciudad2;
+                System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
+                ciudad=sc.nextLine();
+                System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
+                ciudad2=sc.nextLine();
+                Lista ciudades=obtenerCaminoMenorCaudal(ciudad, ciudad2);
+                ciudades.toString();
+                sc.next();
+            }
+            case 'B':{
+                String ciudad,ciudad2;
+                System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
+                ciudad=sc.nextLine();
+                System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
+                ciudad2=sc.nextLine();
+                Lista ciudades= caminoMasCortoConEstado(ciudad, ciudad2);
+                ciudades.toString();
+                sc.next();
+            }
+            case 'C':{
+                String ciudad,ciudad2,ciudadEvitar;
+                System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
+                ciudad=sc.nextLine();
+                System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
+                ciudad2=sc.nextLine();
+                System.out.println("Ingrese el nombre de la ciudad por la que no se debe pasar");
+                ciudadEvitar=sc.nextLine();
+                Lista ciudades= mapa.obtenerCaminoSalteandoCiudad(ciudad,ciudad2,ciudadEvitar);
+                ciudades.toString();
+                sc.next();
+            }
+            case 'D':{
+                String ciudad,ciudad2;
+                double caudal;
+                System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
+                ciudad=sc.nextLine();
+                System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
+                ciudad2=sc.nextLine();
+                System.out.println("Ingrese el caudal maximo");
+                caudal=sc.nextDouble();
+                Lista ciudades= caminoDeMaximoCaudal(ciudad,ciudad2,caudal);
+                ciudades.toString();
+                sc.next();
+            }
+        }
+
+    }
+
+
+    private static Lista obtenerHabitantesYCaudal(String nomCiu, int anio, int mes) {
 
         Lista datos = new Lista();
 
@@ -485,7 +603,7 @@ public class TransporteDeAgua {
         return datos;
     }
 
-    public Lista ciudadesConVolumenDet(Comparable nom1, Comparable nom2, double vol1, double vol2, int anio, int mes) {
+    private static Lista ciudadesConVolumenDet(Comparable nom1, Comparable nom2, double vol1, double vol2, int anio, int mes) {
 
         //este metodo recibe nombres de ciudades, se verifica si dichas ciudades
         //estan cargadas y devuelve las ciudades
@@ -514,7 +632,7 @@ public class TransporteDeAgua {
         return ciudades;
     }
 
-    public Lista obtenerCaminoMenorCaudal(GrafoEtiquetado g, Object nom1, Object nom2) {
+    private static Lista obtenerCaminoMenorCaudal(Object nom1, Object nom2) {
 
         Lista camino = new Lista();
 
@@ -526,7 +644,7 @@ public class TransporteDeAgua {
         return camino;
     }
 
-    private char obtenerEstado(Lista camino) {
+    private static char obtenerEstado(Lista camino) {
 
         Ciudad ciu1 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(1));
         Ciudad ciu2 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(2));
@@ -559,7 +677,7 @@ public class TransporteDeAgua {
         return estado;
     }
 
-    public Lista caminoMasCortoConEstado(Object origen, Object destino) {
+    public static Lista caminoMasCortoConEstado(Object origen,Object destino) {
 
         Lista camino = new Lista();
 
@@ -573,14 +691,13 @@ public class TransporteDeAgua {
         return camino;
     }
 
-    public Lista caminoDeMaximoCaudal(Object origen, Object destino, Object maximoCaudal) {
+    public static Lista caminoDeMaximoCaudal(Object origen, Object destino,Object maximoCaudal) {
 
         Lista posibles = new Lista();
 
         if (!mapa.esVacio()) {
             mapa.caminosPosibles(origen, destino, (Comparable) maximoCaudal);
         }
-
 
         return posibles;
     }

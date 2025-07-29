@@ -550,11 +550,9 @@ public class GrafoEtiquetado {
                 }
                 if (vertice.equals(dest)) {
                     if (etiqueta[0].compareTo(etiquetaChica) < 0) {
-
                         visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
                         rellenar(visitados, masChico);
                         masChico.insertar(etiqueta[0], masChico.longitud() + 1);
-
                     }
                 }
                 recorrerCamino(vertice, dest, visitados, etiqueta, masChico);
@@ -744,7 +742,6 @@ public class GrafoEtiquetado {
                 if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
                     etiqueta[0] = arista.getEtiqueta();
                 }
-
                 if (vertice.equals(dest)  ) {
                     visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
                         Lista aux=new Lista();
