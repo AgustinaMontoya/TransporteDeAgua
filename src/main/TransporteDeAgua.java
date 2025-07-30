@@ -70,23 +70,21 @@ public class TransporteDeAgua {
                     trabajarCiudades();
                 }
                 break;
-
                 case 2: {
                     trabajarTuberias();
                 }
-
                 break;
                 case 3: {
                     System.out.println("-------------------------------------------------------------------------------------------------");
                     System.out.println("Altas de información de la cantidad de habitantes para año y ciudad dada.");
                     System.out.print("Ingresar ciudad: ");
                     ciudad = verificarCiudad();
+                    System.out.print("Ingresar año: ");
                     anio = verificarAnio(ciudad);
                     cargarHabitantes(ciudad, anio);
                 }
                 break;
                 case 4: {
-                    System.out.println("-------------------------------------------------------------------------------------------------");
                     consultaCiudades();
                 }
                 break;
@@ -264,14 +262,11 @@ public class TransporteDeAgua {
         /* Está pensado para que el rango de años sea de 10 */
         int anio = 0;
         boolean existe = false;
-        while (anio < 2016 || anio > 2025 && !existe) {
-            System.out.print("Ingresar año: ");
+        while (!existe) {
             anio = sc.nextInt();
             existe = ciudad.verificarAnio(anio);
-            if (anio < 2016 || anio > 2025) {
-                System.out.println("El año ingresado no es correcto.\nVuelva a ingresar el año.");
-            } else if (existe) {
-                System.out.println("El año ya fue registrado.");
+            if (existe) {
+                System.out.print("El año ya fue registrado.\nVuelva a ingresar el año: ");
             }
         }
         sc.next(); // Limpia el scanner
@@ -487,28 +482,29 @@ public class TransporteDeAgua {
 
     public static void consultaCiudades() {
 
-        int linea = 4;
+        int num = 4;
         int anio;
         int mes;
         Ciudad ciudad;
 
-        while (linea != 0) {
-            System.out.println("Elija la opción: "
-                    + "\n[1] : Obtener la cantidad de habitantes y el volumen de agua distribuido de una ciudad, para un año y un mes determinado"
-                    + "\n[2] : Obtener todas las ciudades en un rango de dos ciudades, que su caudal consumido este entre dos volumenes, para un año y un mes determinado "
+        while (num != 0) {
+            System.out.println("-------------------------------------------------------------------------------------------------"
+                    + "\nElija la opción: "
+                    + "\n[1] : Obtener la cantidad de habitantes y el volumen de agua distribuido de una ciudad, para " +
+                    "      un año y un mes determinado"
+                    + "\n[2] : Obtener todas las ciudades en un rango de dos ciudades, que su caudal consumido este " +
+                    "      entre dos volumenes, para un año y un mes determinado "
                     + "\n[3] : Salir al menú principal");
             System.out.print("Opción: ");
-            linea = sc.next().toUpperCase().charAt(0);
-            switch (linea) {
+            num = sc.next().toUpperCase().charAt(0);
+            switch (num) {
                 case '1': {
                     System.out.print("Ingrese el nombre de la ciudad a consultar: ");
                     ciudad = verificarCiudad();
                     System.out.print("Ingrese el año a consultar: ");
-                    anio = sc.nextInt();
-                    sc.nextLine();
+                    anio = verificarExisteAnio(ciudad);
                     System.out.print("Ingrese el mes a consultar: ");
-                    mes = sc.nextInt();
-                    sc.nextLine();
+                    mes = verificarExisteMes();
                     Lista datos = obtenerHabitantesYCaudal(ciudad, anio, mes);
                     System.out.println("La cantidad de habitantes es: " + datos.recuperar(1).toString());
                     System.out.println("La el volumen de agua distribuido en la ciudad es: " + datos.recuperar(2).toString());
@@ -528,17 +524,44 @@ public class TransporteDeAgua {
                     vol2 = sc.nextDouble();
                     sc.nextLine();
                     System.out.print("Ingrese el año a consultar: ");
-                    anio = sc.nextInt();
+                    anio = verificarExisteAnio(ciudad);
                     sc.nextLine();
                     System.out.print("Ingrese el mes a consultar: ");
-                    mes = sc.nextInt();
+                    mes = verificarExisteMes();
                     sc.nextLine();
                     Lista ciudades = ciudadesConVolumenDet(ciudad.getNombre(), ciudad2.getNombre(), vol1, vol2, anio, mes);
-                    ciudades.toString();
+                    System.out.println(ciudades.toString());
                 }
                 break;
             }
         }
+    }
+
+    private static int verificarExisteMes() {
+        int mes = 0;
+        boolean existe = false;
+        while (!existe) {
+            mes = sc.nextInt();
+            if ((mes > 12) || (mes < 1)) {
+                System.out.print("Mes ingresado incorrecto. \nVuelva a ingresar el mes: ");
+            } else {
+                existe = true;
+            }
+        }
+        return mes;
+    }
+
+    private static int verificarExisteAnio(Ciudad ciudad) {
+        int anio = -1;
+        boolean existe = false;
+        while (!existe) {
+            anio = sc.nextInt();
+            existe = ciudad.verificarAnio(anio);
+            if (!existe) {
+                System.out.print("El año ingresado es incorrecto.\nVuelva a ingresar un año: ");
+            }
+        }
+        return anio;
     }
 
     public static void consultaTransporteAgua() {
