@@ -497,8 +497,6 @@ public class GrafoEtiquetado {
         return cadena;
     }
 
-    //METODOS AGREGADOS POR  AGUS.ALBORNOZ
-
     public Lista caminoMasCortoDirecto(Object elem) {
 
         Lista camino = new Lista();
@@ -725,7 +723,6 @@ public class GrafoEtiquetado {
         return posibles;
     }
 
-
     private void caminosPosiblesAux(NodoVertice n, NodoVertice dest, Comparable[] etiqueta, Comparable valor, Lista visitados, Lista posibles) {
 
         NodoVertice vertice;
@@ -785,6 +782,4 @@ public class GrafoEtiquetado {
 
     }
 
-
-    //METODOS AGREGADOS POR AGUS.ALBORNOZ
 }

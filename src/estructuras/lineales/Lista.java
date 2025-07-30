@@ -156,17 +156,17 @@ public class Lista {
     */
     @Override
     public String toString() {
-        String cadena = "[";
+        String cadena = "\n";
         Nodo aux = this.cabecera;
         while (aux != null) {
             if (aux.getEnlace() == null) {
                 cadena += aux.getElemento();
             } else {
-                cadena += aux.getElemento() + ",";
+                cadena += aux.getElemento() + "\n";
             }
             aux = aux.getEnlace();
         }
-        cadena += "]";
+        cadena += "\n";
         return cadena;
     }
 

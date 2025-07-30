@@ -351,9 +351,7 @@ public class TablaAVL {
     }
 
     public Object obtenerDato(Comparable cla) {
-
         Object dato = null;
-        // agregue  && cla != null
         if (this.raiz != null && cla != null) {
             dato = obtenerDatoAux(this.raiz, cla);
         }

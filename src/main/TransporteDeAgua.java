@@ -35,7 +35,7 @@ public class TransporteDeAgua {
     private static final TablaAVL tablaCiudades = new TablaAVL();
     public static Log archivoLog = new Log();
 
-    // --------------------------------------------- MAIN --------------------------------------------- //
+    // ---------------------------------------------------- MAIN ---------------------------------------------------- //
     public static void main(String[] args) {
         archivoLog.escribir(">   PROGRAMA INICIALIZADO  <");
 
@@ -47,12 +47,16 @@ public class TransporteDeAgua {
         // --------------------------------------- MENU DE OPCIONES --------------------------------------- //
         while (numeroIngresado != 8) {
             mostrarMenuOpciones();
+            System.out.print("Opción: ");
             numeroIngresado = sc.nextInt();
             switch (numeroIngresado) {
                 case 0: {
+                    System.out.println("-------------------------------------------------------------------------------------------------"
+                            + "\nInicializando carga de datos...");
                     cargarCiudades();
                     cargarTuberias();
                     cargarHabitantes();
+                    System.out.println("Se ha finalizado la carga de datos.");
                     archivoLog.escribir("FINALIZÓ CARGA DE DATOS");
                 }
                 break;
@@ -67,35 +71,42 @@ public class TransporteDeAgua {
 
                 break;
                 case 3: {
-                    System.out.println("----------------------------------------------------------------------------");
+                    System.out.println("-------------------------------------------------------------------------------------------------");
                     System.out.println("Altas de información de la cantidad de habitantes para año y ciudad dada.");
+                    System.out.print("Ingresar ciudad: ");
                     ciudad = verificarCiudad();
                     anio = verificarAnio(ciudad);
                     cargarHabitantes(ciudad, anio);
-                }
 
+                }
                 break;
                 case 4: {
+                    System.out.println("-------------------------------------------------------------------------------------------------");
                     consultaCiudades();
                 }
-
                 break;
                 case 5: {
+                    System.out.println("-------------------------------------------------------------------------------------------------");
                     consultaTransporteAgua();
                 }
-
                 break;
                 case 6: {
-                    System.out.println("----------------------------------------------------------------------------");
-                    System.out.println("Ingrese el año:");
+                    System.out.println("-------------------------------------------------------------------------------------------------");
+                    System.out.print("Ingrese el año: ");
                     anio = sc.nextInt();
                     Lista lis = consumoDeAguaAnual(anio);
                     System.out.println(lis);
                 }
-
                 break;
                 case 7: {
+                    System.out.println("-------------------------------------------------------------------------------------------------");
                     sistema();
+                }
+                break;
+                case 8: {
+                    System.out.println("-------------------------------------------------------------------------------------------------");
+                    System.out.println("Saliendo del sistema...");
+                    System.out.println("-------------------------------------------------------------------------------------------------");
                     archivoLog.escribir("DEBUGGING"
                             + "\nGrafo de ciudades y tuberias: \n"
                             + mapa.toString()
@@ -103,11 +114,6 @@ public class TransporteDeAgua {
                             + tablaCiudades.toString()
                             + "\nMapa de tuberias: \n"
                             + tuberiasMap.toString());
-                }
-
-                break;
-                case 8: {
-                    System.out.println("Saliendo del sistema...");
                     archivoLog.escribir(">    PROGRAMA FINALIZADO <");
                 }
                 break;
@@ -120,7 +126,7 @@ public class TransporteDeAgua {
 
     // ! MODIFICAR a medida que vayamos avanzando
     public static void mostrarMenuOpciones() {
-        System.out.println("-------------------------------------------------------------------------------------------"
+        System.out.println("-------------------------------------------------------------------------------------------------"
                 + "\n\t MENÚ DE OPCIONES"
                 + "\nIngrese el número correspondiente a la operación que desee realizar: "
                 + "\n[0] Cargar datos en la estructura. "
@@ -157,6 +163,7 @@ public class TransporteDeAgua {
                 tablaCiudades.insertar(ciudad.getNombre(), ciudad);
                 archivoLog.escribir("Se ha cargado la ciudad: " + ciudad.getNombre() + " con nomenclatura: " + ciudad.getNomenclatura());
             }
+            bf.close();
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queriamos leer no existe.");
         } catch (IOException ex) {
@@ -199,6 +206,7 @@ public class TransporteDeAgua {
                 tuberiasMap.put(clave, tuberia);
                 archivoLog.escribir("Se ha cargado la tubería de " + nomCiudadD + " a " + nomCiudadH + " con caudal máximo: " + caudalMax);
             }
+            bf.close();
         } catch (FileNotFoundException ex) {
             System.err.println("Significa que el archivo que queríamos leer no existe.");
         } catch (IOException ex) {
@@ -225,6 +233,7 @@ public class TransporteDeAgua {
                     System.err.println("Ciudad no encontrada: " + nombre);
                 }
             }
+            bf.close();
         } catch (FileNotFoundException ex) {
             System.err.println("El archivo no existe.");
         } catch (IOException ex) {
@@ -237,12 +246,10 @@ public class TransporteDeAgua {
         String nombre = null;
         Ciudad pertenece = null;
         while (pertenece == null) {
-            System.out.println("Ingresar ciudad: ");
-            nombre = sc.nextLine().toUpperCase();
-            System.out.print(nombre);
+            nombre = sc.next().toUpperCase();
             pertenece = buscarCiudad(nombre);
             if (pertenece == null) {
-                System.out.println("La ciudad ingresada no es correcta.\nVuelva a ingresar una ciudad.");
+                System.out.print("Vuelva a ingresar una ciudad: ");
             }
         }
         return pertenece;
@@ -253,9 +260,8 @@ public class TransporteDeAgua {
         int anio = 0;
         boolean existe = false;
         while (anio < 2016 || anio > 2025 && !existe) {
-            System.out.println("Ingresar año: ");
+            System.out.print("Ingresar año: ");
             anio = sc.nextInt();
-            System.out.print(anio);
             existe = ciudad.verificarAnio(anio);
             if (anio < 2016 || anio > 2025) {
                 System.out.println("El año ingresado no es correcto.\nVuelva a ingresar el año.");
@@ -472,52 +478,58 @@ public class TransporteDeAgua {
 
     public static void consultaCiudades() {
 
-        char linea;
-        String ciudad;
+        int linea = 4;
         int anio;
         int mes;
+        Ciudad ciudad;
 
-
-        System.out.println("Elija la opcion: " +
-                "\n A :Obtener la cantidad de habitantes y el volumen de agua distribuido de una ciudad, para un año y un mes determinado" +
-                "\n B :Obtener todas las ciudades en un rango de dos ciudades, que su caudal consumido este entre dos volumenes, para un año y un mes determinado ");
-        linea = sc.next().charAt(0);
-        switch (linea) {
-            case 'A': {
-                System.out.println("Ingrese el nombre de la ciudad a consultar");
-                ciudad = sc.nextLine();
-                System.out.println("Ingrese el año a consultar");
-                anio = sc.nextInt();
-                System.out.println("Ingrese el mes a consultar");
-                mes = sc.nextInt();
-                Lista datos = obtenerHabitantesYCaudal(ciudad, anio, mes);
-                System.out.println("La cantidad de habitantes es: " + datos.recuperar(1).toString());
-                System.out.println("La el volumen de agua distribuido en la ciudad es: " + datos.recuperar(2).toString());
-                sc.next();
-            }
-            case 'B': {
-                String ciudad2;
-                double vol1, vol2;
-                System.out.println("Ingrese el nombre de la ciudad 1 a consultar");
-                ciudad = sc.nextLine();
-                System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
-                ciudad2 = sc.nextLine();
-                System.out.println("Ingrese el volumen 1");
-                vol1 = sc.nextDouble();
-                System.out.println("Ingrese el volumen 2");
-                vol2 = sc.nextDouble();
-                System.out.println("Ingrese el año a consultar");
-                anio = sc.nextInt();
-                System.out.println("Ingrese el mes a consultar");
-                mes = sc.nextInt();
-
-                Lista ciudades = ciudadesConVolumenDet(ciudad, ciudad2, vol1, vol2, anio, mes);
-                ciudades.toString();
-                sc.next();
+        while (linea != 0) {
+            System.out.println("Elija la opción: "
+                    + "\n[1] : Obtener la cantidad de habitantes y el volumen de agua distribuido de una ciudad, para un año y un mes determinado"
+                    + "\n[2] : Obtener todas las ciudades en un rango de dos ciudades, que su caudal consumido este entre dos volumenes, para un año y un mes determinado "
+                    + "\n[3] : Salir al menú principal");
+            System.out.print("Opción: ");
+            linea = sc.next().toUpperCase().charAt(0);
+            switch (linea) {
+                case '1': {
+                    System.out.print("Ingrese el nombre de la ciudad a consultar: ");
+                    ciudad = verificarCiudad();
+                    System.out.print("Ingrese el año a consultar: ");
+                    anio = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Ingrese el mes a consultar: ");
+                    mes = sc.nextInt();
+                    sc.nextLine();
+                    Lista datos = obtenerHabitantesYCaudal(ciudad, anio, mes);
+                    System.out.println("La cantidad de habitantes es: " + datos.recuperar(1).toString());
+                    System.out.println("La el volumen de agua distribuido en la ciudad es: " + datos.recuperar(2).toString());
+                }
+                break;
+                case '2': {
+                    Ciudad ciudad2;
+                    double vol1, vol2;
+                    System.out.print("Ingrese el nombre de la ciudad 1 a consultar: ");
+                    ciudad = verificarCiudad();
+                    System.out.print("Ingrese el nombre de la ciudad 2 a consultar: ");
+                    ciudad2 = verificarCiudad();
+                    System.out.print("Ingrese el volumen 1: ");
+                    vol1 = sc.nextDouble();
+                    sc.nextLine();
+                    System.out.print("Ingrese el volumen 2: ");
+                    vol2 = sc.nextDouble();
+                    sc.nextLine();
+                    System.out.print("Ingrese el año a consultar: ");
+                    anio = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Ingrese el mes a consultar: ");
+                    mes = sc.nextInt();
+                    sc.nextLine();
+                    Lista ciudades = ciudadesConVolumenDet(ciudad.getNombre(), ciudad2.getNombre(), vol1, vol2, anio, mes);
+                    ciudades.toString();
+                }
+                break;
             }
         }
-
-
     }
 
     public static void consultaTransporteAgua() {
@@ -580,12 +592,12 @@ public class TransporteDeAgua {
     }
 
 
-    private static Lista obtenerHabitantesYCaudal(String nomCiu, int anio, int mes) {
+    private static Lista obtenerHabitantesYCaudal(Ciudad ciu1, int anio, int mes) {
 
         Lista datos = new Lista();
 
         if (!mapa.esVacio()) {
-            Ciudad ciu1 = (Ciudad) tablaCiudades.obtenerDato(nomCiu);
+
             if (ciu1 != null) {
                 int habitantes = ciu1.getCantHabitantes(anio, mes); // ACA HAY UN ERROR
                 double consumoProm = ciu1.getConsumoProm();
@@ -609,14 +621,14 @@ public class TransporteDeAgua {
 
         Lista ciudades = new Lista();
 
-        if (tablaCiudades.existeClave(nom1) && tablaCiudades.existeClave(nom2) && mapa.existeCamino(nom1, nom2)) {
+        if (mapa.existeCamino(nom1, nom2)) {
             Lista rango = tablaCiudades.listarRango(nom1, nom2);
             Object elem = rango.recuperar(1);
             double caudal = 0;
             int i = 0;
             while (elem != null) {
                 Ciudad ciu = (Ciudad) elem;
-                Lista datos = obtenerHabitantesYCaudal(ciu.getNombre(), anio, mes);
+                Lista datos = obtenerHabitantesYCaudal(ciu, anio, mes);
                 if (!datos.esVacia()) {
                     caudal = (double) datos.recuperar(2);
                     if (caudal > vol1 && caudal < vol2) {
@@ -748,7 +760,7 @@ public class TransporteDeAgua {
         System.out.println("Grafo de ciudades y tuberias: ");
         System.out.println(mapa.toString());
         System.out.println("Tabla de ciudades: ");
-        System.out.println(tablaCiudades.toString());
+        System.out.println(tablaCiudades.listarClaves());
         System.out.println("Mapa de tuberias: ");
         System.out.println(tuberiasMap.toString());
     }
