@@ -658,15 +658,15 @@ public class TransporteDeAgua {
             Lista rango = tablaCiudades.listarRango(nom1, nom2);
             Object elem = rango.recuperar(1);
             double caudal = 0;
-            int i = 0;
+            int i = 1;
             while (elem != null) {
                 Ciudad ciu = (Ciudad) elem;
                 Lista datos = obtenerHabitantesYCaudal(ciu, anio, mes);
                 if (!datos.esVacia()) {
                     caudal = (double) datos.recuperar(2);
                     if (caudal > vol1 && caudal < vol2) {
-                        i++;
                         ciudades.insertar(ciu, i);
+                        i++;
                     }
                 }
                 rango.eliminar(1);
