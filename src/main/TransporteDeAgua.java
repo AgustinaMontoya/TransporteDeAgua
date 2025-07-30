@@ -54,6 +54,13 @@ public class TransporteDeAgua {
                     cargarTuberias();
                     cargarHabitantes();
                     archivoLog.escribir("FINALIZÓ CARGA DE DATOS");
+                    archivoLog.escribir("DEBUGGING"
+                            + "\nGrafo de ciudades y tuberias: \n"
+                            + mapa.toString()
+                            + "\nTabla de ciudades: \n"
+                            + tablaCiudades.toString()
+                            + "\nMapa de tuberias: \n"
+                            + tuberiasMap.toString());
                 }
                 break;
                 case 1: {
@@ -96,6 +103,12 @@ public class TransporteDeAgua {
                 break;
                 case 7: {
                     sistema();
+                }
+
+                break;
+                case 8: {
+                    System.out.println("Saliendo del sistema...");
+                    archivoLog.escribir(">    PROGRAMA FINALIZADO <");
                     archivoLog.escribir("DEBUGGING"
                             + "\nGrafo de ciudades y tuberias: \n"
                             + mapa.toString()
@@ -103,12 +116,6 @@ public class TransporteDeAgua {
                             + tablaCiudades.toString()
                             + "\nMapa de tuberias: \n"
                             + tuberiasMap.toString());
-                }
-
-                break;
-                case 8: {
-                    System.out.println("Saliendo del sistema...");
-                    archivoLog.escribir(">    PROGRAMA FINALIZADO <");
                 }
                 break;
                 default:
