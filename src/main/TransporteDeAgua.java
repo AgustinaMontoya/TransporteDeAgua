@@ -58,6 +58,12 @@ public class TransporteDeAgua {
                     cargarHabitantes();
                     System.out.println("Se ha finalizado la carga de datos.");
                     archivoLog.escribir("FINALIZÓ CARGA DE DATOS");
+                    archivoLog.escribir("\nGrafo de ciudades y tuberias: \n"
+                            + mapa.toString()
+                            + "\nTabla de ciudades: \n"
+                            + tablaCiudades.listarClaves()
+                            + "\nMapa de tuberias: \n"
+                            + tuberiasMap.toString());
                 }
                 break;
                 case 1: {
@@ -77,7 +83,6 @@ public class TransporteDeAgua {
                     ciudad = verificarCiudad();
                     anio = verificarAnio(ciudad);
                     cargarHabitantes(ciudad, anio);
-
                 }
                 break;
                 case 4: {
@@ -295,12 +300,14 @@ public class TransporteDeAgua {
 
         Scanner sc = new Scanner(System.in);
         Ciudad cdad;
-        int eleccion;
+        int eleccion=0;
         String nombre;
         char opcion;
+        while (eleccion != 4) {
         System.out.println("Ingrese 1 si desea dar de alta una ciudad");
         System.out.println("Ingrese 2 si desea eliminar una ciudad");
         System.out.println("Ingrese 3 si desea modificar una ciudad");
+        System.out.println("Ingrese 4 si desea salir del menu de ciudades");
         eleccion = sc.nextInt();
         switch (eleccion) {
             case 1: {   //AÑADIR UNA NUEVA CIUDAD
@@ -321,7 +328,6 @@ public class TransporteDeAgua {
                     mapa.insertarVertice(cdad.getNomenclatura());
                     tablaCiudades.insertar(cdad.getNombre(), cdad);
                     System.out.println("La ciudad fue dada de alta con exito");
-                    System.out.println(mapa);
                     archivoLog.escribir("Se ha cargado la ciudad: " + cdad.getNombre());
                 }
             }
@@ -389,11 +395,13 @@ public class TransporteDeAgua {
     public static void trabajarTuberias() {
 
         Scanner sc = new Scanner(System.in);
-        int eleccion;
+        int eleccion=0;
         char opcion;
+        while(eleccion != 4) {
         System.out.println("Ingrese 1 si desea dar de alta una tuberias");
         System.out.println("Ingrese 2 si desea eliminar una tuberias");
         System.out.println("Ingrese 3 si desea modificar una tuberias");
+        System.out.println("Ingrese 4 si desea salir del menu de tuberias");
         eleccion = sc.nextInt();
         switch (eleccion) {
             case 1: {   //AÑADIR UNA NUEVA TUBERIA
@@ -471,7 +479,6 @@ public class TransporteDeAgua {
             }
             break;
         }
-
     }
 
     //----------------------------------------------------------------------------------------------------------------//
