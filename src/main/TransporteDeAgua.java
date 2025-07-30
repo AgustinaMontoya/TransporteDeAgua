@@ -324,7 +324,6 @@ public class TransporteDeAgua {
                     mapa.insertarVertice(cdad.getNomenclatura());
                     tablaCiudades.insertar(cdad.getNombre(), cdad);
                     System.out.println("La ciudad fue dada de alta con exito");
-                    System.out.println(mapa);
                     archivoLog.escribir("Se ha cargado la ciudad: " + cdad.getNombre());
                 }
             }
