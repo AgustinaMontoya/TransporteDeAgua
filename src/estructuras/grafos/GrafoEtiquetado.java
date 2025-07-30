@@ -278,40 +278,53 @@ public class GrafoEtiquetado {
         destino. Si hay más de un camino con igual cantidad de vértices, devuelve cualquiera de ellos.
         Si alguno de los vértices no existe o no hay camino posible entre ellos devuelve la lista vacía.
      */
-    public Lista caminoMasCorto(Object ori, Object dest) {
+    public Lista recorridoCorto(Object origen, Object destino) {
+
         Lista camino = new Lista();
-        NodoVertice[] vertices = ubicarVertices(ori, dest);
-        // Busco los vertices origen y destino dentro del grafo.
-        NodoVertice origen = vertices[0];
-        NodoVertice destino = vertices[1];
-        if (origen != null && destino != null) {
+
+        if (this.inicio != null) {
+            NodoVertice[] vertices = ubicarVertices(origen, destino);
             Lista visitados = new Lista();
-            camino = caminoMasCortoAux(origen, dest, camino, visitados);
+            if (vertices[0] != null && vertices[1] != null) {
+                recorridoCortoAux(vertices[0], vertices[1], visitados, camino);
+            }
         }
         return camino;
     }
 
-    private Lista caminoMasCortoAux(NodoVertice ori, Object destino, Lista camino, Lista visitados) {
-        if (ori.getElemento().equals(destino)) {
-            //encontro el destino, no sigue llamando
-            if (camino.esVacia() || camino.longitud() > visitados.longitud()) {
-                camino = visitados.clone();
-                camino.insertar(destino, camino.longitud() + 1);
-            }
-        } else {
-            visitados.insertar(ori.getElemento(), visitados.longitud() + 1);
-            if (camino.esVacia() || camino.longitud() > visitados.longitud()) {
-                NodoAdy aux = ori.getPrimerAdy();
-                while (aux != null) {
-                    if (visitados.localizar(aux.getVertice().getElemento()) < 0) {
-                        camino = caminoMasCortoAux(aux.getVertice(), destino, camino, visitados);
+    private void recorridoCortoAux(NodoVertice n, NodoVertice dest, Lista visitados, Lista camino) {
+
+        NodoVertice vertice;
+        NodoAdy arista;
+        int c = camino.longitud();
+
+        if (n != dest) {
+            visitados.insertar(n.getElemento(), visitados.longitud() + 1);
+            if (n.getPrimerAdy() != null) {
+                arista = n.getPrimerAdy();
+                vertice = arista.getVertice();
+
+                if (vertice.equals(dest)) {
+                    visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
+                    if (visitados.longitud() < c || camino.esVacia()) {
+                        rellenar(visitados, camino);
                     }
-                    aux = aux.getSigAdy();
                 }
+                recorridoCortoAux(vertice, dest, visitados, camino);
+                visitados.eliminar(visitados.longitud());
+
+                while (arista != null) {
+                    arista = arista.getSigAdy();
+                    if (arista != null) {
+                        recorridoCortoAux(arista.getVertice(), dest, visitados, camino);
+                        visitados.eliminar(visitados.longitud());
+                    }
+                }
+
             }
-            visitados.eliminar(visitados.longitud());
         }
-        return camino;
+
+
     }
 
     /*
@@ -497,17 +510,6 @@ public class GrafoEtiquetado {
         return cadena;
     }
 
-    public Lista caminoMasCortoDirecto(Object elem) {
-
-        Lista camino = new Lista();
-
-        if (this.inicio != null) {
-            NodoVertice[] vertices = ubicarVertices(this.inicio, elem);
-            Lista visitados = new Lista();
-            camino = caminoMasCortoAux(this.inicio, vertices[1], camino, visitados);
-        }
-        return camino;
-    }
 
     public Lista obtenerCaminoMenorEtiqueta(Object elem1, Object elem2) {
 
@@ -582,65 +584,8 @@ public class GrafoEtiquetado {
         }
     }
 
-    private void mostrar(Lista vis) {
-
-        int l = vis.longitud();
-
-        for (int i = 1; i < l + 1; i++) {
-            NodoVertice elem = (NodoVertice) vis.recuperar(i);
-            System.out.println(elem.getElemento().toString());
-        }
-    }
-
-    public Lista recorridoCorto(Object origen, Object destino) {
-
-        Lista camino = new Lista();
-
-        if (this.inicio != null) {
-            NodoVertice[] vertices = ubicarVertices(origen, destino);
-            Lista visitados = new Lista();
-            if (vertices[0] != null && vertices[1] != null) {
-                recorridoCortoAux(vertices[0], vertices[1], visitados, camino);
-            }
-        }
-
-        return camino;
-    }
-
-    private void recorridoCortoAux(NodoVertice n, NodoVertice dest, Lista visitados, Lista camino) {
-
-        NodoVertice vertice;
-        NodoAdy arista;
-        int c = camino.longitud();
-
-        if (n != dest) {
-            visitados.insertar(n.getElemento(), visitados.longitud() + 1);
-            if (n.getPrimerAdy() != null) {
-                arista = n.getPrimerAdy();
-                vertice = arista.getVertice();
-
-                if (vertice.equals(dest)) {
-                    visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                    if (visitados.longitud() < c || camino.esVacia()) {
-                        rellenar(visitados, camino);
-                    }
-                }
-                recorridoCortoAux(vertice, dest, visitados, camino);
-                visitados.eliminar(visitados.longitud());
-
-                while (arista != null) {
-                    arista = arista.getSigAdy();
-                    if (arista != null) {
-                        recorridoCortoAux(arista.getVertice(), dest, visitados, camino);
-                        visitados.eliminar(visitados.longitud());
-                    }
-                }
-
-            }
-        }
 
 
-    }
 
     public Lista obtenerCaminoSalteandoCiudad(Object elem1, Object elem2, Object nodoEvitar) {
 
@@ -719,7 +664,6 @@ public class GrafoEtiquetado {
                 caminosPosiblesAux(vertices[0], vertices[1], etiqueta, valor, visitados, posibles);
             }
         }
-        mostrarPosibles(posibles);
         return posibles;
     }
 
@@ -764,22 +708,6 @@ public class GrafoEtiquetado {
         }
     }
 
-    public void mostrarPosibles(Lista posibles) {
 
-        Lista vis;
-
-        int p = posibles.longitud();
-
-        for (int i = 1; i < p + 1; i++) {
-            vis = (Lista) posibles.recuperar(i);
-            System.out.print("lista :" + i + " ");
-            for (int j = 1; j < vis.longitud() + 1; j++) {
-                NodoVertice elem = (NodoVertice) vis.recuperar(j);
-                System.out.print(elem.getElemento().toString() + " ");
-            }
-            vis.eliminar(i);
-        }
-
-    }
 
 }

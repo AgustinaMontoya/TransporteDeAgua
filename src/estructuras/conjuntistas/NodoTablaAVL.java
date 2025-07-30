@@ -28,13 +28,6 @@ public class NodoTablaAVL {
         altura = 0;
     }
 
-    public NodoTablaAVL(Comparable cla) {
-        this.clave = cla;
-        this.dato = null;
-        this.izquierdo = null;
-        this.derecho = null;
-        altura = 0;
-    }
 
     public Comparable getClave() {
         return this.clave;

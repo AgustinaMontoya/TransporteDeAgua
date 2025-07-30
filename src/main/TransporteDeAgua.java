@@ -529,7 +529,7 @@ public class TransporteDeAgua {
                     System.out.print("Ingrese el mes a consultar: ");
                     mes = verificarExisteMes();
                     sc.nextLine();
-                    Lista ciudades = ciudadesConVolumenDet(ciudad.getNombre(), ciudad2.getNombre(), vol1, vol2, anio, mes);
+                    Lista ciudades = ciudadesConVolumenDet(ciudad.getNomenclatura(), ciudad2.getNomenclatura(), vol1, vol2, anio, mes);
                     System.out.println(ciudades.toString());
                 }
                 break;
@@ -646,8 +646,7 @@ public class TransporteDeAgua {
         return datos;
     }
 
-    private static Lista ciudadesConVolumenDet(Comparable nom1, Comparable nom2, double vol1, double vol2, int anio,
-                                               int mes) {
+    private static Lista ciudadesConVolumenDet(Comparable nom1, Comparable nom2, double vol1, double vol2, int anio, int mes) {
 
         //este metodo recibe nombres de ciudades, se verifica si dichas ciudades
         //estan cargadas y devuelve las ciudades
@@ -798,7 +797,3 @@ public class TransporteDeAgua {
         System.out.println(tuberiasMap.toString());
     }
 }
-
-
-
-

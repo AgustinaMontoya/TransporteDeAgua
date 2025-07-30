@@ -86,12 +86,11 @@ public class TablaAVL {
                 } else {
                     rebalanceo[0] = n;
                 }
-                n.recalcularAltura();
             } else {
                 n.setIzquierdo(new NodoTablaAVL(clave, dato, null, null));
-                n.recalcularAltura();
                 rebalanceo[0] = n;
             }
+            n.recalcularAltura();
         } else { // Elemento mayor -> va a la derecha
             if (n.getDerecho() != null) {
                 exito = insertarAux(n.getDerecho(), clave, dato, rebalanceo);
@@ -179,8 +178,6 @@ public class TablaAVL {
 
     private void recalcularArbol(NodoTablaAVL n) {
 
-        int izq = -1, der = -1;
-
         if (n.getIzquierdo() != null) {
             recalcularArbol(n.getIzquierdo());
         }
@@ -242,20 +239,18 @@ public class TablaAVL {
                             n.setClave(aux.getClave());
                             n.setDato(aux.getDato());
                             aux = n;
-                            n.recalcularAltura();
                         } else if (n.getIzquierdo().getClave().compareTo(aux.getClave()) == 0) {
                             n.setClave(n.getIzquierdo().getClave());
                             n.setDato(n.getIzquierdo().getDato());
                             n.setIzquierdo(null);
-                            n.recalcularAltura();
+
                             // unico candidato hijo izquierdo
                         } else {
                             n.setClave(aux.getClave());
                             n.setDato(aux.getDato());
                             aux = n;
-                            n.recalcularAltura();
-
                         }
+                        n.recalcularAltura();
                         recalcularArbol(n);
                         int balance = obtenerBalance(n);
                         if (balance == 2 || balance == -2) {
@@ -437,17 +432,17 @@ public class TablaAVL {
 
         if (n != null) {
             if (elem1.compareTo(n.getClave()) == 0) {
-                rango.insertar(n.getClave(), l + 1);
+                rango.insertar(n.getDato(), l + 1);
             } else if (elem1.compareTo(n.getClave()) < 0) {
                 listarRangoAux(n.getIzquierdo(), elem1, elem2, rango, l);
             }
 
             if (elem1.compareTo(n.getClave()) < 0 && elem2.compareTo(n.getClave()) > 0) {
-                rango.insertar(n.getClave(), l + 1);
+                rango.insertar(n.getDato(), l + 1);
             }
 
             if (elem2.compareTo(n.getClave()) == 0) {
-                rango.insertar(n.getClave(), l + 1);
+                rango.insertar(n.getDato(), l + 1);
             } else if (elem2.compareTo(n.getClave()) > 0) {
                 listarRangoAux(n.getDerecho(), elem1, elem2, rango, l);
             }
