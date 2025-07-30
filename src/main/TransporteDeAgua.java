@@ -296,12 +296,14 @@ public class TransporteDeAgua {
 
         Scanner sc = new Scanner(System.in);
         Ciudad cdad;
-        int eleccion;
+        int eleccion=0;
         String nombre;
         char opcion;
+        while (eleccion != 4) {
         System.out.println("Ingrese 1 si desea dar de alta una ciudad");
         System.out.println("Ingrese 2 si desea eliminar una ciudad");
         System.out.println("Ingrese 3 si desea modificar una ciudad");
+        System.out.println("Ingrese 4 si desea salir del menu de ciudades");
         eleccion = sc.nextInt();
         switch (eleccion) {
             case 1: {   //AÑADIR UNA NUEVA CIUDAD
@@ -385,16 +387,19 @@ public class TransporteDeAgua {
             }
             break;
         }
+        }
     }
 
     public static void trabajarTuberias() {
 
         Scanner sc = new Scanner(System.in);
-        int eleccion;
+        int eleccion=0;
         char opcion;
+        while(eleccion != 4) {
         System.out.println("Ingrese 1 si desea dar de alta una tuberias");
         System.out.println("Ingrese 2 si desea eliminar una tuberias");
         System.out.println("Ingrese 3 si desea modificar una tuberias");
+        System.out.println("Ingrese 4 si desea salir del menu de tuberias");
         eleccion = sc.nextInt();
         switch (eleccion) {
             case 1: {   //AÑADIR UNA NUEVA TUBERIA
@@ -471,6 +476,7 @@ public class TransporteDeAgua {
                 }
             }
             break;
+        }
         }
 
     }
