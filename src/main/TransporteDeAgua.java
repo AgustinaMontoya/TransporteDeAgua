@@ -108,9 +108,9 @@ public class TransporteDeAgua {
                 break;
                 case 8: {
                     System.out.println("-------------------------------------------------------------------------------------------------");
-                    System.out.println("Saliendo del sistema...");
+                    System.out.println("Saliendo del programa...");
                     System.out.println("-------------------------------------------------------------------------------------------------");
-                    archivoLog.escribir("DEBUGGING"
+                    archivoLog.escribir("\tESTADO FINAL DEL PROGRAMA"
                             + "\nGrafo de ciudades y tuberias: \n"
                             + mapa.toString()
                             + "\nTabla de ciudades: \n"
