@@ -422,29 +422,26 @@ public class TablaAVL {
         Lista rango = new Lista();
 
         if (this.raiz != null) {
-            listarRangoAux(this.raiz, elem1, elem2, rango, rango.longitud());
+            listarRangoAux(this.raiz, elem1, elem2, rango);
         }
 
         return rango;
     }
 
-    private void listarRangoAux(NodoTablaAVL n, Comparable elem1, Comparable elem2, Lista rango, int l) {
+    private void listarRangoAux(NodoTablaAVL n, Comparable elem1, Comparable elem2, Lista rango) {
 
         if (n != null) {
-            if (elem1.compareTo(n.getClave()) == 0) {
-                rango.insertar(n.getDato(), l + 1);
-            } else if (elem1.compareTo(n.getClave()) < 0) {
-                listarRangoAux(n.getIzquierdo(), elem1, elem2, rango, l);
+
+            if (elem1.compareTo(n.getClave().toString().toLowerCase()) <= 0) {
+                listarRangoAux(n.getIzquierdo(), elem1, elem2, rango);
             }
 
-            if (elem1.compareTo(n.getClave()) < 0 && elem2.compareTo(n.getClave()) > 0) {
-                rango.insertar(n.getDato(), l + 1);
+            if (elem1.compareTo(n.getClave().toString().toLowerCase()) <= 0 && elem2.compareTo(n.getClave().toString().toLowerCase()) >= 0) {
+                rango.insertar(n.getDato(), rango.longitud() + 1);
             }
 
-            if (elem2.compareTo(n.getClave()) == 0) {
-                rango.insertar(n.getDato(), l + 1);
-            } else if (elem2.compareTo(n.getClave()) > 0) {
-                listarRangoAux(n.getDerecho(), elem1, elem2, rango, l);
+            if (elem2.compareTo(n.getClave().toString().toLowerCase()) >= 0) {
+                listarRangoAux(n.getDerecho(), elem1, elem2, rango);
             }
         }
     }
