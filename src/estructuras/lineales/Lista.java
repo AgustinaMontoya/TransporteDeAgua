@@ -168,7 +168,7 @@ public class Lista {
                 }
                 aux = aux.getEnlace();
             }
-            cadena += "\n]";
+            cadena += "\n";
         }
         return cadena;
     }
