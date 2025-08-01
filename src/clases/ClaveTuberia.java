@@ -5,22 +5,22 @@
     Facundo Diego Tosetto, Legajo FAI-4354
     -------------------------------------------
  */
-package estructuras.conjuntistas;
+package clases;
 
-public class ClaveHashMap {
-    private Comparable nom1;
-    private Comparable nom2;
+public class ClaveTuberia {
+    private String nom1;
+    private String nom2;
 
-    public ClaveHashMap(Comparable nom1, Comparable nom2) {
+    public ClaveTuberia(String nom1, String nom2) {
         this.nom1 = nom1;
         this.nom2 = nom2;
     }
 
-    public Comparable getOrigen() {
+    public String getOrigen() {
         return nom1;
     }
 
-    public Comparable getDestino() {
+    public String getDestino() {
         return nom2;
     }
     
@@ -29,7 +29,7 @@ public class ClaveHashMap {
         if (this == obj) {
             resultado = true;
         } else if (obj != null && getClass() == obj.getClass()) {
-            ClaveHashMap otro = (ClaveHashMap) obj;
+            ClaveTuberia otro = (ClaveTuberia) obj;
             if (this.nom1.equals(otro.nom1) && this.nom2.equals(otro.nom2)) {
                 resultado = true;
             }
