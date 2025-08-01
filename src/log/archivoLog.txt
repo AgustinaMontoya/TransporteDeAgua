@@ -1,39 +1,75 @@
-[Wed Jul 30 13:32:46 ART 2025]	>   PROGRAMA INICIALIZADO  <
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: NEUFUEN con nomenclatura: NE3001
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: CUPRAL-CO con nomenclatura: CC3002
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: MARAVÃ©LICA con nomenclatura: MA3003
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: SOLANDINA con nomenclatura: SO3004
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: TERRAVIVA con nomenclatura: TE3005
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: PIEDRALUNA con nomenclatura: PI3006
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: VALLEVERDE con nomenclatura: VA3007
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: MONTEAURORA con nomenclatura: MO3008
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: RIONEGRA con nomenclatura: RI3009
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: FUENTELUZ con nomenclatura: FU3010
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: VENTISQUERO ALTO con nomenclatura: VE3011
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: CIELOFLOR con nomenclatura: CI3012
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la ciudad: BOSQUEMONTE con nomenclatura: BO3013
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de NE3001 a RI3009 con caudal máximo: 274.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de NE3001 a SO3004 con caudal máximo: 387.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de NE3001 a TE3005 con caudal máximo: 443.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de NE3001 a BO3013 con caudal máximo: 148.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de CC3002 a PI3006 con caudal máximo: 312.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de CC3002 a TE3005 con caudal máximo: 431.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de CC3002 a VA3007 con caudal máximo: 268.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de MA3003 a TE3005 con caudal máximo: 456.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de MA3003 a BO3013 con caudal máximo: 164.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de MA3003 a MO3008 con caudal máximo: 460.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de SO3004 a MO3008 con caudal máximo: 324.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de SO3004 a PI3006 con caudal máximo: 300.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de PI3006 a MO3008 con caudal máximo: 285.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de VA3007 a RI3009 con caudal máximo: 402.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de RI3009 a VE3011 con caudal máximo: 254.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de FU3010 a VE3011 con caudal máximo: 240.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de FU3010 a BO3013 con caudal máximo: 320.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de FU3010 a CI3012 con caudal máximo: 362.0
-[Wed Jul 30 13:32:49 ART 2025]	Se ha cargado la tubería de VE3011 a CI3012 con caudal máximo: 412.0
-[Wed Jul 30 13:32:49 ART 2025]	FINALIZÓ CARGA DE DATOS
-[Wed Jul 30 13:32:49 ART 2025]	DEBUGGING
+[Thu Jul 31 22:27:19 ART 2025]	>   PROGRAMA INICIALIZADO  <
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: NEUFUEN con nomenclatura: NE3001
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: CUPRAL-CO con nomenclatura: CC3002
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: MARAVÃ©LICA con nomenclatura: MA3003
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: SOLANDINA con nomenclatura: SO3004
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: TERRAVIVA con nomenclatura: TE3005
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: PIEDRALUNA con nomenclatura: PI3006
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: VALLEVERDE con nomenclatura: VA3007
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: MONTEAURORA con nomenclatura: MO3008
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: RIONEGRA con nomenclatura: RI3009
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: FUENTELUZ con nomenclatura: FU3010
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: VENTISQUERO ALTO con nomenclatura: VE3011
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: CIELOFLOR con nomenclatura: CI3012
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la ciudad: BOSQUEMONTE con nomenclatura: BO3013
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de NE3001 a RI3009 con caudal máximo: 274.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de NE3001 a SO3004 con caudal máximo: 387.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de NE3001 a TE3005 con caudal máximo: 443.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de NE3001 a BO3013 con caudal máximo: 148.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de CC3002 a PI3006 con caudal máximo: 312.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de CC3002 a TE3005 con caudal máximo: 431.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de CC3002 a VA3007 con caudal máximo: 268.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de MA3003 a TE3005 con caudal máximo: 456.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de MA3003 a BO3013 con caudal máximo: 164.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de MA3003 a MO3008 con caudal máximo: 460.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de SO3004 a MO3008 con caudal máximo: 324.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de SO3004 a PI3006 con caudal máximo: 300.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de PI3006 a MO3008 con caudal máximo: 285.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de VA3007 a RI3009 con caudal máximo: 402.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de RI3009 a VE3011 con caudal máximo: 254.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de FU3010 a VE3011 con caudal máximo: 240.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de FU3010 a BO3013 con caudal máximo: 320.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de FU3010 a CI3012 con caudal máximo: 362.0
+[Thu Jul 31 22:27:25 ART 2025]	Se ha cargado la tubería de VE3011 a CI3012 con caudal máximo: 412.0
+[Thu Jul 31 22:27:25 ART 2025]	FINALIZÓ CARGA DE DATOS
+[Thu Jul 31 22:27:25 ART 2025]	
 Grafo de ciudades y tuberias: 
+[BO3013]		
+[CI3012]		
+[VE3011]		----412.0--->   [CI3012]		
+[FU3010]		----362.0--->   [CI3012]		----320.0--->   [BO3013]		----240.0--->   [VE3011]		
+[RI3009]		----254.0--->   [VE3011]		
+[MO3008]		
+[VA3007]		----402.0--->   [RI3009]		
+[PI3006]		----285.0--->   [MO3008]		
+[TE3005]		
+[SO3004]		----300.0--->   [PI3006]		----324.0--->   [MO3008]		
+[MA3003]		----460.0--->   [MO3008]		----164.0--->   [BO3013]		----456.0--->   [TE3005]		
+[CC3002]		----268.0--->   [VA3007]		----431.0--->   [TE3005]		----312.0--->   [PI3006]		
+[NE3001]		----148.0--->   [BO3013]		----443.0--->   [TE3005]		----387.0--->   [SO3004]		----274.0--->   [RI3009]		
+
+Tabla de ciudades: 
+
+BOSQUEMONTE
+CIELOFLOR
+CUPRAL-CO
+FUENTELUZ
+MARAVÃ©LICA
+MONTEAURORA
+NEUFUEN
+PIEDRALUNA
+RIONEGRA
+SOLANDINA
+TERRAVIVA
+VALLEVERDE
+VENTISQUERO ALTO
+
+Mapa de tuberias: 
+{CC3002 -> TE3005=CC3002 - TE3005 - 431.0, SO3004 -> MO3008=SO3004 - MO3008 - 324.0, CC3002 -> PI3006=CC3002 - PI3006 - 312.0, SO3004 -> PI3006=SO3004 - PI3006 - 300.0, FU3010 -> VE3011=FU3010 - VE3011 - 240.0, NE3001 -> BO3013=NE3001 - BO3013 - 148.0, FU3010 -> CI3012=FU3010 - CI3012 - 362.0, MA3003 -> TE3005=MA3003 - TE3005 - 456.0, PI3006 -> MO3008=PI3006 - MO3008 - 285.0, RI3009 -> VE3011=RI3009 - VE3011 - 254.0, VE3011 -> CI3012=VE3011 - CI3012 - 412.0, NE3001 -> SO3004=NE3001 - SO3004 - 387.0, MA3003 -> MO3008=MA3003 - MO3008 - 460.0, FU3010 -> BO3013=FU3010 - BO3013 - 320.0, CC3002 -> VA3007=CC3002 - VA3007 - 268.0, MA3003 -> BO3013=MA3003 - BO3013 - 164.0, NE3001 -> TE3005=NE3001 - TE3005 - 443.0, NE3001 -> RI3009=NE3001 - RI3009 - 274.0, VA3007 -> RI3009=VA3007 - RI3009 - 402.0}
+[Thu Jul 31 22:27:50 ART 2025]	Se ha cargado la ciudad: TUCUMAN
+[Thu Jul 31 22:28:01 ART 2025]	DEBUGGING
+Grafo de ciudades y tuberias: 
+[TU1234]		
 [BO3013]		
 [CI3012]		
 [VE3011]		----412.0--->   [CI3012]		
@@ -60,9 +96,10 @@ Tabla de ciudades:
 (PIEDRALUNA) -> HI: -  HD: RIONEGRA
 (RIONEGRA) -> HI: -  HD: - 
 (VALLEVERDE) -> HI: TERRAVIVA  HD: VENTISQUERO ALTO
-(TERRAVIVA) -> HI: -  HD: - 
+(TERRAVIVA) -> HI: -  HD: TUCUMAN
+(TUCUMAN) -> HI: -  HD: - 
 (VENTISQUERO ALTO) -> HI: -  HD: - 
 
 Mapa de tuberias: 
 {CC3002 -> TE3005=CC3002 - TE3005 - 431.0, SO3004 -> MO3008=SO3004 - MO3008 - 324.0, CC3002 -> PI3006=CC3002 - PI3006 - 312.0, SO3004 -> PI3006=SO3004 - PI3006 - 300.0, FU3010 -> VE3011=FU3010 - VE3011 - 240.0, NE3001 -> BO3013=NE3001 - BO3013 - 148.0, FU3010 -> CI3012=FU3010 - CI3012 - 362.0, MA3003 -> TE3005=MA3003 - TE3005 - 456.0, PI3006 -> MO3008=PI3006 - MO3008 - 285.0, RI3009 -> VE3011=RI3009 - VE3011 - 254.0, VE3011 -> CI3012=VE3011 - CI3012 - 412.0, NE3001 -> SO3004=NE3001 - SO3004 - 387.0, MA3003 -> MO3008=MA3003 - MO3008 - 460.0, FU3010 -> BO3013=FU3010 - BO3013 - 320.0, CC3002 -> VA3007=CC3002 - VA3007 - 268.0, MA3003 -> BO3013=MA3003 - BO3013 - 164.0, NE3001 -> TE3005=NE3001 - TE3005 - 443.0, NE3001 -> RI3009=NE3001 - RI3009 - 274.0, VA3007 -> RI3009=VA3007 - RI3009 - 402.0}
-[Wed Jul 30 13:33:16 ART 2025]	Se ha cargado la ciudad: TUCUMAN
+[Thu Jul 31 22:28:01 ART 2025]	>    PROGRAMA FINALIZADO <
