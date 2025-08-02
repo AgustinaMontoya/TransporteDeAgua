@@ -81,6 +81,35 @@ public class GrafoEtiquetado {
         return eliminar;
     }
 
+    public Lista listarAdyacentes(Object vertice) {
+        Lista adyacentes = new Lista();
+        NodoVertice nodo = ubicarVertice(vertice);
+        if (nodo != null) {
+            NodoAdy ady = nodo.getPrimerAdy();
+            while (ady != null) {
+                adyacentes.insertar(ady.getVertice().getElemento(), adyacentes.longitud() + 1);
+                ady = ady.getSigAdy();
+            }
+        }
+        return adyacentes;
+    } 
+
+    public Lista listarOrigenes(Object vertice) {
+        Lista origenes = new Lista();
+        NodoVertice nodo = this.inicio;
+        while (nodo != null) {
+            NodoAdy ady = nodo.getPrimerAdy();
+            while (ady != null) {
+                if (ady.getVertice().getElemento().equals(vertice)) {
+                    origenes.insertar(nodo.getElemento(), origenes.longitud() + 1);
+                }
+                ady = ady.getSigAdy();
+            }
+            nodo = nodo.getSigVertice();
+        }
+        return origenes;
+    }
+
     private void eliminarAdy(NodoVertice nodo, Object elemento) {
         boolean eliminar = false;
         while (nodo != null) {

@@ -289,6 +289,7 @@ public class TransporteDeAgua {
 
     // --------------------------------------   MODIFICACION DE CIUDADES   -------------------------------------------//
 
+    
     public static void trabajarCiudades() {
 
         Scanner sc = new Scanner(System.in);
@@ -336,26 +337,24 @@ public class TransporteDeAgua {
                     nombre = sc.nextLine().toUpperCase();
                     if (tablaCiudades.existeClave(nombre)) {
                         cdad = buscarCiudad(nombre);
+                        Lista la = mapa.listarAdyacentes(cdad.getNomenclatura());
+                        Lista lo = mapa.listarOrigenes(cdad.getNomenclatura());
                         mapa.eliminarVertice(cdad.getNomenclatura());
                         tablaCiudades.eliminar(nombre);
                         System.out.println("La ciudad fue eliminada con exito");
-                        Lista l = new Lista();
-                        Object[] claves = tuberiasMap.keySet().toArray();
-                        int i = 0;
-
-                        while (i < claves.length) {
-                            ClaveTuberia clave = (ClaveTuberia) claves[i];
-
-                            if (clave.getOrigen().equals(nombre) || clave.getDestino().equals(nombre)) {
-                                l.insertar(clave, 1);  // Guardamos la clave que debe eliminarse
-                            }
-
-                            i++;
+                        while (!la.esVacia()) {
+                            String adyacente = (String) la.recuperar(1);
+                            ClaveTuberia clave = new ClaveTuberia(cdad.getNomenclatura(), adyacente);
+                            tuberiasMap.remove(clave);  
+                            mapa.eliminarArco(cdad.getNomenclatura(), adyacente);  
+                            la.eliminar(1);
                         }
-                        while (!l.esVacia()) {
-                            ClaveTuberia claveAEliminar = (ClaveTuberia) l.recuperar(1);
-                            tuberiasMap.remove(claveAEliminar);  // Quitamos del HashMap
-                            l.eliminar(1);  // Quitamos de la lista
+                        while(!lo.esVacia()) {
+                            String origen = (String) lo.recuperar(1);
+                            ClaveTuberia clave = new ClaveTuberia(origen, cdad.getNomenclatura());
+                            tuberiasMap.remove(clave);
+                            mapa.eliminarArco(origen, cdad.getNomenclatura());  
+                            lo.eliminar(1);
                         }
                         archivoLog.escribir("Se ha eliminado la ciudad: " + cdad.getNombre());
                     } else {
