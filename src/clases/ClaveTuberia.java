@@ -16,13 +16,6 @@ public class ClaveTuberia {
         this.nom2 = nom2;
     }
 
-    public String getOrigen() {
-        return nom1;
-    }
-
-    public String getDestino() {
-        return nom2;
-    }
     
     public boolean equals(Object obj) {
         boolean resultado = false;
@@ -38,10 +31,10 @@ public class ClaveTuberia {
     }
 
     public int hashCode() {
-        return nom1.hashCode() * 31 + nom2.hashCode();
+        return nom1.hashCode() + nom2.hashCode();
     }
 
     public String toString() {
-        return nom1 + " -> " + nom2;
+        return nom1 +"-->" + nom2;
     }
 }
