@@ -12,11 +12,11 @@ public class Ciudad {
     private final String nombre;  // Nombre de la ciudad
     private double superficie;
     private int[][] cantHabitantes = new int[11][13]; // Cantidad de habitantes por mes en un año
-    private Comparable nomenclatura;    // Formato CI1234
+    private String nomenclatura;    // Formato CI1234
     private double consumoProm; // Consumo promedio de metros cubicos por persona
 
     // ---------------------------------------- CONSTRUCTOR ---------------------------------------- //
-    public Ciudad(String nn, double sp, Comparable nc, double m3) {
+    public Ciudad(String nn, double sp, String nc, double m3) {
         nombre = nn;
         superficie = sp;
         nomenclatura = nc;
@@ -48,7 +48,7 @@ public class Ciudad {
         this.superficie = superficie;
     }
 
-    public void setNomenclatura(Comparable nomenclatura) {
+    public void setNomenclatura(String nomenclatura) {
         this.nomenclatura = nomenclatura;
     }
 
@@ -65,7 +65,7 @@ public class Ciudad {
         return superficie;
     }
 
-    public Comparable getNomenclatura() {
+    public String getNomenclatura() {
         return nomenclatura;
     }
 
