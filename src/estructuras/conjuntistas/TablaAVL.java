@@ -150,13 +150,17 @@ public class TablaAVL {
             NodoTablaAVL aux = n.getDerecho().getIzquierdo();
             n.getDerecho().setIzquierdo(n);
             n.setDerecho(aux);
-
-        } else {
+            if(retorno.getDerecho()!=null  ) {
+                retorno.getDerecho().recalcularAltura();
+            }
+            aux.recalcularAltura();
+            } else {
             n.getDerecho().setIzquierdo(n);
             retorno = n.getDerecho();
             n.setDerecho(null);
         }
-        retorno.getDerecho().recalcularAltura();
+
+
         retorno.getIzquierdo().recalcularAltura();
         retorno.recalcularAltura();
         return retorno;
@@ -170,13 +174,16 @@ public class TablaAVL {
             n.getIzquierdo().setDerecho(n);
             retorno = n.getIzquierdo();
             n.setIzquierdo(aux);
-        } else {
+            if(retorno.getIzquierdo() != null) {
+                retorno.getIzquierdo().recalcularAltura();
+            }
+            aux.recalcularAltura();
+            } else {
             n.getIzquierdo().setDerecho(n);
             retorno = n.getIzquierdo();
             n.setIzquierdo(null);
         }
         retorno.getDerecho().recalcularAltura();
-        retorno.getIzquierdo().recalcularAltura();
         retorno.recalcularAltura();
 
         return retorno;
@@ -450,7 +457,7 @@ public class TablaAVL {
     private String toStringAux(NodoTablaAVL n) {
         String cad = "";
         if (n != null) {
-            cad += "(" + n.getClave() + ") -> ";
+            cad += "(" + n.getClave() + " ) -> ";
             if (n.getIzquierdo() != null) {
                 cad += "HI: " + n.getIzquierdo().getClave() + "  ";
             } else {

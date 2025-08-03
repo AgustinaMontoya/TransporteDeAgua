@@ -327,6 +327,7 @@ public class GrafoEtiquetado {
         NodoAdy arista;
         int c = camino.longitud();
 
+
             if (!n.getElemento().equals(dest.getElemento())) {
                 visitados.insertar(n.getElemento(), visitados.longitud() + 1);
                 if (camino.esVacia() || visitados.longitud() < camino.longitud()) {
@@ -335,11 +336,9 @@ public class GrafoEtiquetado {
                     vertice = arista.getVertice();
 
                     if (vertice.getElemento().equals(dest.getElemento())) {
-                        visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-
                         if (visitados.longitud() < c || camino.esVacia()) {
                             visitados.vaciarYcopiar(camino);
-                            System.out.println(visitados.toString());
+                            camino.insertar(vertice.getElemento(), visitados.longitud() + 1);
                         }
 
                     }else {

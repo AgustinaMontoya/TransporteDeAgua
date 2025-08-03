@@ -751,17 +751,19 @@ public class TransporteDeAgua {
         return camino;
     }
 
-    private static char obtenerEstado(Lista camino) {
+    private static char obtenerEstado(Lista lis) {
 
-        Ciudad ciu1 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(1));
-        Ciudad ciu2 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(2));
+        Lista camino =new Lista();
+        lis.vaciarYcopiar(camino);
+
+        Object ciu1 = camino.recuperar(1);
+        Object ciu2 = camino.recuperar(2);
         ClaveTuberia clave;
         Tuberia tub;
         char estado = 'A';
-
         if (ciu2 != null) {
             while (ciu2 != null) {
-                clave = new ClaveTuberia(ciu1.getNomenclatura(), ciu2.getNomenclatura());
+                clave = new ClaveTuberia((String)ciu1,(String) ciu2);
                 tub = tuberiasMap.get(clave);
                 if (tub.getEstado() != 'A') {
                     if (tub.getEstado() == 'R') {
@@ -771,12 +773,12 @@ public class TransporteDeAgua {
                     }
                 }
                 camino.eliminar(1);
-                ciu1 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(1));
-                ciu2 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(2));
+                ciu1 =  camino.recuperar(1);
+                ciu2 =  camino.recuperar(2);
             }
             System.out.println("El estado del camino es: " + estado);
         } else if (camino.longitud() == 1) {
-            clave = new ClaveTuberia(ciu1.getNomenclatura(), ciu2.getNomenclatura());
+            clave = new ClaveTuberia((String)ciu1,(String)ciu2);
             tub = tuberiasMap.get(clave);
             estado = tub.getEstado();
             System.out.println("El estado del camino es: " + estado);
