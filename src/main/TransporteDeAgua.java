@@ -639,7 +639,7 @@ public class TransporteDeAgua {
                     ciudad = verificarCiudad();
                     System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
                     ciudad2 = verificarCiudad();
-                    Lista ciudades = obtenerCaminoMenorCaudal(ciudad, ciudad2);
+                    Lista ciudades = obtenerCaminoMenorCaudal(ciudad.getNomenclatura(), ciudad2.getNomenclatura());
                     System.out.println(ciudades.toString());
                     sc.next();
                 }
@@ -648,7 +648,7 @@ public class TransporteDeAgua {
                     ciudad = verificarCiudad();
                     System.out.print("Ingrese el nombre de la ciudad 2 a consultar: ");
                     ciudad2 = verificarCiudad();
-                    Lista ciudades = caminoMasCortoConEstado(ciudad, ciudad2);
+                    Lista ciudades = caminoMasCortoConEstado(ciudad.getNomenclatura(), ciudad2.getNomenclatura());
                     System.out.println(ciudades.toString());
                     sc.next();
                 }
@@ -673,7 +673,7 @@ public class TransporteDeAgua {
                     ciudad2 = verificarCiudad();
                     System.out.print("Ingrese el caudal maximo: ");
                     caudal = sc.nextDouble();
-                    Lista ciudades = caminoDeMaximoCaudal(ciudad, ciudad2, caudal);
+                    Lista ciudades = caminoDeMaximoCaudal(ciudad.getNombre(), ciudad2.getNombre(), caudal);
                     System.out.println(ciudades.toString());
                     sc.next();
                 }
@@ -718,7 +718,7 @@ public class TransporteDeAgua {
 
             Lista rango = tablaCiudades.listarRango(nom1, nom2);
 
-            Object elem = rango.recuperar(1);
+
             System.out.println("Rango: " + rango.toString());//borrar despues
             double caudal = 0;
             int i = 1;

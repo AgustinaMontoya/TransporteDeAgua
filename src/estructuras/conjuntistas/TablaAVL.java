@@ -136,7 +136,7 @@ public class TablaAVL {
                 retorno = rotacionADerecha(n);
             }
         }
-        recalcularArbol(retorno);
+
 
         return retorno;
     }
@@ -156,6 +156,9 @@ public class TablaAVL {
             retorno = n.getDerecho();
             n.setDerecho(null);
         }
+        retorno.getDerecho().recalcularAltura();
+        retorno.getIzquierdo().recalcularAltura();
+        retorno.recalcularAltura();
         return retorno;
     }
 
@@ -172,20 +175,11 @@ public class TablaAVL {
             retorno = n.getIzquierdo();
             n.setIzquierdo(null);
         }
+        retorno.getDerecho().recalcularAltura();
+        retorno.getIzquierdo().recalcularAltura();
+        retorno.recalcularAltura();
 
         return retorno;
-    }
-
-    private void recalcularArbol(NodoTablaAVL n) {
-
-        if (n.getIzquierdo() != null) {
-            recalcularArbol(n.getIzquierdo());
-        }
-        if (n.getDerecho() != null) {
-            recalcularArbol(n.getDerecho());
-        }
-
-        n.recalcularAltura();
     }
 
 
@@ -238,7 +232,6 @@ public class TablaAVL {
                             n.setIzquierdo(aux.getIzquierdo()); // caso candidato inmediato con un hijo izquierdo
                             n.setClave(aux.getClave());
                             n.setDato(aux.getDato());
-                            aux = n;
                         } else if (n.getIzquierdo().getClave().compareTo(aux.getClave()) == 0) {
                             n.setClave(n.getIzquierdo().getClave());
                             n.setDato(n.getIzquierdo().getDato());
@@ -248,10 +241,10 @@ public class TablaAVL {
                         } else {
                             n.setClave(aux.getClave());
                             n.setDato(aux.getDato());
-                            aux = n;
                         }
+                        aux=n;
                         n.recalcularAltura();
-                        recalcularArbol(n);
+
                         int balance = obtenerBalance(n);
                         if (balance == 2 || balance == -2) {
                             aux = rebalancear(n, balance);
@@ -280,7 +273,6 @@ public class TablaAVL {
                     }
                 }
                 if (aux != null) {
-                    recalcularArbol(aux);
                     int balance = obtenerBalance(aux);
                     if (balance == 2 || balance == -2) {
                         aux = rebalancear(n, balance);
@@ -315,10 +307,10 @@ public class TablaAVL {
 
     private NodoTablaAVL obtenerCandidato(NodoTablaAVL n, NodoTablaAVL[] rebalanceo) {
         NodoTablaAVL aux = n;
-
         if (n.getDerecho() != null) {
             if (n.getDerecho().getDerecho() != null) {
                 aux = obtenerCandidato(n.getDerecho(), rebalanceo);
+                n.recalcularAltura();
             } else {
                 if (n.getDerecho().getIzquierdo() != null) {
                     aux = n.getDerecho();

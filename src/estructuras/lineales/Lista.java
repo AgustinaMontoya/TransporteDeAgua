@@ -148,6 +148,19 @@ public class Lista {
         return posicion;
     }
 
+    public void vaciarYcopiar(Lista lisCopia){
+
+        Nodo nodo=this.cabecera;
+
+        int i,l=this.longitud();
+        lisCopia.vaciar();
+        for(i=1;i<l+1;i++){
+            Object elem=nodo.getElemento();
+            lisCopia.insertar(elem,i);
+            nodo=nodo.getEnlace();
+        }
+    }
+
     // -------------------------------------- PROPIAS DEL TIPO --------------------------------------- //
     /*
         Crea y devuelve una cadena de caracteres formada por todos los elementos de la lista para poder
