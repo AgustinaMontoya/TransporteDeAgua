@@ -7,6 +7,8 @@
  */
 package clases;
 
+import java.time.YearMonth;
+
 public class Ciudad {
     // ---------------------------------------- ATRIBUTOS ---------------------------------------- //
     private final String nombre;  // Nombre de la ciudad
@@ -93,13 +95,18 @@ public class Ciudad {
         Obtiene el consumo en un año dado.
      */
     public double getConsumoAnual(int anio) {
+        YearMonth fecha;
         double consumo = 0;
         boolean salir = false;
-        int fil = 0, col;
+        int fil = 0, col, diasMes;
+        // fil es el año
         while (fil <= 10 && !salir) {
             if (cantHabitantes[fil][0] == anio) {
+                // col es el numero del mes
                 for (col = 1; col < 13; col++) {
-                    consumo += cantHabitantes[fil][col] * consumoProm;
+                    fecha = YearMonth.of(anio, col);
+                    diasMes = fecha.lengthOfMonth();
+                    consumo += ((cantHabitantes[fil][col] * consumoProm) * diasMes);
                 }
                 salir = true;
             } else {
