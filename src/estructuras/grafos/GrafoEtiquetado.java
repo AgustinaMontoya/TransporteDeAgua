@@ -327,32 +327,45 @@ public class GrafoEtiquetado {
         NodoAdy arista;
         int c = camino.longitud();
 
-        if (n != dest) {
-            visitados.insertar(n.getElemento(), visitados.longitud() + 1);
-            if (n.getPrimerAdy() != null) {
-                arista = n.getPrimerAdy();
-                vertice = arista.getVertice();
 
-                if (vertice.equals(dest)) {
-                    visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                    if (visitados.longitud() < c || camino.esVacia()) {
-                        rellenar(visitados, camino);
+            if (!n.getElemento().equals(dest.getElemento())) {
+                visitados.insertar(n.getElemento(), visitados.longitud() + 1);
+                if (camino.esVacia() || visitados.longitud() < camino.longitud()) {
+                if (n.getPrimerAdy() != null) {
+                    arista = n.getPrimerAdy();
+                    vertice = arista.getVertice();
+
+                    if (vertice.getElemento().equals(dest.getElemento())) {
+                        if (visitados.longitud() < c || camino.esVacia()) {
+                            visitados.vaciarYcopiar(camino);
+                            camino.insertar(vertice.getElemento(), visitados.longitud() + 1);
+                        }
+
+                    }else {
+                        recorridoCortoAux(vertice, dest, visitados, camino);
+                            visitados.eliminar(visitados.longitud());
+
+                        while (arista != null) {
+                            arista = arista.getSigAdy();
+                            if (arista != null) {
+                                if (visitados.localizar(arista.getVertice().getElemento()) < 0) {
+                                    if (arista.getVertice().getElemento().equals(dest.getElemento())) {
+                                        visitados.vaciarYcopiar(camino);
+                                        camino.insertar(arista.getVertice().getElemento(), visitados.longitud() + 1);
+                                        arista = null;
+
+                                    } else {
+                                        recorridoCortoAux(arista.getVertice(), dest, visitados, camino);
+                                        visitados.eliminar(visitados.longitud());
+                                    }
+                                }
+                            }
+                        }
+
                     }
                 }
-                recorridoCortoAux(vertice, dest, visitados, camino);
-                visitados.eliminar(visitados.longitud());
-
-                while (arista != null) {
-                    arista = arista.getSigAdy();
-                    if (arista != null) {
-                        recorridoCortoAux(arista.getVertice(), dest, visitados, camino);
-                        visitados.eliminar(visitados.longitud());
-                    }
-                }
-
             }
         }
-
 
     }
 
@@ -543,17 +556,10 @@ public class GrafoEtiquetado {
     public Lista obtenerCaminoMenorEtiqueta(Object elem1, Object elem2) {
 
         Lista masChico = new Lista();
-
         NodoVertice[] vertices = ubicarVertices(elem1, elem2);
-        Comparable[] etiqueta = {999999};
+        Comparable[] etiqueta = {999999.0};
         masChico.insertar(etiqueta[0], 1);
         Lista visitados = new Lista();
-
-        recorrerCamino(vertices[0], vertices[1], visitados, etiqueta, masChico);
-        if (masChico.longitud() < 2) {
-            masChico.vaciar();
-        }
-
         if (vertices[0] != null && vertices[1] != null) {
             recorrerCamino(vertices[0], vertices[1], visitados, etiqueta, masChico);
             if (masChico.longitud() < 2) {
@@ -570,49 +576,46 @@ public class GrafoEtiquetado {
         int c = masChico.longitud();
         Comparable etiquetaChica = (Comparable) masChico.recuperar(c);
 
-        if (n != dest) {
-            visitados.insertar(n.getElemento(), visitados.longitud() + 1);
-            if (n.getPrimerAdy() != null) {
-                arista = n.getPrimerAdy();
-                vertice = arista.getVertice();
-                if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
-                    etiqueta[0] = arista.getEtiqueta();
-                }
-                if (vertice.equals(dest)) {
-                    if (etiqueta[0].compareTo(etiquetaChica) < 0) {
-                        visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                        rellenar(visitados, masChico);
-                        masChico.insertar(etiqueta[0], masChico.longitud() + 1);
+            if (!n.getElemento().equals(dest.getElemento())) {
+                visitados.insertar(n.getElemento(), visitados.longitud() + 1);
+                if (n.getPrimerAdy() != null) {
+                    arista = n.getPrimerAdy();
+                    vertice = arista.getVertice();
+                    if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
+                        etiqueta[0] = arista.getEtiqueta();
                     }
-                }
-                recorrerCamino(vertice, dest, visitados, etiqueta, masChico);
-                visitados.eliminar(visitados.longitud());
-
-                while (arista != null) {
-                    arista = arista.getSigAdy();
-                    if (arista != null) {
-                        if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
-                            etiqueta[0] = arista.getEtiqueta();
+                    if (vertice.getElemento().equals(dest.getElemento())) {
+                        if (etiqueta[0].compareTo(etiquetaChica) < 0) {
+                            visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
+                            visitados.vaciarYcopiar(masChico);
+                            masChico.insertar(etiqueta[0], masChico.longitud() + 1);
                         }
-                        recorrerCamino(arista.getVertice(), dest, visitados, etiqueta, masChico);
-                        visitados.eliminar(visitados.longitud());
                     }
-                }
+                    recorrerCamino(vertice, dest, visitados, etiqueta, masChico);
+                    visitados.eliminar(visitados.longitud());
+                    while (arista != null) {
+                        arista = arista.getSigAdy();
+                        if (arista != null) {
+                            if (visitados.localizar(arista.getVertice().getElemento()) == -1) {
+                                if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
+                                    etiqueta[0] = arista.getEtiqueta();
+                                }
+                                if (arista.getVertice().getElemento().equals(dest.getElemento())) {
+                                    visitados.vaciarYcopiar(masChico);
+                                    masChico.insertar(arista.getVertice().getElemento(), visitados.longitud() + 1);
+                                    masChico.insertar(etiqueta[0], masChico.longitud() + 1);
+                                    arista = null;
+                                } else {
+                                    recorrerCamino(arista.getVertice(), dest, visitados, etiqueta, masChico);
+                                    visitados.eliminar(visitados.longitud());
+                                }
+                            }
+                        }
+                    }
 
+                }
             }
         }
-    }
-
-    private void rellenar(Lista vis, Lista masChi) {
-
-        masChi.vaciar();
-        int l = vis.longitud();
-
-        for (int i = 1; i < l + 1; i++) {
-            masChi.insertar(vis.recuperar(i), i);
-        }
-    }
-
 
 
 
@@ -656,8 +659,7 @@ public class GrafoEtiquetado {
                         if (etiqueta[0].compareTo(etiquetaChica) < 0) {
 
                             visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-
-                            rellenar(visitados, masChico);
+                            visitados.vaciarYcopiar(masChico);
                             masChico.insertar(etiqueta[0], masChico.longitud() + 1);
 
                         }
@@ -714,7 +716,7 @@ public class GrafoEtiquetado {
                 if (vertice.equals(dest)) {
                     visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
                     Lista aux = new Lista();
-                    rellenar(visitados, aux);
+                    visitados.vaciarYcopiar(aux);
                     if (etiqueta[0].compareTo(valor) < 0) {
                         posibles.insertar(aux, posibles.longitud() + 1);
                     }
@@ -736,7 +738,6 @@ public class GrafoEtiquetado {
             }
         }
     }
-
 
 
 }

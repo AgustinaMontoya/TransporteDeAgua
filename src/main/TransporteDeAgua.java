@@ -583,7 +583,7 @@ public class TransporteDeAgua {
                     System.out.print("Ingrese el mes a consultar: ");
                     mes = verificarExisteMes();
                     sc.nextLine();
-                    Lista ciudades = ciudadesConVolumenDet(ciudad.getNomenclatura(), ciudad2.getNomenclatura(), vol1, vol2, anio, mes);
+                    Lista ciudades = ciudadesConVolumenDet(ciudad.getNombre().toLowerCase(), ciudad2.getNombre().toLowerCase(), vol1, vol2, anio, mes);
                     System.out.println(ciudades.toString());
                 }
                 break;
@@ -639,7 +639,7 @@ public class TransporteDeAgua {
                     ciudad = verificarCiudad();
                     System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
                     ciudad2 = verificarCiudad();
-                    Lista ciudades = obtenerCaminoMenorCaudal(ciudad, ciudad2);
+                    Lista ciudades = obtenerCaminoMenorCaudal(ciudad.getNomenclatura(), ciudad2.getNomenclatura());
                     System.out.println(ciudades.toString());
                     sc.next();
                 }
@@ -648,7 +648,7 @@ public class TransporteDeAgua {
                     ciudad = verificarCiudad();
                     System.out.print("Ingrese el nombre de la ciudad 2 a consultar: ");
                     ciudad2 = verificarCiudad();
-                    Lista ciudades = caminoMasCortoConEstado(ciudad, ciudad2);
+                    Lista ciudades = caminoMasCortoConEstado(ciudad.getNomenclatura(), ciudad2.getNomenclatura());
                     System.out.println(ciudades.toString());
                     sc.next();
                 }
@@ -673,7 +673,7 @@ public class TransporteDeAgua {
                     ciudad2 = verificarCiudad();
                     System.out.print("Ingrese el caudal maximo: ");
                     caudal = sc.nextDouble();
-                    Lista ciudades = caminoDeMaximoCaudal(ciudad, ciudad2, caudal);
+                    Lista ciudades = caminoDeMaximoCaudal(ciudad.getNombre(), ciudad2.getNombre(), caudal);
                     System.out.println(ciudades.toString());
                     sc.next();
                 }
@@ -715,8 +715,10 @@ public class TransporteDeAgua {
 
         Lista ciudades = new Lista();
 
-        if (mapa.existeCamino(nom1, nom2)) {
+
             Lista rango = tablaCiudades.listarRango(nom1, nom2);
+
+
             System.out.println("Rango: " + rango.toString());//borrar despues
             double caudal = 0;
             int i = 1;
@@ -733,7 +735,7 @@ public class TransporteDeAgua {
                 }
                 rango.eliminar(1);
             }
-        }
+
         return ciudades;
     }
 
@@ -749,17 +751,19 @@ public class TransporteDeAgua {
         return camino;
     }
 
-    private static char obtenerEstado(Lista camino) {
+    private static char obtenerEstado(Lista lis) {
 
-        Ciudad ciu1 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(1));
-        Ciudad ciu2 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(2));
+        Lista camino =new Lista();
+        lis.vaciarYcopiar(camino);
+
+        Object ciu1 = camino.recuperar(1);
+        Object ciu2 = camino.recuperar(2);
         ClaveTuberia clave;
         Tuberia tub;
         char estado = 'A';
-
         if (ciu2 != null) {
             while (ciu2 != null) {
-                clave = new ClaveTuberia(ciu1.getNomenclatura(), ciu2.getNomenclatura());
+                clave = new ClaveTuberia((String)ciu1,(String) ciu2);
                 tub = tuberiasMap.get(clave);
                 if (tub.getEstado() != 'A') {
                     if (tub.getEstado() == 'R') {
@@ -769,12 +773,12 @@ public class TransporteDeAgua {
                     }
                 }
                 camino.eliminar(1);
-                ciu1 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(1));
-                ciu2 = (Ciudad) tablaCiudades.obtenerDato((Comparable) camino.recuperar(2));
+                ciu1 =  camino.recuperar(1);
+                ciu2 =  camino.recuperar(2);
             }
             System.out.println("El estado del camino es: " + estado);
         } else if (camino.longitud() == 1) {
-            clave = new ClaveTuberia(ciu1.getNomenclatura(), ciu2.getNomenclatura());
+            clave = new ClaveTuberia((String)ciu1,(String)ciu2);
             tub = tuberiasMap.get(clave);
             estado = tub.getEstado();
             System.out.println("El estado del camino es: " + estado);
@@ -855,6 +859,7 @@ public class TransporteDeAgua {
         System.out.println(mapa.toString());
         System.out.println("Tabla de ciudades: ");
         System.out.println(tablaCiudades.listarClaves());
+        System.out.println(tablaCiudades.toString());
         System.out.println("Mapa de tuberias: ");
         System.out.println(tuberiasMap.toString());
     }
