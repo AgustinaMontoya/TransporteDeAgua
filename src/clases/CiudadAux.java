@@ -29,9 +29,15 @@ public class CiudadAux implements Comparable {
         this.consumo = consumo;
     }
 
+    /*
+        Compara el consumo de dos ciudades y devuelve:
+        0  --> Si a == b
+        1  --> Si a > b
+        -1 --> Si a < b
+     */
     @Override
-    public int compareTo(Object o) {
-        CiudadAux otra = (CiudadAux) o;
+    public int compareTo(Object otraCiudad) {
+        CiudadAux otra = (CiudadAux) otraCiudad;
         return Double.compare(this.consumo, otra.consumo);
     }
 }

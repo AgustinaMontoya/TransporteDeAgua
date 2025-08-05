@@ -81,6 +81,8 @@ public class TransporteDeAgua {
                     System.out.print("Ingresar año: ");
                     anio = verificarAnio(ciudad);
                     cargarHabitantes(ciudad, anio);
+                    System.out.println("Se ha cargado correctamente la información.");
+                    archivoLog.escribir("Se ha cargado correctamente la información sobre cantidad de habitantes.\nCantidad de habitantes actualizada para la ciudad " + ciudad.getNombre() + ".");
                 }
                 break;
                 case 4: {
@@ -107,9 +109,9 @@ public class TransporteDeAgua {
                 break;
                 case 8: {
                     System.out.println("-------------------------------------------------------------------------------------------------");
-                    System.out.println("Saliendo del sistema...");
+                    System.out.println("Saliendo del programa...");
                     System.out.println("-------------------------------------------------------------------------------------------------");
-                    archivoLog.escribir("DEBUGGING"
+                    archivoLog.escribir("\tESTADO FINAL DEL PROGRAMA"
                             + "\nGrafo de ciudades y tuberias: \n"
                             + mapa.toString()
                             + "\nTabla de ciudades: \n"
@@ -256,8 +258,10 @@ public class TransporteDeAgua {
         return pertenece;
     }
 
+    /*
+        Verifica que el año no esté en la matriz, porque quiero registrar un año nuevo.
+    */
     public static int verificarAnio(Ciudad ciudad) {
-        /* Está pensado para que el rango de años sea de 10 */
         int anio = 0;
         boolean existe = false;
         while (!existe) {
@@ -277,19 +281,16 @@ public class TransporteDeAgua {
         int[] cantHabitantes = new int[13];
         cantHabitantes[0] = anio;
         System.out.println("Ingrese la cantidad de habitantes por mes: ");
-        for (col = 1; col < cantHabitantes.length + 1; col++) {
-            System.out.println("Mes " + col + ": ");
+        for (col = 1; col < cantHabitantes.length; col++) {
+            System.out.print("Mes " + col + ": ");
             cant = sc.nextInt();
             cantHabitantes[col] = cant;
-            System.out.print(cant);
-            sc.next();
         }
         ciudad.setCantHabitantes(cantHabitantes);
     }
 
     // --------------------------------------   MODIFICACION DE CIUDADES   -------------------------------------------//
 
-    
     public static void trabajarCiudades() {
 
         Scanner sc = new Scanner(System.in);
@@ -341,24 +342,24 @@ public class TransporteDeAgua {
                         Lista lo = mapa.listarOrigenes(cdad.getNomenclatura());
                         mapa.eliminarVertice(cdad.getNomenclatura());
                         tablaCiudades.eliminar(nombre);
-                        System.out.println("La ciudad fue eliminada con exito");
+                        System.out.println("La ciudad fue eliminada con exito.");
                         while (!la.esVacia()) {
                             String adyacente = (String) la.recuperar(1);
                             ClaveTuberia clave = new ClaveTuberia(cdad.getNomenclatura(), adyacente);
-                            tuberiasMap.remove(clave);  
-                            mapa.eliminarArco(cdad.getNomenclatura(), adyacente);  
+                            tuberiasMap.remove(clave);
+                            mapa.eliminarArco(cdad.getNomenclatura(), adyacente);
                             la.eliminar(1);
                         }
-                        while(!lo.esVacia()) {
+                        while (!lo.esVacia()) {
                             String origen = (String) lo.recuperar(1);
                             ClaveTuberia clave = new ClaveTuberia(origen, cdad.getNomenclatura());
                             tuberiasMap.remove(clave);
-                            mapa.eliminarArco(origen, cdad.getNomenclatura());  
+                            mapa.eliminarArco(origen, cdad.getNomenclatura());
                             lo.eliminar(1);
                         }
                         archivoLog.escribir("Se ha eliminado la ciudad: " + cdad.getNombre());
                     } else {
-                        System.out.println("La ciudad no se encuentra en el sistema");
+                        System.out.println("La ciudad no se encuentra en el sistema.");
                     }
                 }
                 break;
@@ -372,6 +373,7 @@ public class TransporteDeAgua {
                                 + "\n[C] : Si desea cambiar el consumo."
                                 + "\n[N] : Si quiere modificar la nomenclatura."
                                 + "\n[S] : Si quiere modificar la superficie.");
+                        System.out.print("Opción: ");
                         opcion = sc.next().toUpperCase().charAt(0);
                         if (opcion == 'C') {
                             System.out.print("Ingrese el nuevo consumo de la ciudad: ");
@@ -440,9 +442,9 @@ public class TransporteDeAgua {
                         caudalMax = sc.nextDouble();
                         System.out.print("Diametro: ");
                         diametro = sc.nextDouble();
-                        System.out.println("Estado de la tuberia: ");
+                        System.out.print("Estado de la tuberia: ");
                         sc.nextLine();
-                        estado = sc.nextLine().toUpperCase().charAt(0);
+                        estado = verificarEstado();
                         Tuberia tuberia = new Tuberia(cdadOrigen.getNombre(), cdadDestino.getNombre(), caudalMin, caudalMax, diametro, estado);
                         mapa.insertarArco(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura(), caudalMax);
                         ClaveTuberia clave = new ClaveTuberia(cdadOrigen.getNombre(), cdadDestino.getNombre());
@@ -522,6 +524,7 @@ public class TransporteDeAgua {
         char estado = ' ';
         boolean exito = false;
         while (!exito) {
+            sc.next();
             estado = sc.nextLine().toUpperCase().charAt(0);
             // A: ACTIVO - R: REPARACIÓN - D: DISEÑO - I: INACTIVO
             if (estado == 'A' || estado == 'R' || estado == 'D' || estado == 'I') {
@@ -587,6 +590,10 @@ public class TransporteDeAgua {
                     System.out.println(ciudades.toString());
                 }
                 break;
+                case 3: {
+                    System.out.println("");
+                }
+                break;
                 default:
                     System.out.println("Operación ingresada incorrecta!! Vuelva a ingresar otra operación.");
                     break;
@@ -608,6 +615,9 @@ public class TransporteDeAgua {
         return mes;
     }
 
+    /*
+        Verifica que el año se encuentre dentro de la matriz
+     */
     private static int verificarExisteAnio(Ciudad ciudad) {
         int anio = -1;
         boolean existe = false;
@@ -695,7 +705,7 @@ public class TransporteDeAgua {
         Lista ciudades = new Lista();
 
 
-            Lista rango = tablaCiudades.listarRango(nom1, nom2);
+        Lista rango = tablaCiudades.listarRango(nom1, nom2);
 
 
             double caudal = 0;
@@ -712,6 +722,22 @@ public class TransporteDeAgua {
                 }
                 rango.eliminar(1);
             }
+        System.out.println("Rango: " + rango.toString());//borrar despues
+        double caudal = 0;
+        int i = 1;
+        while (!rango.esVacia()) {
+            Ciudad elem = (Ciudad) rango.recuperar(1);
+            Lista datos = obtenerHabitantesYCaudal(elem, anio, mes);
+            System.out.println("Datos: " + datos.toString());//borrar despues
+            if (!datos.esVacia()) {
+                caudal = (double) datos.recuperar(2);
+                if (caudal > vol1 && caudal < vol2) {
+                    ciudades.insertar(elem, i);
+                    i++;
+                }
+            }
+            rango.eliminar(1);
+        }
 
         return ciudades;
     }
@@ -748,7 +774,7 @@ public class TransporteDeAgua {
         char estado = 'A';
         if (ciu2 != null) {
             while (ciu2 != null) {
-                clave = new ClaveTuberia((String)ciu1,(String) ciu2);
+                clave = new ClaveTuberia((String) ciu1, (String) ciu2);
                 tub = tuberiasMap.get(clave);
                 if (tub.getEstado() != 'A') {
                     if (tub.getEstado() == 'R') {
@@ -758,12 +784,12 @@ public class TransporteDeAgua {
                     }
                 }
                 camino.eliminar(1);
-                ciu1 =  camino.recuperar(1);
-                ciu2 =  camino.recuperar(2);
+                ciu1 = camino.recuperar(1);
+                ciu2 = camino.recuperar(2);
             }
             System.out.println("El estado del camino es: " + estado);
         } else if (camino.longitud() == 1) {
-            clave = new ClaveTuberia((String)ciu1,(String)ciu2);
+            clave = new ClaveTuberia((String) ciu1, (String) ciu2);
             tub = tuberiasMap.get(clave);
             estado = tub.getEstado();
             System.out.println("El estado del camino es: " + estado);
@@ -826,7 +852,7 @@ public class TransporteDeAgua {
         while (!ordenar.esVacio()) {
             CiudadAux elemento = (CiudadAux) ordenar.recuperarCima();
             ordenar.eliminarCima();
-            System.out.println("Ciudad: " + elemento.getCiudad() + " - Consumo Anual: " + elemento.getConsumo());
+            //System.out.println("Ciudad: " + elemento.getCiudad() + " - Consumo Anual: " + elemento.getConsumo());
             consumoCiudades.insertar(elemento.getCiudad(), consumoCiudades.longitud() + 1);
         }
         return consumoCiudades;
