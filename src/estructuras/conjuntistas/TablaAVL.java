@@ -23,6 +23,7 @@ public class TablaAVL {
     }
 
     public boolean existeClave(Comparable elemento) {
+
         boolean exito = false;
 
         if (this.raiz != null) {
@@ -32,6 +33,11 @@ public class TablaAVL {
     }
 
     private boolean encontrarNodo(NodoTablaAVL n, Comparable elemento) {
+
+        /* Dado un nodo y un comparable, recorre el AVL haciendo uso de la estructura
+           ABB hasta encontrar el elemento o no.
+         */
+
         boolean encontrado = false;
 
         if (n.getClave().compareTo(elemento) == 0) {
@@ -64,8 +70,13 @@ public class TablaAVL {
 
 
     private boolean insertarAux(NodoTablaAVL n, Comparable clave, Object dato, NodoTablaAVL[] rebalanceo) {
-        boolean exito = true;
 
+        /* Dado un nodo, se recorre el arbol comparando la clave y moverser respetando la estructura ABB
+           hasta llegar a un nulo o encotrar el elemento.
+           rebalaceo [] se usa para poder devolver el nodo y que la estructura devuelva true por convencion.
+         */
+
+        boolean exito = true;
 
         if ((clave.compareTo(n.getClave()) == 0)) {
             // Reportar error: Elemento repetido
@@ -117,6 +128,10 @@ public class TablaAVL {
 
     private NodoTablaAVL rebalancear(NodoTablaAVL n, int balance) {
 
+        /*Dado un nodo y un balance, se consulta el balance de n para determinar la rotacion que corresponda.
+          y luego consultar el balance de su hijo segun corresponda y ahi ejecutar la rotacion.
+         */
+
         NodoTablaAVL retorno;
 
         if (balance == -2) {
@@ -144,6 +159,8 @@ public class TablaAVL {
 
     private NodoTablaAVL rotacionAIzquierda(NodoTablaAVL n) {
         NodoTablaAVL retorno;
+
+        /* Dado n,  */
 
         if (n.getDerecho().getIzquierdo() != null) {
             retorno = n.getDerecho();
@@ -227,9 +244,6 @@ public class TablaAVL {
             if (n.getClave().compareTo(elemento) == 0) {
                 indicador[0] = true;
                 if (n.getIzquierdo() == null && n.getDerecho() == null) {
-                    if (this.raiz == n) {
-                        this.raiz = null;
-                    } else {
                         aux = null;
                     }
                 } else if (n.getIzquierdo() != null && n.getDerecho() != null) {
@@ -307,7 +321,7 @@ public class TablaAVL {
                     }
                 }
             }
-        }
+
 
         return aux;
     }

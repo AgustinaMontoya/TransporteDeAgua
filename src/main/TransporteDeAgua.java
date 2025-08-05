@@ -629,8 +629,6 @@ public class TransporteDeAgua {
                     + "\n\tMENÚ TRANSPORTE DE AGUA\nElija la opcion: "
                     + "\n[1] : Obtener el camino de menor caudal entre 2 ciudades."
                     + "\n[2] : Obtener el camino entre 2 ciudades mas corto, y su estado."
-                    + "\n[3] : Obtener el camino entre 2 ciudades de menor caudal, y que NO pase por una ciudad."
-                    + "\n[4] : Obtener todos los caminos posibles entre 2 ciudades, que puedan transportar un caudal indicado."
                     + "\n[5] : Salir del menú transporte de agua.");
             num = sc.nextInt();
             switch (num) {
@@ -653,31 +651,6 @@ public class TransporteDeAgua {
                     sc.next();
                 }
                 break;
-                case 3: {
-                    System.out.print("Ingrese el nombre de la ciudad 1 a consultar: ");
-                    ciudad = verificarCiudad();
-                    System.out.print("Ingrese el nombre de la ciudad 2 a consultar: ");
-                    ciudad2 = verificarCiudad();
-                    System.out.print("Ingrese el nombre de la ciudad por la que no se debe pasar: ");
-                    ciudadEvitar = verificarCiudad();
-                    Lista ciudades = mapa.obtenerCaminoSalteandoCiudad(ciudad, ciudad2, ciudadEvitar);
-                    System.out.println(ciudades.toString());
-                    sc.next();
-                }
-                break;
-                case 4: {
-                    double caudal;
-                    System.out.print("Ingrese el nombre de la ciudad 1 a consultar: ");
-                    ciudad = verificarCiudad();
-                    System.out.print("Ingrese el nombre de la ciudad 2 a consultar: ");
-                    ciudad2 = verificarCiudad();
-                    System.out.print("Ingrese el caudal maximo: ");
-                    caudal = sc.nextDouble();
-                    Lista ciudades = caminoDeMaximoCaudal(ciudad.getNombre(), ciudad2.getNombre(), caudal);
-                    System.out.println(ciudades.toString());
-                    sc.next();
-                }
-                break;
                 default:
                     System.out.println("Operación ingresada incorrecta!! Vuelva a ingresar otra operación.");
                     break;
@@ -687,6 +660,11 @@ public class TransporteDeAgua {
     }
 
     private static Lista obtenerHabitantesYCaudal(Ciudad ciu1, int anio, int mes) {
+
+        /*para un anio y mes determinado, se busca la cantidad de habitantes en la matriz, luego se multiplica
+        por el consumo promedio por persona por dia, por la cantidad de dias del mes
+         */
+
 
         Lista datos = new Lista();
 
@@ -710,8 +688,9 @@ public class TransporteDeAgua {
 
     private static Lista ciudadesConVolumenDet(Comparable nom1, Comparable nom2, double vol1, double vol2, int anio, int mes) {
 
-        //este metodo recibe nombres de ciudades, se verifica si dichas ciudades
-        //estan cargadas y devuelve las ciudades
+        /* Dados un anio y un mes, se obtienen las ciudades entre un rango de dos ciudades, nom1 y nom2. Luego se filtran las ciudades
+            de acuerdo a dos volumenes que se pasan por parametro, el caudal mensual de dicha ciudad debe estar entre ambos volumenes.
+         */
 
         Lista ciudades = new Lista();
 
@@ -719,13 +698,11 @@ public class TransporteDeAgua {
             Lista rango = tablaCiudades.listarRango(nom1, nom2);
 
 
-            System.out.println("Rango: " + rango.toString());//borrar despues
             double caudal = 0;
             int i = 1;
             while (!rango.esVacia()) {
                 Ciudad elem = (Ciudad) rango.recuperar(1);
                 Lista datos = obtenerHabitantesYCaudal(elem, anio, mes);
-                System.out.println("Datos: " + datos.toString());//borrar despues
                 if (!datos.esVacia()) {
                     caudal = (double) datos.recuperar(2);
                     if (caudal > vol1 && caudal < vol2) {
@@ -741,6 +718,10 @@ public class TransporteDeAgua {
 
     private static Lista obtenerCaminoMenorCaudal(Object nom1, Object nom2) {
 
+        /* Dados dos nombres de ciudades, se obtiene el camino entre ambas ciudades que tenga el caudal pleno mas pequeño
+           entre todos los caminos.
+         */
+
         Lista camino = new Lista();
 
         if (!mapa.esVacio()) {
@@ -752,6 +733,10 @@ public class TransporteDeAgua {
     }
 
     private static char obtenerEstado(Lista lis) {
+
+        /* Dado una lista con un camino, se evalua el estado de dicho camino, teniendo
+           en cuenta el estado de cada tuberia.
+         */
 
         Lista camino =new Lista();
         lis.vaciarYcopiar(camino);
@@ -788,6 +773,10 @@ public class TransporteDeAgua {
 
     public static Lista caminoMasCortoConEstado(Object origen, Object destino) {
 
+        /* Dados dos nombres de ciudades, devuelve el camino mas corto entre ambas ciudades
+           ademas de el estado del camino completo.
+         */
+
         Lista camino = new Lista();
 
         if (!mapa.esVacio()) {
@@ -800,16 +789,6 @@ public class TransporteDeAgua {
         return camino;
     }
 
-    public static Lista caminoDeMaximoCaudal(Object origen, Object destino, Object maximoCaudal) {
-
-        Lista posibles = new Lista();
-
-        if (!mapa.esVacio()) {
-            mapa.caminosPosibles(origen, destino, (Comparable) maximoCaudal);
-        }
-
-        return posibles;
-    }
 
     //----------------------------------------------------------------------------------------------------------------//
     /*

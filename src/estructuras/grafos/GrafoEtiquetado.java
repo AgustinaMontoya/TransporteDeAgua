@@ -92,7 +92,7 @@ public class GrafoEtiquetado {
             }
         }
         return adyacentes;
-    } 
+    }
 
     public Lista listarOrigenes(Object vertice) {
         Lista origenes = new Lista();
@@ -327,43 +327,41 @@ public class GrafoEtiquetado {
         NodoAdy arista;
         int c = camino.longitud();
 
+        visitados.insertar(n.getElemento(), visitados.longitud() + 1);
+        if (camino.esVacia() || visitados.longitud() < camino.longitud()) {
+            if (n.getPrimerAdy() != null) {
+                arista = n.getPrimerAdy();
+                vertice = arista.getVertice();
 
-            if (!n.getElemento().equals(dest.getElemento())) {
-                visitados.insertar(n.getElemento(), visitados.longitud() + 1);
-                if (camino.esVacia() || visitados.longitud() < camino.longitud()) {
-                if (n.getPrimerAdy() != null) {
-                    arista = n.getPrimerAdy();
-                    vertice = arista.getVertice();
+                if (vertice.getElemento().equals(dest.getElemento())) {
+                    if (visitados.longitud() < c || camino.esVacia()) {
+                        visitados.vaciarYcopiar(camino);
+                        camino.insertar(vertice.getElemento(), visitados.longitud() + 1);
+                    }
 
-                    if (vertice.getElemento().equals(dest.getElemento())) {
-                        if (visitados.longitud() < c || camino.esVacia()) {
-                            visitados.vaciarYcopiar(camino);
-                            camino.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                        }
+                } else {
+                    recorridoCortoAux(vertice, dest, visitados, camino);
+                    visitados.eliminar(visitados.longitud());
 
-                    }else {
-                        recorridoCortoAux(vertice, dest, visitados, camino);
-                            visitados.eliminar(visitados.longitud());
+                    while (arista != null) {
+                        arista = arista.getSigAdy();
+                        if (arista != null) {
+                            if (visitados.localizar(arista.getVertice().getElemento()) < 0) {
+                                if (arista.getVertice().getElemento().equals(dest.getElemento())) {
+                                    visitados.vaciarYcopiar(camino);
+                                    camino.insertar(arista.getVertice().getElemento(), visitados.longitud() + 1);
+                                    arista = null;
 
-                        while (arista != null) {
-                            arista = arista.getSigAdy();
-                            if (arista != null) {
-                                if (visitados.localizar(arista.getVertice().getElemento()) < 0) {
-                                    if (arista.getVertice().getElemento().equals(dest.getElemento())) {
-                                        visitados.vaciarYcopiar(camino);
-                                        camino.insertar(arista.getVertice().getElemento(), visitados.longitud() + 1);
-                                        arista = null;
-
-                                    } else {
-                                        recorridoCortoAux(arista.getVertice(), dest, visitados, camino);
-                                        visitados.eliminar(visitados.longitud());
-                                    }
+                                } else {
+                                    recorridoCortoAux(arista.getVertice(), dest, visitados, camino);
+                                    visitados.eliminar(visitados.longitud());
                                 }
                             }
                         }
-
                     }
+
                 }
+
             }
         }
 
@@ -555,6 +553,10 @@ public class GrafoEtiquetado {
 
     public Lista obtenerCaminoMenorEtiqueta(Object elem1, Object elem2) {
 
+        /* Dados dos elementos, se verifica su existencia en el grafo y se busca el camino con la etiqueta
+           mas chica de todas entre todos los caminos posibles
+         */
+
         Lista masChico = new Lista();
         NodoVertice[] vertices = ubicarVertices(elem1, elem2);
         Comparable[] etiqueta = {999999.0};
@@ -571,173 +573,58 @@ public class GrafoEtiquetado {
 
     private void recorrerCamino(NodoVertice n, NodoVertice dest, Lista visitados, Comparable[] etiqueta, Lista masChico) {
 
-        NodoVertice vertice;
-        NodoAdy arista;
-        int c = masChico.longitud();
-        Comparable etiquetaChica = (Comparable) masChico.recuperar(c);
-
-            if (!n.getElemento().equals(dest.getElemento())) {
-                visitados.insertar(n.getElemento(), visitados.longitud() + 1);
-                if (n.getPrimerAdy() != null) {
-                    arista = n.getPrimerAdy();
-                    vertice = arista.getVertice();
-                    if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
-                        etiqueta[0] = arista.getEtiqueta();
-                    }
-                    if (vertice.getElemento().equals(dest.getElemento())) {
-                        if (etiqueta[0].compareTo(etiquetaChica) < 0) {
-                            visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                            visitados.vaciarYcopiar(masChico);
-                            masChico.insertar(etiqueta[0], masChico.longitud() + 1);
-                        }
-                    }
-                    recorrerCamino(vertice, dest, visitados, etiqueta, masChico);
-                    visitados.eliminar(visitados.longitud());
-                    while (arista != null) {
-                        arista = arista.getSigAdy();
-                        if (arista != null) {
-                            if (visitados.localizar(arista.getVertice().getElemento()) == -1) {
-                                if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
-                                    etiqueta[0] = arista.getEtiqueta();
-                                }
-                                if (arista.getVertice().getElemento().equals(dest.getElemento())) {
-                                    visitados.vaciarYcopiar(masChico);
-                                    masChico.insertar(arista.getVertice().getElemento(), visitados.longitud() + 1);
-                                    masChico.insertar(etiqueta[0], masChico.longitud() + 1);
-                                    arista = null;
-                                } else {
-                                    recorrerCamino(arista.getVertice(), dest, visitados, etiqueta, masChico);
-                                    visitados.eliminar(visitados.longitud());
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-
-
-
-    public Lista obtenerCaminoSalteandoCiudad(Object elem1, Object elem2, Object nodoEvitar) {
-
-        Lista masChico = new Lista();
-
-        NodoVertice[] vertices = ubicarVertices(elem1, elem2);
-        Comparable[] etiqueta = {999999};
-        masChico.insertar(etiqueta[0], 1);
-        Lista visitados = new Lista();
-
-        if (vertices[0] != null && vertices[1] != null) {
-
-            recorrerCaminoSalteado(vertices[0], vertices[1], nodoEvitar, visitados, etiqueta, masChico);
-            if (masChico.longitud() < 2) {
-                masChico.vaciar();
-            }
-            masChico.eliminar(masChico.longitud());
-        }
-        return masChico;
-    }
-
-    private void recorrerCaminoSalteado(NodoVertice n, NodoVertice dest, Object evitar, Lista visitados, Comparable[] etiqueta, Lista masChico) {
+        /*Dado un nodo n, se visita de forma recursiva los posibles nodos siguientes, guardando la etiqueta de cada arco
+          que sea menor al previamente guardado.
+         */
 
         NodoVertice vertice;
         NodoAdy arista;
         int c = masChico.longitud();
         Comparable etiquetaChica = (Comparable) masChico.recuperar(c);
 
-        if (n != dest) {
-            visitados.insertar(n.getElemento(), visitados.longitud() + 1);
-            if (!n.getElemento().equals(evitar)) {
-                if (n.getPrimerAdy() != null) {
-                    arista = n.getPrimerAdy();
-                    vertice = arista.getVertice();
-                    if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
-                        etiqueta[0] = arista.getEtiqueta();
-                    }
-                    if (vertice.equals(dest)) {
-                        if (etiqueta[0].compareTo(etiquetaChica) < 0) {
-
-                            visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                            visitados.vaciarYcopiar(masChico);
-                            masChico.insertar(etiqueta[0], masChico.longitud() + 1);
-
-                        }
-                    }
-                    recorrerCaminoSalteado(vertice, dest, evitar, visitados, etiqueta, masChico);
-                    visitados.eliminar(visitados.longitud());
-
-                    while (arista != null) {
-                        arista = arista.getSigAdy();
-                        if (arista != null) {
-                            if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
-                                etiqueta[0] = arista.getEtiqueta();
-                            }
-                            recorrerCaminoSalteado(arista.getVertice(), dest, evitar, visitados, etiqueta, masChico);
-                            visitados.eliminar(visitados.longitud());
-                        }
-                    }
-
-                }
-            }
-        }
-    }
-
-    public Lista caminosPosibles(Object origen, Object destino, Comparable valor) {
-
-        Lista posibles = new Lista();
-
-        if (this.inicio != null) {
-            NodoVertice[] vertices = ubicarVertices(origen, destino);
-            Lista visitados = new Lista();
-            Comparable[] etiqueta = {9999};
-            if (vertices[0] != null && vertices[1] != null) {
-                caminosPosiblesAux(vertices[0], vertices[1], etiqueta, valor, visitados, posibles);
-            }
-        }
-        return posibles;
-    }
-
-    private void caminosPosiblesAux(NodoVertice n, NodoVertice dest, Comparable[] etiqueta, Comparable valor, Lista visitados, Lista posibles) {
-
-        NodoVertice vertice;
-        NodoAdy arista;
-
-
-        if (n != dest) {
+        if (!n.getElemento().equals(dest.getElemento())) {
             visitados.insertar(n.getElemento(), visitados.longitud() + 1);
             if (n.getPrimerAdy() != null) {
                 arista = n.getPrimerAdy();
                 vertice = arista.getVertice();
-
                 if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
                     etiqueta[0] = arista.getEtiqueta();
                 }
-                if (vertice.equals(dest)) {
-                    visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
-                    Lista aux = new Lista();
-                    visitados.vaciarYcopiar(aux);
-                    if (etiqueta[0].compareTo(valor) < 0) {
-                        posibles.insertar(aux, posibles.longitud() + 1);
+                if (vertice.getElemento().equals(dest.getElemento())) {
+                    if (etiqueta[0].compareTo(etiquetaChica) < 0) {
+                        visitados.insertar(vertice.getElemento(), visitados.longitud() + 1);
+                        visitados.vaciarYcopiar(masChico);
+                        masChico.insertar(etiqueta[0], masChico.longitud() + 1);
                     }
                 }
-                caminosPosiblesAux(vertice, dest, etiqueta, valor, visitados, posibles);
+                recorrerCamino(vertice, dest, visitados, etiqueta, masChico);
                 visitados.eliminar(visitados.longitud());
-
                 while (arista != null) {
                     arista = arista.getSigAdy();
                     if (arista != null) {
-                        if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
-                            etiqueta[0] = arista.getEtiqueta();
+                        if (visitados.localizar(arista.getVertice().getElemento()) == -1) {
+                            if (arista.getEtiqueta().compareTo(etiqueta[0]) < 0) {
+                                etiqueta[0] = arista.getEtiqueta();
+                            }
+                            if (arista.getVertice().getElemento().equals(dest.getElemento())) {
+                                visitados.vaciarYcopiar(masChico);
+                                masChico.insertar(arista.getVertice().getElemento(), visitados.longitud() + 1);
+                                masChico.insertar(etiqueta[0], masChico.longitud() + 1);
+                                arista = null;
+                            } else {
+                                recorrerCamino(arista.getVertice(), dest, visitados, etiqueta, masChico);
+                                visitados.eliminar(visitados.longitud());
+                            }
                         }
-                        caminosPosiblesAux(arista.getVertice(), dest, etiqueta, valor, visitados, posibles);
-                        visitados.eliminar(visitados.longitud());
                     }
                 }
 
             }
         }
     }
+
+
+
 
 
 }
