@@ -148,16 +148,16 @@ public class Lista {
         return posicion;
     }
 
-    public void vaciarYcopiar(Lista lisCopia){
+    public void vaciarYcopiar(Lista lisCopia) {
 
-        Nodo nodo=this.cabecera;
+        Nodo nodo = this.cabecera;
 
-        int i,l=this.longitud();
+        int i, l = this.longitud();
         lisCopia.vaciar();
-        for(i=1;i<l+1;i++){
-            Object elem=nodo.getElemento();
-            lisCopia.insertar(elem,i);
-            nodo=nodo.getEnlace();
+        for (i = 1; i < l + 1; i++) {
+            Object elem = nodo.getElemento();
+            lisCopia.insertar(elem, i);
+            nodo = nodo.getEnlace();
         }
     }
 
