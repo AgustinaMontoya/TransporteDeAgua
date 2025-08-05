@@ -162,10 +162,12 @@ public class Lista {
                 aux.setEnlace(new Nodo(nodo.getElemento(), null));
                lisCopia.longitud=lisCopia.longitud()+1;                nodo = nodo.getEnlace();
                 aux = aux.getEnlace();
-            }
 
+           }
+}
         }
-    }
+
+
 
     // -------------------------------------- PROPIAS DEL TIPO --------------------------------------- //
     /*
