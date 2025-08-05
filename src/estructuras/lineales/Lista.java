@@ -156,14 +156,15 @@ public class Lista {
             lisCopia.vaciar();
             Nodo aux = new Nodo(nodo.getElemento(), null);
             lisCopia.cabecera = aux;
-            lisCopia.longitud=lisCopia.longitud()+1;
+            lisCopia.longitud = lisCopia.longitud() + 1;
             nodo = nodo.getEnlace();
-           while (nodo != null ) {
+            while (nodo != null) {
                 aux.setEnlace(new Nodo(nodo.getElemento(), null));
-               lisCopia.longitud=lisCopia.longitud()+1;                nodo = nodo.getEnlace();
+                lisCopia.longitud = lisCopia.longitud() + 1;
+                nodo = nodo.getEnlace();
                 aux = aux.getEnlace();
 
-           }
+            }
 }
         }
 
