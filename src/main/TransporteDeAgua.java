@@ -591,7 +591,7 @@ public class TransporteDeAgua {
                 }
                 break;
                 case 3: {
-                    System.out.println("");
+                    //
                 }
                 break;
                 default:
@@ -634,18 +634,19 @@ public class TransporteDeAgua {
     public static void consultaTransporteAgua() {
         int num = -1;
         Ciudad ciudad, ciudad2, ciudadEvitar;
-        while (num != 5) {
+        while (num != 3) {
             System.out.println("-------------------------------------------------------------------------------------------------"
                     + "\n\tMENÚ TRANSPORTE DE AGUA\nElija la opcion: "
                     + "\n[1] : Obtener el camino de menor caudal entre 2 ciudades."
                     + "\n[2] : Obtener el camino entre 2 ciudades mas corto, y su estado."
-                    + "\n[5] : Salir del menú transporte de agua.");
+                    + "\n[3] : Salir del menú transporte de agua.");
+            System.out.print("Opción: ");
             num = sc.nextInt();
             switch (num) {
                 case 1: {
                     System.out.print("Ingrese el nombre de la ciudad 1 a consultar: ");
                     ciudad = verificarCiudad();
-                    System.out.println("Ingrese el nombre de la ciudad 2 a consultar");
+                    System.out.print("Ingrese el nombre de la ciudad 2 a consultar");
                     ciudad2 = verificarCiudad();
                     Lista ciudades = obtenerCaminoMenorCaudal(ciudad.getNomenclatura(), ciudad2.getNomenclatura());
                     System.out.println(ciudades.toString());
@@ -661,6 +662,9 @@ public class TransporteDeAgua {
                     sc.next();
                 }
                 break;
+                case 3:{
+                    // salida
+                }
                 default:
                     System.out.println("Operación ingresada incorrecta!! Vuelva a ingresar otra operación.");
                     break;
