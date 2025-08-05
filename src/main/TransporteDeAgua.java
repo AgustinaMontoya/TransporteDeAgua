@@ -710,20 +710,20 @@ public class TransporteDeAgua {
 
         Lista rango = tablaCiudades.listarRango(nom1, nom2);
 
-        double caudal = 0;
-        int i = 1;
-        while (!rango.esVacia()) {
-            Ciudad elem = (Ciudad) rango.recuperar(1);
-            Lista datos = obtenerHabitantesYCaudal(elem, anio, mes);
-            if (!datos.esVacia()) {
-                caudal = (double) datos.recuperar(2);
-                if (caudal > vol1 && caudal < vol2) {
-                    ciudades.insertar(elem, i);
-                    i++;
+            double caudal = 0;
+            int i = 1;
+            while (!rango.esVacia()) {
+                Ciudad elem = (Ciudad) rango.recuperar(1);
+                Lista datos = obtenerHabitantesYCaudal(elem, anio, mes);
+                if (!datos.esVacia()) {
+                    caudal = (double) datos.recuperar(2);
+                    if (caudal > vol1 && caudal < vol2) {
+                        ciudades.insertar(elem, i);
+                        i++;
+                    }
                 }
+                rango.eliminar(1);
             }
-            rango.eliminar(1);
-        }
 
         return ciudades;
     }

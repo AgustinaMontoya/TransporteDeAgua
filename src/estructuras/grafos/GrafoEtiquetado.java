@@ -336,7 +336,7 @@ public class GrafoEtiquetado {
                 if (vertice.getElemento().equals(dest.getElemento())) {
                     if (visitados.longitud() < c || camino.esVacia()) {
                         visitados.vaciarYcopiar(camino);
-                        camino.insertar(vertice.getElemento(), visitados.longitud() + 1);
+                        camino.insertar(vertice.getElemento(), camino.longitud() + 1);
                     }
 
                 } else {

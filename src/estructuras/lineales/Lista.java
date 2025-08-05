@@ -152,14 +152,23 @@ public class Lista {
 
         Nodo nodo = this.cabecera;
 
-        int i, l = this.longitud();
-        lisCopia.vaciar();
-        for (i = 1; i < l + 1; i++) {
-            Object elem = nodo.getElemento();
-            lisCopia.insertar(elem, i);
+        if (nodo != null) {
+            lisCopia.vaciar();
+            Nodo aux = new Nodo(nodo.getElemento(), null);
+            lisCopia.cabecera = aux;
+            lisCopia.longitud = lisCopia.longitud() + 1;
             nodo = nodo.getEnlace();
+            while (nodo != null) {
+                aux.setEnlace(new Nodo(nodo.getElemento(), null));
+                lisCopia.longitud = lisCopia.longitud() + 1;
+                nodo = nodo.getEnlace();
+                aux = aux.getEnlace();
+
+            }
+}
         }
-    }
+
+
 
     // -------------------------------------- PROPIAS DEL TIPO --------------------------------------- //
     /*
