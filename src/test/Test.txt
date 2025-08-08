@@ -1,0 +1,9 @@
+Para probar la carga de ciudades o tuberías utilizamos los toString de grafo, AVL y hashmap para corroborar que 
+la carga desde los archivos se hace correctamente.
+Las altas,bajas y modificaciones las fuimos probando teniendo en cuenta todos los casos posibles que puede 
+haber, primero haciendo estas actividades en las ciudades/tuberias ya cargadas. Luego utilizando la información 
+que recién ingresamos. Si se da de alta una ciudad, se busca modificar la misma para ver si el sistema toma a la 
+ciudad como existente. Luego con las tuberías se realiza lo mismo, teniendo en cuenta también las ciudades 
+recientemente creadas/eliminadas. Por ultimo con el "debugging" mostramos el sistema verificando que los 
+cambios se realizaron correctamente y quedaron guardados en las estructuras trabajadas.
+Todos los cambios que se realicen se listan en el archivo .log, para asi ver todas las actividades completadas.
