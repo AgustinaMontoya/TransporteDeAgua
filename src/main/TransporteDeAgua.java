@@ -446,7 +446,7 @@ public class TransporteDeAgua {
                         estado = verificarEstado().charAt(0);
                         Tuberia tuberia = new Tuberia(cdadOrigen.getNombre(), cdadDestino.getNombre(), caudalMin, caudalMax, diametro, estado);
                         mapa.insertarArco(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura(), caudalMax);
-                        ClaveTuberia clave = new ClaveTuberia(cdadOrigen.getNombre(), cdadDestino.getNombre());
+                        ClaveTuberia clave = new ClaveTuberia(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura());
                         tuberiasMap.put(clave, tuberia);
                         System.out.println("La tuberia fue dada de alta con exito.");
                         archivoLog.escribir("Se ha cargado la tubería de " + cdadOrigen.getNombre() + " a " + cdadDestino.getNombre() + " con caudal máximo: " + caudalMax);
