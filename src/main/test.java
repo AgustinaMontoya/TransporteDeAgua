@@ -7,8 +7,12 @@ public class test {
 
     public static void main(String[] args) {
 
+
+        //prueba de camino corto en grafo
+
         GrafoEtiquetado g = new GrafoEtiquetado();
 
+        /*
         g.insertarVertice("neufuen");
         g.insertarVertice("cupralco");
         g.insertarVertice("maravelica");
@@ -45,11 +49,39 @@ public class test {
 
         Lista camino = g.recorridoCorto("neufuen","monteaurora");
         System.out.println(camino.toString());
+        */
 
+        /*Prueba de rotaciones en AVL el cual seria lo mismo con TABLA AVL
+          Se elijio esas dos rotaciones porque abarcan las rotaciones simples tambien.
+         */
+        ArbolAVL arbol = new ArbolAVL();
 
+        // casos para una rotacion doble izq-der
+        /*
+        arbol.insertar(12);
+        arbol.insertar(5);
+        arbol.insertar(23);
+        arbol.insertar(3);
+        arbol.insertar(8);
+        arbol.insertar(10)
+        arbol.eliminar(8);
+        arbol.eliminar(3);
+        System.out.println(arbol.toString());
+         */
 
+        //casos para una rotacion doble der-izq
+        /*
+        arbol.insertar(10);
+        arbol.insertar(5);
+        arbol.insertar(15);
+        arbol.insertar(12);
+        arbol.insertar(17);
+        arbol.insertar(13);
+        arbol.eliminar(12);
+        arbol.eliminar(5);
 
-
+        System.out.println(arbol.toString());
+        */
 
     }
 
