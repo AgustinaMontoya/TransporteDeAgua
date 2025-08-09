@@ -128,7 +128,6 @@ public class TransporteDeAgua {
         }
     }
 
-    // ! MODIFICAR a medida que vayamos avanzando
     public static void mostrarMenuOpciones() {
         System.out.println("-------------------------------------------------------------------------------------------------"
                 + "\n\t MENÚ DE OPCIONES"
@@ -444,7 +443,7 @@ public class TransporteDeAgua {
                         diametro = sc.nextDouble();
                         System.out.print("Estado de la tuberia: ");
                         sc.nextLine();
-                        estado = verificarEstado();
+                        estado = verificarEstado().charAt(0);
                         Tuberia tuberia = new Tuberia(cdadOrigen.getNombre(), cdadDestino.getNombre(), caudalMin, caudalMax, diametro, estado);
                         mapa.insertarArco(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura(), caudalMax);
                         ClaveTuberia clave = new ClaveTuberia(cdadOrigen.getNombre(), cdadDestino.getNombre());
@@ -463,7 +462,7 @@ public class TransporteDeAgua {
                     Ciudad cdadDestino = verificarCiudad();
                     if (mapa.existeArco(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura())) {
                         mapa.eliminarArco(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura());
-                        ClaveTuberia clave = new ClaveTuberia(cdadOrigen.getNombre(), cdadDestino.getNombre());
+                        ClaveTuberia clave = new ClaveTuberia(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura());
                         tuberiasMap.remove(clave);
                         System.out.println("La tuberia fue eliminada con exito.");
                         archivoLog.escribir("Se ha eliminado la tubería de " + cdadOrigen.getNombre() + " a " + cdadDestino.getNombre());
@@ -480,33 +479,32 @@ public class TransporteDeAgua {
                     System.out.print("Ciudad destino: ");
                     Ciudad cdadDestino = verificarCiudad();
                     if (mapa.existeArco(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura())) {
-                        ClaveTuberia clave = new ClaveTuberia(cdadOrigen.getNombre(), cdadDestino.getNombre());
+                        ClaveTuberia clave = new ClaveTuberia(cdadOrigen.getNomenclatura(), cdadDestino.getNomenclatura());
                         Tuberia tuberia = tuberiasMap.get(clave);
                         System.out.println("Ingrese "
                                 + "\n[E] : Si desea cambiar el estado de la tubería."
                                 + "\n[D] : Si quiere modificar el diametro.");
                         System.out.print("Opcion: ");
-                        opcion = sc.next().toUpperCase().charAt(0);
+                        opcion = sc.nextLine().toUpperCase().charAt(0);
                         if (opcion == 'E') {
                             System.out.print("Ingrese el nuevo estado de la tuberia: ");
-                            sc.nextLine();
-                            tuberia.setEstado(verificarEstado());
-                        } else if (opcion == 'N') {
+                            tuberia.setEstado(verificarEstado().charAt(0));
+                        } else if (opcion == 'D') {
                             System.out.print("Ingrese el nuevo diametro: ");
                             tuberia.setDiametro(sc.nextDouble());
                             System.out.print("Caudal mínimo: ");
                             tuberia.setCaudalMinimo(sc.nextDouble());
                             System.out.print("Caudal máximo: ");
                             tuberia.setCaudalMaximo(sc.nextDouble());
-                            sc.nextLine();
                             System.out.print("Estado actual: ");
-                            tuberia.setEstado(verificarEstado());
+                            tuberia.setEstado(verificarEstado().charAt(0));
                         }
+
                         System.out.println("La tuberia fue modificada con exito.");
                         archivoLog.escribir("Se ha modificado la tubería de " + cdadOrigen.getNombre() + " a " + cdadDestino.getNombre()
                                 + " con caudal máximo: " + tuberia.getCaudalMaximo() + ". \nEstado actual: " + tuberia.getEstado());
                     } else {
-                        System.out.println("La tuberia no se encuentra en el sistema");
+                        System.out.println("La tuberia es nula.");
                     }
                 }
                 break;
@@ -520,14 +518,13 @@ public class TransporteDeAgua {
     /*
         Verifica que el estado ingresado sea correcto
      */
-    public static char verificarEstado() {
-        char estado = ' ';
+    public static String verificarEstado() {
+        String estado = "";
         boolean exito = false;
         while (!exito) {
-            sc.next();
-            estado = sc.nextLine().toUpperCase().charAt(0);
+            estado = sc.nextLine().toUpperCase();
             // A: ACTIVO - R: REPARACIÓN - D: DISEÑO - I: INACTIVO
-            if (estado == 'A' || estado == 'R' || estado == 'D' || estado == 'I') {
+            if (estado.equals("A") || estado.equals("R") || estado.equals("D") || estado.equals("I")) {
                 exito = true;
             } else {
                 System.out.println("Estado ingresado incorrecto. \nVuelva a ingresar el estado: ");
@@ -646,7 +643,7 @@ public class TransporteDeAgua {
                 case 1: {
                     System.out.print("Ingrese el nombre de la ciudad 1 a consultar: ");
                     ciudad = verificarCiudad();
-                    System.out.print("Ingrese el nombre de la ciudad 2 a consultar");
+                    System.out.print("Ingrese el nombre de la ciudad 2 a consultar: ");
                     ciudad2 = verificarCiudad();
                     Lista ciudades = obtenerCaminoMenorCaudal(ciudad.getNomenclatura(), ciudad2.getNomenclatura());
                     System.out.println(ciudades.toString());
@@ -710,20 +707,20 @@ public class TransporteDeAgua {
 
         Lista rango = tablaCiudades.listarRango(nom1, nom2);
 
-            double caudal = 0;
-            int i = 1;
-            while (!rango.esVacia()) {
-                Ciudad elem = (Ciudad) rango.recuperar(1);
-                Lista datos = obtenerHabitantesYCaudal(elem, anio, mes);
-                if (!datos.esVacia()) {
-                    caudal = (double) datos.recuperar(2);
-                    if (caudal > vol1 && caudal < vol2) {
-                        ciudades.insertar(elem, i);
-                        i++;
-                    }
+        double caudal = 0;
+        int i = 1;
+        while (!rango.esVacia()) {
+            Ciudad elem = (Ciudad) rango.recuperar(1);
+            Lista datos = obtenerHabitantesYCaudal(elem, anio, mes);
+            if (!datos.esVacia()) {
+                caudal = (double) datos.recuperar(2);
+                if (caudal > vol1 && caudal < vol2) {
+                    ciudades.insertar(elem, i);
+                    i++;
                 }
-                rango.eliminar(1);
             }
+            rango.eliminar(1);
+        }
 
         return ciudades;
     }
